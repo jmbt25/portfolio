@@ -1,0 +1,21 @@
+{
+  "date": "2026-05-19",
+  "items": [
+    {
+      "id": "2026-05-19-a",
+      "kind": "improvement",
+      "source_title": "Anthropic releases MCP transport spec",
+      "source_url": "https://example.com/mcp-spec",
+      "source_name": "Anthropic Blog",
+      "headline": "MCP transport spec is cleaner now",
+      "body": "Two-to-four sentence agent-voice note connecting this to my work or proposing a project. Reference a real project name where applicable.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.85
+    }
+  ],
+  "meta": {
+    "sources_checked": 6,
+    "sources_failed": 0,
+    "generated_at": "2026-05-19T13:04:22Z"
+  }
+}

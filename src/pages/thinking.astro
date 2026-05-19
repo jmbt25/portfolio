@@ -1,0 +1,177 @@
+---
+import Base from '../layouts/Base.astro';
+import { readdirSync, readFileSync } from 'node:fs';
+import { execSync } from 'node:child_process';
+import { join, dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const handle = 'jmbt25';
+const here = dirname(fileURLToPath(import.meta.url));
+const repoRoot = resolve(here, '..', '..');
+const entriesDir = join(repoRoot, 'agent', 'entries');
+
+type Item = {
+  id: string;
+  kind: 'improvement' | 'new-project' | 'quiet-day';
+  source_title?: string;
+  source_url?: string;
+  source_name?: string;
+  headline: string;
+  body: string;
+  related_project: string | null;
+  confidence: number;
+};
+
+type Entry = {
+  date: string;
+  items: Item[];
+  meta?: { sources_checked?: number; sources_failed?: number; generated_at?: string };
+};
+
+let entries: Entry[] = [];
+try {
+  const files = readdirSync(entriesDir)
+    .filter((f) => f.endsWith('.json') && /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+    .sort()
+    .reverse();
+  for (const f of files) {
+    const raw = readFileSync(join(entriesDir, f), 'utf8');
+    entries.push(JSON.parse(raw) as Entry);
+  }
+} catch (_e) {
+  entries = [];
+}
+
+let tunedCount = 0;
+try {
+  const out = execSync('git log --oneline -- agent/SKILLS.md', {
+    cwd: repoRoot,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'ignore'],
+  }).trim();
+  tunedCount = out ? out.split('\n').length : 0;
+} catch (_e) {
+  tunedCount = 0;
+}
+
+const fmtDate = (iso: string) => iso;
+---
+<Base title={`thinking — ${handle}`} current="thinking">
+  <h1>thinking</h1>
+  <p class="subtitle">an agent reads ai news daily and connects it to my work. vote to teach it taste.</p>
+
+  <p class="tuned dim">
+    skills.md tuned {tunedCount} {tunedCount === 1 ? 'time' : 'times'}
+  </p>
+
+  {entries.length === 0 && (
+    <p class="dim">no entries yet.</p>
+  )}
+
+  {entries.map((entry) => (
+    <section class="entry" aria-labelledby={`day-${entry.date}`}>
+      <h2 id={`day-${entry.date}`} class="entry-date">{fmtDate(entry.date)}</h2>
+      {entry.items.map((item) => (
+        <article class="item" data-entry-id={item.id}>
+          {item.kind === 'quiet-day' ? (
+            <>
+              <p class="item-headline quiet">{item.headline}</p>
+              <p class="item-body">{item.body}</p>
+            </>
+          ) : (
+            <>
+              <p class="item-headline">{item.headline}</p>
+              <p class="item-body">{item.body}</p>
+              {item.source_url && (
+                <p class="item-source dim">
+                  <a href={item.source_url} target="_blank" rel="noopener">{item.source_name || 'source'}: {item.source_title}</a>
+                </p>
+              )}
+              {item.related_project && (
+                <p class="item-meta dim">related: {item.related_project} · confidence {item.confidence.toFixed(2)}</p>
+              )}
+            </>
+          )}
+          <div class="vote" role="group" aria-label="rate this entry">
+            <button class="vote-btn" data-signal="up" data-id={item.id} aria-label="thumbs up">+1</button>
+            <button class="vote-btn" data-signal="down" data-id={item.id} aria-label="thumbs down">-1</button>
+            <span class="vote-status dim" aria-live="polite"></span>
+          </div>
+        </article>
+      ))}
+    </section>
+  ))}
+
+  <style>
+    .tuned { font-size: 0.875rem; margin: -1rem 0 2rem; }
+    .entry { margin: 0 0 2.5rem; }
+    .entry-date { font-size: 0.875rem; margin: 2.5rem 0 1rem; color: var(--dim); font-weight: 400; }
+    .entry-date::before { content: "## "; color: var(--accent); }
+    .item { margin: 0 0 2rem; }
+    .item-headline { font-weight: 600; margin: 0 0 0.5rem; }
+    .item-headline.quiet { color: var(--dim); font-weight: 400; }
+    .item-body { margin: 0 0 0.5rem; }
+    .item-source, .item-meta { font-size: 0.875rem; margin: 0 0 0.25rem; }
+    .vote { display: flex; gap: 0.75rem; align-items: center; margin-top: 0.75rem; }
+    .vote-btn {
+      background: transparent;
+      border: 1px solid #1c1c1c;
+      color: var(--dim);
+      font: inherit;
+      padding: 0.25rem 0.75rem;
+      cursor: pointer;
+      min-height: 44px;
+      min-width: 44px;
+    }
+    .vote-btn:hover, .vote-btn:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+    .vote-btn[disabled] { cursor: default; opacity: 0.5; }
+    .vote-btn[data-voted="true"] { color: var(--accent); border-color: var(--accent); }
+    .vote-status { font-size: 0.875rem; }
+  </style>
+
+  <script is:inline>
+    (function () {
+      var KEY = 'thinking_votes_v1';
+      var voted = {};
+      try { voted = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { voted = {}; }
+      function paint(article) {
+        var id = article.getAttribute('data-entry-id');
+        var sig = voted[id];
+        if (!sig) return;
+        article.querySelectorAll('.vote-btn').forEach(function (b) {
+          b.disabled = true;
+          if (b.getAttribute('data-signal') === sig) b.setAttribute('data-voted', 'true');
+        });
+        var s = article.querySelector('.vote-status');
+        if (s) s.textContent = 'recorded';
+      }
+      document.querySelectorAll('.item').forEach(paint);
+      document.querySelectorAll('.vote-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var article = btn.closest('.item');
+          var id = btn.getAttribute('data-id');
+          var sig = btn.getAttribute('data-signal');
+          var status = article.querySelector('.vote-status');
+          article.querySelectorAll('.vote-btn').forEach(function (b) { b.disabled = true; });
+          status.textContent = 'sending…';
+          fetch('/api/vote', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ entry_id: id, signal: sig })
+          }).then(function (r) {
+            if (!r.ok) throw new Error('http ' + r.status);
+            return r.json();
+          }).then(function () {
+            voted[id] = sig;
+            try { localStorage.setItem(KEY, JSON.stringify(voted)); } catch (e) {}
+            paint(article);
+          }).catch(function (e) {
+            status.textContent = 'failed';
+            article.querySelectorAll('.vote-btn').forEach(function (b) { b.disabled = false; });
+            if (window.console) console.warn('vote failed', e);
+          });
+        });
+      });
+    })();
+  </script>
+</Base>

@@ -1,0 +1,49 @@
+# Sources scout reads daily.
+#
+# Curated starter list. Edit freely — scout will adapt and the reviewer
+# may suggest weighting changes via PR, but the file itself is hand-tended.
+#
+# Fields:
+#   name:   human-readable label
+#   url:    RSS/Atom feed (preferred) or a stable page URL scout can scrape
+#   weight: optional 1..3 hint to scout for prioritization (default 2)
+#   tags:   optional list, used by scout to short-circuit relevance checks
+#
+# Add/remove freely. If a feed dies, scout logs to sources-status.json
+# and removes after 3 consecutive failures.
+
+sources:
+  - name: Anthropic News
+    url: https://www.anthropic.com/news/rss.xml
+    weight: 3
+    tags: [anthropic, claude, mcp]
+
+  - name: Anthropic Engineering
+    url: https://www.anthropic.com/engineering/rss.xml
+    weight: 3
+    tags: [anthropic, engineering, claude-code]
+
+  - name: Simon Willison
+    url: https://simonwillison.net/atom/everything/
+    weight: 3
+    tags: [llm, tooling, commentary]
+
+  - name: Hacker News Front Page
+    url: https://hnrss.org/frontpage?points=200
+    weight: 2
+    tags: [hn, general]
+
+  - name: OpenAI News
+    url: https://openai.com/news/rss.xml
+    weight: 2
+    tags: [openai, capability]
+
+  - name: GitHub Engineering
+    url: https://github.blog/engineering/feed/
+    weight: 1
+    tags: [github, infra]
+
+  - name: OpenDota Blog
+    url: https://blog.opendota.com/feed
+    weight: 1
+    tags: [dota, opendota, gaming-data]
