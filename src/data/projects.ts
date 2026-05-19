@@ -38,7 +38,10 @@ export const projects: Project[] = [
     oneliner: 'async Python data pipeline with production-quality error handling',
     stack: ['python', 'asyncio', 'data pipeline'],
     body: "Pipeline that ingests Dota 2 Steam Market data on a schedule, handles partial failures gracefully, and exposes a clean data surface for downstream analysis. Written with the discipline of production code — typed, retries with backoff, structured logging — even though it's a personal project.",
-    links: [{ label: 'src', href: `https://github.com/${handle}/dota-deals` }],
+    links: [
+      { label: 'live ↗', href: 'https://dotadeals.com' },
+      { label: 'src', href: `https://github.com/${handle}/dota-deals` },
+    ],
   },
   {
     name: 'ADO MCP Server',
