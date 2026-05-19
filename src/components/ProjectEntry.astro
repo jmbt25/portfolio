@@ -1,0 +1,29 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  expanded?: boolean;
+}
+
+const { project, expanded = false } = Astro.props;
+---
+<article class="project">
+  <div class="project-head">
+    <p class="project-title">
+      <span class="year">{project.year}</span>{project.name}
+    </p>
+    {project.links && project.links.length > 0 ? (
+      <div class="project-links">
+        {project.links.map((link) => (
+          <a href={link.href} target="_blank" rel="noopener">{link.label}</a>
+        ))}
+      </div>
+    ) : project.privateNote ? (
+      <span class="dim">{project.privateNote}</span>
+    ) : null}
+  </div>
+  <p class="project-desc">{project.oneliner}</p>
+  {expanded && <p class="project-body">{project.body}</p>}
+  <p class="project-stack">{project.stack.join(' · ')}</p>
+</article>

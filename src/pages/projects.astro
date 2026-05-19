@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectEntry from '../components/ProjectEntry.astro';
+import { projects } from '../data/projects';
+
+const handle = 'jmbt25';
+---
+<Base title={`projects — ${handle}`} current="projects">
+  <h1>projects</h1>
+  <p class="subtitle">things i've built, recent first</p>
+
+  <section>
+    <h2>log</h2>
+    {projects.map((p) => <ProjectEntry project={p} expanded />)}
+  </section>
+</Base>
