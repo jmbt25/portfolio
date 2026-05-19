@@ -13,6 +13,14 @@ Facts about jmbt25 for the scout agent to reason against. Updated by hand only. 
 
 ## What he ships
 
+### portfolio (2026) — public, this site
+- The portfolio at jmbt.dev. Astro 4 static + Cloudflare Pages Functions.
+- Hosts `/thinking` — the agent system that runs scout and reviewer (you).
+- Stack: Astro 4, plain CSS, JetBrains Mono, Cloudflare Pages, GitHub Actions, Claude Code (OAuth)
+- Hand-built, no UI framework, zero client JS except the `/thinking` vote handler
+- github.com/jmbt25/portfolio
+- Constraints worth knowing if you propose changes: static output only, no SSR, zero client JS by default, plain CSS (no Tailwind), one font (JetBrains Mono, 2 weights), restrained terminal aesthetic — these are intentional, not gaps.
+
 ### LaborQuest (2025) — public
 - Text-based RPG teaching Filipino workers labor rights
 - Stack: Python, Claude API, web frontend

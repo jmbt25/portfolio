@@ -66,7 +66,7 @@ You have **8 turns max**. Be efficient.
       "source_name": "...",
       "headline": "...",
       "body": "2-4 sentences",
-      "related_project": "ADO MCP Server | Dota Weakness Report | LaborQuest | dota-deals | null",
+      "related_project": "ADO MCP Server | Dota Weakness Report | LaborQuest | dota-deals | portfolio | null",
       "confidence": 0.0
     }
   ],
