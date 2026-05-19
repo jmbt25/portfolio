@@ -1,0 +1,43 @@
+name: scout (daily)
+
+on:
+  schedule:
+    # 13:00 UTC daily ≈ 21:00 Manila (PHT, UTC+8).
+    - cron: '0 13 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  scout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.AGENT_GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: configure git
+        run: |
+          git config user.name "scout-bot"
+          git config user.email "scout-bot@users.noreply.github.com"
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: install claude code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: run scout
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          claude \
+            -p "$(cat agent/scout-prompt.md)" \
+            --permission-mode bypassPermissions \
+            --max-turns 8
