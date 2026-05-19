@@ -20,16 +20,17 @@ Use the system date in UTC. The output filename and the `date` field are `YYYY-M
 
 You have **8 turns max**. Be efficient.
 
-1. Load the five files above.
-2. For each source in `sources.yaml`:
+1. **Check if today is already done.** If `agent/entries/{today_UTC}.json` exists, print `already done: {date}` and exit immediately with success. Do not fetch feeds. Do not modify anything. Today belongs to whoever wrote it first; the scheduled run does not overwrite a manual dispatch (or vice versa). One entry per UTC day.
+2. Load the five files above.
+3. For each source in `sources.yaml`:
    - Fetch with the `WebFetch` tool.
    - On failure (timeout, non-200, parse error): append `{name, url, error, at}` to `agent/sources-status.json` and continue. Do not retry within the same run.
    - On success: clear that source's prior failure streak in `sources-status.json`.
-3. If a source has now failed **3 consecutive days** (check the status file), remove it from `sources.yaml` and stage a separate commit with message `remove dead source: <name>`. Maximum one removal per run.
-4. From successful feeds, consider only items dated within the last 48 hours. Apply the relevance criteria in `SKILLS.md`.
-5. Choose **1 or 2 items max**. If your best candidate has `confidence < 0.5`, prefer `quiet-day`. Never fabricate.
-6. Write the entry to `agent/entries/{YYYY-MM-DD}.json`. The file must validate against the schema in `AGENT.md`. Each item has a stable `id` of `{YYYY-MM-DD}-{a|b}`.
-7. Commit and push:
+4. If a source has now failed **3 consecutive days** (check the status file), remove it from `sources.yaml` and stage a separate commit with message `remove dead source: <name>`. Maximum one removal per run.
+5. From successful feeds, consider only items dated within the last 48 hours. Apply the relevance criteria in `SKILLS.md`.
+6. Choose **1 or 2 items max**. If your best candidate has `confidence < 0.5`, prefer `quiet-day`. Never fabricate.
+7. Write the entry to `agent/entries/{YYYY-MM-DD}.json`. The file must validate against the schema in `AGENT.md`. Each item has a stable `id` of `{YYYY-MM-DD}-{a|b}`.
+8. Commit and push:
    ```
    git add agent/entries/{date}.json agent/sources-status.json
    git commit -m "scout: entry for {date}"
