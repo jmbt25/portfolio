@@ -8,20 +8,29 @@
 #   url:    RSS/Atom feed (preferred) or a stable page URL scout can scrape
 #   weight: optional 1..3 hint to scout for prioritization (default 2)
 #   tags:   optional list, used by scout to short-circuit relevance checks
+#   note:   optional human note about provenance / caveats
 #
 # Add/remove freely. If a feed dies, scout logs to sources-status.json
 # and removes after 3 consecutive failures.
 
 sources:
   - name: Anthropic News
-    url: https://www.anthropic.com/news/rss.xml
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml
     weight: 3
     tags: [anthropic, claude, mcp]
+    note: anthropic.com has no official feed; this one is community-maintained (Olshansk/rss-feeds), regenerated hourly
 
   - name: Anthropic Engineering
-    url: https://www.anthropic.com/engineering/rss.xml
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_engineering.xml
     weight: 3
     tags: [anthropic, engineering, claude-code]
+    note: same source as above
+
+  - name: Claude Code Changelog
+    url: https://code.claude.com/docs/en/changelog/rss.xml
+    weight: 3
+    tags: [claude-code, changelog, official]
+    note: official Anthropic feed; per-release notes
 
   - name: Simon Willison
     url: https://simonwillison.net/atom/everything/
@@ -42,8 +51,3 @@ sources:
     url: https://github.blog/engineering/feed/
     weight: 1
     tags: [github, infra]
-
-  - name: OpenDota Blog
-    url: https://blog.opendota.com/feed
-    weight: 1
-    tags: [dota, opendota, gaming-data]

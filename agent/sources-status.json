@@ -1,29 +1,4 @@
 {
-  "sources": {
-    "Anthropic News": {
-      "url": "https://www.anthropic.com/news/rss.xml",
-      "consecutive_failures": 1,
-      "last_success": null,
-      "failures": [
-        {"error": "HTTP 404", "at": "2026-05-19T06:00:00Z"}
-      ]
-    },
-    "Anthropic Engineering": {
-      "url": "https://www.anthropic.com/engineering/rss.xml",
-      "consecutive_failures": 1,
-      "last_success": null,
-      "failures": [
-        {"error": "HTTP 404", "at": "2026-05-19T06:00:00Z"}
-      ]
-    },
-    "OpenDota Blog": {
-      "url": "https://blog.opendota.com/feed",
-      "consecutive_failures": 1,
-      "last_success": null,
-      "failures": [
-        {"error": "HTTP 403", "at": "2026-05-19T06:00:00Z"}
-      ]
-    }
-  },
-  "updated_at": "2026-05-19T06:00:00Z"
+  "sources": {},
+  "updated_at": null
 }
