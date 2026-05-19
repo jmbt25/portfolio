@@ -26,11 +26,19 @@ Facts about jmbt25 for the scout agent to reason against. Updated by hand only. 
 - Stack: Python, Claude API, web frontend
 - Built end-to-end with Claude Code
 - Civic-tech angle
+- github.com/Labor-Quest/labor-rights-rpg (separate org, single repo)
+
+### Mini World (2026) — public
+- Browser 3D life simulation with emergent tribes, wars, and a Black Mirror-style awareness layer
+- Stack: JavaScript, Three.js, vanilla web (no build step), localStorage persistence
+- WorldBox-inspired sandbox; inhabitants progressively notice the camera and leave offerings, glyphs, words
+- github.com/jmbt25/jmbt25.github.io, live at jmbt25.github.io
 
 ### Dota Weakness Report (2025) — public
 - Web app, analyzes a player's weaknesses via pro-player vector comparison
 - Stack: Python, OpenDota API, data pipeline, web frontend
 - Per-hero performance vectors vs. pro baselines
+- github.com/jmbt25/dota-weakness-report
 
 ### dota-deals (2024) — public
 - Async Python data pipeline ingesting Steam Market data
