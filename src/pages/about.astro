@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+
+const handle = 'jmbt25';
+const skills = [
+  'Python',
+  'Claude API',
+  'Claude Code',
+  'MCP servers',
+  'NLP pipelines',
+  'LLM integrations',
+  'Docker',
+  'GCP',
+];
+---
+<Base title={`about — ${handle}`} current="about">
+  <h1>about</h1>
+  <p>I'm a Data Scientist and AI Systems Engineer with 6+ years of experience building production data and ML systems. I work at the intersection of rigorous data work and the new generation of AI tooling — using Claude Code daily and building MCP servers, NLP pipelines, and LLM-powered applications.</p>
+  <p>My background is in data science fundamentals: pipelines, modeling, evaluation. What I care about now is closing the loop between those foundations and the AI systems that are reshaping how software gets built. I like writing small, opinionated tools that do one thing well.</p>
+
+  <section>
+    <h2>current</h2>
+    <dl class="facts">
+      <dt>role</dt>
+      <dd>Data Scientist at MBM IT Consulting</dd>
+      <dt>education</dt>
+      <dd>MS in Data Science, Asian Institute of Management</dd>
+      <dt>experience</dt>
+      <dd>6+ years across data science and ML engineering</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>skills</h2>
+    <p>{skills.join(', ')}</p>
+  </section>
+
+  <section>
+    <h2>how I work</h2>
+    <p>I default to building rather than slide-decking. A working prototype answers questions faster than a meeting. I write production-grade code even for personal projects — typed, tested where it matters, structured logging — because the discipline transfers.</p>
+    <p>Claude Code is my main editor now. Most of the projects on this site were built with it as a collaborator, which means I spend less time on boilerplate and more on the parts that actually require thinking.</p>
+  </section>
+
+  <section>
+    <h2>elsewhere</h2>
+    <p><a href={`https://github.com/${handle}`} target="_blank" rel="noopener">github.com/{handle}</a></p>
+  </section>
+</Base>

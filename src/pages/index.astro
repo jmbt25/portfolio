@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectEntry from '../components/ProjectEntry.astro';
+import { projects } from '../data/projects';
+
+const handle = 'jmbt25';
+const displayName = 'joshua';
+---
+<Base title={`${handle} — Data Scientist & AI Systems Engineer`} current="home">
+  <section>
+    <h1 class="hero-name">{displayName}<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="role">data scientist · ai systems engineer</p>
+    <p>Six years building data and ML systems. Currently at MBM IT Consulting. MS in Data Science from the Asian Institute of Management.</p>
+    <p>I spend most of my day in Claude Code, shipping AI-powered tools — MCP servers, NLP pipelines, LLM integrations — and the kind of small, opinionated software I want to exist.</p>
+  </section>
+
+  <section>
+    <h2>selected work</h2>
+    {projects.map((p) => <ProjectEntry project={p} />)}
+  </section>
+
+  <section>
+    <h2>elsewhere</h2>
+    <p>
+      <a href={`https://github.com/${handle}`} target="_blank" rel="noopener">github.com/{handle}</a>
+      <span class="dim"> · code, in progress and otherwise</span>
+    </p>
+  </section>
+</Base>

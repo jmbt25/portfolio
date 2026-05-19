@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: 'home' | 'projects' | 'about';
+}
+
+const {
+  title,
+  description = 'Data Scientist and AI Systems Engineer. Builder of AI-powered systems.',
+  current,
+} = Astro.props;
+
+const handle = 'jmbt25';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/"><span class="tilde">~</span>{handle}</a>
+      <nav class="nav" aria-label="primary">
+        <a href="/" {...(current === 'home' ? { 'aria-current': 'page' } : {})}>home</a>
+        <a href="/projects" {...(current === 'projects' ? { 'aria-current': 'page' } : {})}>projects</a>
+        <a href="/about" {...(current === 'about' ? { 'aria-current': 'page' } : {})}>about</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <span>built by hand · deployed on cloudflare</span>
+      <a href={`https://github.com/${handle}`} target="_blank" rel="noopener">github.com/{handle}</a>
+    </footer>
+  </body>
+</html>
