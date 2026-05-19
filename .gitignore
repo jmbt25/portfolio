@@ -24,3 +24,11 @@ pnpm-debug.log*
 
 # claude
 .claude/
+
+# private notes (design/thinking + setup docs)
+CLAUDE.md
+SPEC.md
+STACK.md
+DEPLOY.md
+CONTENT.md
+docs/
