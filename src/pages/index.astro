@@ -5,8 +5,27 @@ import { projects } from '../data/projects';
 
 const handle = 'jmbt25';
 const displayName = 'joshua';
+
+const title = `${handle} — Data Scientist & AI Systems Engineer`;
+const description = 'Six years building data and ML systems in Manila. Currently at MBM IT Consulting, shipping MCP servers, NLP pipelines and Claude-powered tools.';
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Joshua',
+  alternateName: 'jmbt25',
+  url: 'https://jmbt.dev',
+  image: 'https://jmbt.dev/og.png',
+  jobTitle: 'Data Scientist & AI Systems Engineer',
+  worksFor: { '@type': 'Organization', name: 'MBM IT Consulting' },
+  alumniOf: { '@type': 'EducationalOrganization', name: 'Asian Institute of Management' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Manila', addressCountry: 'PH' },
+  sameAs: ['https://github.com/jmbt25', 'https://x.com/jmbt_dev'],
+  knowsAbout: ['Python', 'Claude API', 'Model Context Protocol', 'Data Pipelines', 'Large Language Models'],
+};
 ---
-<Base title={`${handle} — Data Scientist & AI Systems Engineer`} current="home">
+<Base title={title} description={description} current="home">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(personLd)} />
   <section>
     <h1 class="hero-name">{displayName}<span class="cursor" aria-hidden="true"></span></h1>
     <p class="role">data scientist · ai systems engineer</p>
