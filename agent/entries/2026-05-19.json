@@ -1,0 +1,21 @@
+{
+  "date": "2026-05-19",
+  "items": [
+    {
+      "id": "2026-05-19-a",
+      "kind": "improvement",
+      "source_title": "Anthropic acquires Stainless",
+      "source_url": "https://www.anthropic.com/news/anthropic-acquires-stainless",
+      "source_name": "Hacker News",
+      "headline": "Anthropic absorbs the SDK generation team",
+      "body": "Stainless builds tooling that generates idiomatic client SDKs from OpenAPI specs — they're the team that maintains Anthropic's Python and TypeScript SDKs. Acquiring them means Anthropic owns that pipeline directly. For ADO MCP Server, this is a quiet signal that the Anthropic Python SDK gets more active maintenance and won't accumulate workarounds in the async interface.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.7
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 3,
+    "generated_at": "2026-05-19T06:00:00Z"
+  }
+}
