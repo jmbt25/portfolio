@@ -40,4 +40,15 @@ jobs:
           claude \
             -p "$(cat agent/scout-prompt.md)" \
             --permission-mode bypassPermissions \
-            --max-turns 8
+            --max-turns 20
+
+      - name: verify entry pushed
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          FILE="agent/entries/${DATE}.json"
+          if ! git cat-file -e "HEAD:${FILE}" 2>/dev/null; then
+            echo "::error::scout did not commit ${FILE}"
+            exit 1
+          fi
+          git push origin HEAD:main
+          echo "verified: ${FILE} present on HEAD and pushed"
