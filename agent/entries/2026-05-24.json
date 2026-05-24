@@ -1,0 +1,21 @@
+{
+  "date": "2026-05-24",
+  "items": [
+    {
+      "id": "2026-05-24-a",
+      "kind": "improvement",
+      "source_title": "Claude Code 2.1.149 changelog",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-149",
+      "source_name": "Claude Code Changelog",
+      "headline": "/usage now breaks down MCP call costs",
+      "body": "claude code 2.1.149 adds per-category cost breakdown to /usage, splitting charges between skills, subagents, plugins, and MCP server calls. the ADO MCP Server has been running blind on cost — this is the first direct read on what each Azure DevOps tool invocation actually pulls from the subscription. worth running through a realistic sprint-planning session and treating the output as a baseline before adding new tools.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.72
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-05-24T14:30:00Z"
+  }
+}
