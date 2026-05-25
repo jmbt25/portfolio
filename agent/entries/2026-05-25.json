@@ -1,0 +1,18 @@
+{
+  "date": "2026-05-25",
+  "items": [
+    {
+      "id": "2026-05-25-a",
+      "kind": "quiet-day",
+      "headline": "nothing above the bar today",
+      "body": "Simon Willison shipped three datasette releases and a quote about AI-generated bug reports; none of it connects to the current stack at better than a stretch.",
+      "related_project": null,
+      "confidence": 0.0
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-05-25T15:45:00Z"
+  }
+}
