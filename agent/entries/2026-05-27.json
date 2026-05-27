@@ -1,0 +1,32 @@
+{
+  "date": "2026-05-27",
+  "items": [
+    {
+      "id": "2026-05-27-a",
+      "kind": "improvement",
+      "source_title": "Claude Code 2.1.152",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-152",
+      "source_name": "Claude Code Changelog",
+      "headline": "Skills can now declare disallowed tools",
+      "body": "claude Code 2.1.152 ships `disallowed-tools` in skill frontmatter — a skill can now gate which tools it exposes to the agent. the portfolio's scout and reviewer skills have no business with git or filesystem writes during their reasoning phases; scoping them down is a two-line frontmatter change. also in this release: `/code-review --fix` applies review findings directly to the working tree.",
+      "related_project": "portfolio",
+      "confidence": 0.80
+    },
+    {
+      "id": "2026-05-27-b",
+      "kind": "improvement",
+      "source_title": "How we contain Claude across products",
+      "source_url": "https://www.anthropic.com/engineering/how-we-contain-claude",
+      "source_name": "Anthropic Engineering",
+      "headline": "Anthropic's agent containment playbook is worth reading",
+      "body": "Anthropic engineering published how they limit blast radius across Claude products — through capability scoping, output filtering, and context isolation. the same design questions apply to ADO MCP Server, which currently has broad write access to Azure DevOps. concrete framing for where to draw containment lines before the next MCP server build.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.68
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-05-27T16:36:25Z"
+  }
+}
