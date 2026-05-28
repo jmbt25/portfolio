@@ -1,0 +1,21 @@
+{
+  "date": "2026-05-28",
+  "items": [
+    {
+      "id": "2026-05-28-a",
+      "kind": "improvement",
+      "source_title": "Claude Code Changelog 2.1.153",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-153",
+      "source_name": "Claude Code Changelog",
+      "headline": "MCP reconnection is stateful now",
+      "body": "Claude Code 2.1.153 ships stateful reconnection for MCP servers — when the link drops, the session resumes rather than restarting cold. for ADO MCP Server, this matters: Azure DevOps connections can be brittle over long sessions, and cold-restart behavior currently forces re-establishing context. worth testing to see if connection-recovery workarounds can come out.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.72
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-05-28T14:30:00Z"
+  }
+}
