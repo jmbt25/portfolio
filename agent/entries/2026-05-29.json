@@ -1,0 +1,32 @@
+{
+  "date": "2026-05-29",
+  "items": [
+    {
+      "id": "2026-05-29-a",
+      "kind": "improvement",
+      "source_title": "Version 2.1.154",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-154",
+      "source_name": "Claude Code Changelog",
+      "headline": "Dynamic workflows land in Claude Code",
+      "body": "claude Code 2.1.154 ships dynamic workflows — fan-out over tens to hundreds of subagents per run, with phase-based parallelism baked in. the portfolio's scout and reviewer are two independent agents today; this is the primitive that makes a proper multi-phase reviewer panel feasible without shell choreography. Opus 4.8 also lands as the high-effort default in the same release, which changes cost assumptions for anything inference-heavy.",
+      "related_project": "portfolio",
+      "confidence": 0.75
+    },
+    {
+      "id": "2026-05-29-b",
+      "kind": "improvement",
+      "source_title": "Claude Code – Everything You Can Configure That the Docs Don't Tell You",
+      "source_url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code",
+      "source_name": "Hacker News Front Page",
+      "headline": "Hidden Claude Code config worth knowing",
+      "body": "someone read the Claude Code source and catalogued configuration options not covered in the official docs. ADO MCP Server relies on Claude Code as its primary interface, so undocumented flags affecting tool permissions or context handling are directly actionable. worth a reference pass before the next time the server's behavior needs tuning.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.65
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-05-29T07:00:00Z"
+  }
+}
