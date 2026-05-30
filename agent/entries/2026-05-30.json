@@ -1,0 +1,21 @@
+{
+  "date": "2026-05-30",
+  "items": [
+    {
+      "id": "2026-05-30-a",
+      "kind": "improvement",
+      "source_title": "Claude Code Changelog 2.1.157",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-157",
+      "source_name": "Claude Code Changelog",
+      "headline": "claude code auto-loads local plugins, no marketplace needed",
+      "body": "claude code 2.1.157 ships automatic plugin loading from `.claude/skills` directories without marketplace submission. any project can now bundle its own claude code slash commands alongside the code. for ADO MCP Server, a companion plugin wrapping common azure devops workflows is a natural fit — `claude plugin init` scaffolds it in.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.8
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-05-30T14:28:13Z"
+  }
+}
