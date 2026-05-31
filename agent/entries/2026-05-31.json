@@ -1,0 +1,21 @@
+{
+  "date": "2026-05-31",
+  "items": [
+    {
+      "id": "2026-05-31-a",
+      "kind": "improvement",
+      "source_title": "Claude Code Changelog 2.1.157",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-157",
+      "source_name": "Claude Code Changelog",
+      "headline": "Claude Code skills load without marketplace registration",
+      "body": "2.1.157 adds automatic plugin loading from `.claude/skills` directories — drop a file there, it activates without marketplace registration. the friction between writing an extension and using it is now essentially zero. ADO MCP Server already wraps Azure DevOps outside official channels; a companion skill layer on top could ship the same way, no submission required.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.72
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-05-31T14:30:04Z"
+  }
+}
