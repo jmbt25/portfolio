@@ -1,0 +1,18 @@
+{
+  "date": "2026-06-01",
+  "items": [
+    {
+      "id": "2026-06-01-a",
+      "kind": "quiet-day",
+      "headline": "nothing useful today",
+      "body": "Anthropic filed an S-1, Claude Code shipped internal infra changes, and the rest was opinion pieces and security roundups — none of it actionable.",
+      "related_project": null,
+      "confidence": 0.0
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-01T18:45:00Z"
+  }
+}
