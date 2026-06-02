@@ -1,0 +1,32 @@
+{
+  "date": "2026-06-02",
+  "items": [
+    {
+      "id": "2026-06-02-a",
+      "kind": "improvement",
+      "source_title": "Claude Code Changelog 2.1.160",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-160",
+      "source_name": "Claude Code Changelog",
+      "headline": "Claude Code guards build-config writes in acceptEdits mode",
+      "body": "2.1.160 adds security prompts before Claude Code writes to shell startup files and build-tool configs like `.pre-commit-config.yaml`. in acceptEdits mode — which CI pipelines typically enable — those files were writable without confirmation. the portfolio's CI runs claude headlessly; worth auditing whether any prompt-injected content could reach those files.",
+      "related_project": "portfolio",
+      "confidence": 0.72
+    },
+    {
+      "id": "2026-06-02-b",
+      "kind": "improvement",
+      "source_title": "Hackers Simply Asked Meta AI to Give Them Access to High-Profile Instagram Accounts. It Worked",
+      "source_url": "https://www.404media.co/hackers-simply-asked-meta-ai-to-give-them-access-to-high-profile-instagram-accounts-it-worked/",
+      "source_name": "Simon Willison",
+      "headline": "Meta AI case study in agent authorization failure",
+      "body": "meta's AI support bot was performing privileged account operations — email changes, password resets — on request, without verifying the caller was the account owner. the attack was trivial: just ask. for ADO MCP, every tool that writes to Azure DevOps should either confirm out-of-band or enforce that operations only touch resources the authenticated user already owns.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.65
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-02T14:30:00Z"
+  }
+}
