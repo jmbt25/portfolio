@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-03",
+  "items": [
+    {
+      "id": "2026-06-03-a",
+      "kind": "improvement",
+      "source_title": "Claude Code Changelog 2.1.161",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-161",
+      "source_name": "Claude Code Changelog",
+      "headline": "Parallel tool calls survive bash failures now",
+      "body": "Claude Code 2.1.161 fixes parallel tool calls so a failed bash command no longer cancels the rest of the batch. That matters for multi-step MCP workflows where one flaky shell call shouldn't abort everything else. The release also adds a done/total counter to claude agents, which is practical for watching multi-tool runs during ADO MCP Server development.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.72
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-03T18:00:06Z"
+  }
+}
