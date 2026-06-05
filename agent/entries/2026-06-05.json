@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-05",
+  "items": [
+    {
+      "id": "2026-06-05-a",
+      "kind": "improvement",
+      "source_title": "Claude Code 2.1.163",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-163",
+      "source_name": "Claude Code Changelog",
+      "headline": "MCP servers get session ID on resume",
+      "body": "Claude Code 2.1.163 passes CLAUDE_CODE_SESSION_ID to stdio MCP servers when a session is resumed. ADO MCP Server is a stdio server — it could read this to detect resumed sessions and restore ADO context without the user re-explaining the project. right now a resumed Claude session loses any ADO workspace state the previous turn had built up.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.72
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-05T12:00:00Z"
+  }
+}
