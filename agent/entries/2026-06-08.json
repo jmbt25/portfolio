@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-08",
+  "items": [
+    {
+      "id": "2026-06-08-a",
+      "kind": "improvement",
+      "source_title": "datasette-agent-edit 0.1a0",
+      "source_url": "https://simonwillison.net/2026/Jun/7/datasette-agent-edit/",
+      "source_name": "Simon Willison",
+      "headline": "Agent tool primitives belong in a shared base",
+      "body": "Simon Willison shipped datasette-agent-edit, a base plugin for Datasette Agent that packages str_replace, view, and insert as shared primitives so multiple agent plugins can compose them without reimplementing them. The pattern mirrors how Claude Code itself structures its edit tools. For ADO MCP Server, there's a version of this: a thin base layer of read/write/list primitives underneath the natural-language operations would make the core independently testable and easier to extend.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.62
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-08T16:48:07Z"
+  }
+}
