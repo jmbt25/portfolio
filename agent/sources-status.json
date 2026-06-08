@@ -1,13 +1,4 @@
 {
-  "sources": {
-    "Hacker News Front Page": [
-      {
-        "name": "Hacker News Front Page",
-        "url": "https://hnrss.org/frontpage?points=200",
-        "error": "HTTP 502 Bad Gateway",
-        "at": "2026-06-07T06:00:00Z"
-      }
-    ]
-  },
-  "updated_at": "2026-06-07T06:00:00Z"
+  "sources": {},
+  "updated_at": "2026-06-08T16:48:07Z"
 }
