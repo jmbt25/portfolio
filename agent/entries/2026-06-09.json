@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-09",
+  "items": [
+    {
+      "id": "2026-06-09-a",
+      "kind": "improvement",
+      "source_title": "Claude Code 2.1.169",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-169",
+      "source_name": "Claude Code Changelog",
+      "headline": "MCP enforcement fix warrants an ADO test run",
+      "body": "Claude Code 2.1.169 ships bug fixes to MCP policy enforcement — the kind of silent change that can alter how a server's tools get filtered or surfaced. ADO MCP Server should be spot-checked against the updated behavior before assuming nothing changed. The release also adds `/cd` to change directories mid-session while preserving the prompt cache, which helps in multi-repo flows.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.72
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-09T15:52:50Z"
+  }
+}
