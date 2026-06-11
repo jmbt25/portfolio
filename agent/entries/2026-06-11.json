@@ -1,0 +1,32 @@
+{
+  "date": "2026-06-11",
+  "items": [
+    {
+      "id": "2026-06-11-a",
+      "kind": "improvement",
+      "source_title": "Version 2.1.172",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-172",
+      "source_name": "Claude Code Changelog",
+      "headline": "sub-agents can now nest five levels deep",
+      "body": "Claude Code 2.1.172 enables sub-agents to spawn nested sub-agents up to five levels. ADO MCP currently handles complex project-management flows as flat sequential calls; this changes that. A top-level agent could delegate query, validation, and write as distinct sub-agents — cleaner separation, better error recovery at each level.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.8
+    },
+    {
+      "id": "2026-06-11-b",
+      "kind": "improvement",
+      "source_title": "datasette-agent 0.2a0",
+      "source_url": "https://simonwillison.net/2026/Jun/10/datasette-agent/",
+      "source_name": "Simon Willison",
+      "headline": "ask_user() is the missing MCP approval primitive",
+      "body": "datasette-agent 0.2a0 adds ask_user() — a tool that pauses mid-execution and waits for human approval before continuing. The pattern is directly applicable to MCP servers with write operations: ADO MCP closes tickets, updates sprints, and creates work items with no gate today. Adding approval at the tool-call layer is less overhead than building it into the host client.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.65
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-11T07:48:00Z"
+  }
+}
