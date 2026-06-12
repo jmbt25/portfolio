@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-12",
+  "items": [
+    {
+      "id": "2026-06-12-a",
+      "kind": "improvement",
+      "source_title": "Claude Fable is relentlessly proactive",
+      "source_url": "https://simonwillison.net/2026/Jun/11/fable-is-relentlessly-proactive/",
+      "source_name": "Simon Willison",
+      "headline": "Fable 5's proactive loop argues for token ceilings",
+      "body": "Willison documented Fable 5 spending $12 on a single CSS scrollbar — spinning up Python servers and rewriting templates unprompted until it found a fix. the portfolio agent system is turn-limited but not token-limited; a model upgrade to Fable could silently multiply costs without triggering the turn cap. adding a per-run token ceiling alongside the existing 8-turn limit would close that gap.",
+      "related_project": "portfolio",
+      "confidence": 0.72
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-12T16:16:35Z"
+  }
+}
