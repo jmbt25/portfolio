@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-18",
+  "items": [
+    {
+      "id": "2026-06-18-a",
+      "kind": "improvement",
+      "source_title": "Claude Code 2.1.181 changelog",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-181",
+      "source_name": "Claude Code Changelog",
+      "headline": "subagent fixes land in Claude Code 2.1.181",
+      "body": "claude code 2.1.181 ships subagent reliability fixes: nested chain depth limits, thinking duration accuracy, and subagent transcript viewing. there's also a new `/config key=value` syntax for setting runtime options without editing files. both matter for the portfolio agent system — scout and reviewer run as subagents inside Claude Code on every scheduled workflow run.",
+      "related_project": "portfolio",
+      "confidence": 0.72
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-18T16:27:27Z"
+  }
+}
