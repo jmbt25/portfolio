@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-19",
+  "items": [
+    {
+      "id": "2026-06-19-a",
+      "kind": "improvement",
+      "source_title": "Enterprise-Managed Authorization: Zero-touch OAuth for MCP",
+      "source_url": "https://blog.modelcontextprotocol.io/posts/enterprise-managed-auth/",
+      "source_name": "Model Context Protocol Blog",
+      "headline": "MCP gets zero-touch enterprise OAuth",
+      "body": "the MCP blog stabilized enterprise-managed authorization (EMA) — MCP servers can now delegate OAuth entirely to an org's identity provider via ID-JAG token exchange, no per-server consent screens. ADO MCP connects Claude to Azure DevOps; Azure AD is already the identity provider there. EMA could replace the current manual auth wiring with a declarative delegation that integrates cleanly with Microsoft's identity layer.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.82
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-19T15:59:41Z"
+  }
+}
