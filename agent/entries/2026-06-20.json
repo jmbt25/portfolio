@@ -1,0 +1,32 @@
+{
+  "date": "2026-06-20",
+  "items": [
+    {
+      "id": "2026-06-20-a",
+      "kind": "improvement",
+      "source_title": "Claude Code Changelog 2.1.183",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-183",
+      "source_name": "Claude Code Changelog",
+      "headline": "headless MCP auth fix is worth pulling now",
+      "body": "Claude Code 2.1.183 fixed MCP servers exposing auth-stub tools to the model in headless/SDK mode. ADO MCP Server runs in exactly that context — Azure DevOps auth stubs shouldn't surface in the model's tool list, and previously they could. Worth updating Claude Code and verifying the fix applies to the current ADO server setup.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.8
+    },
+    {
+      "id": "2026-06-20-b",
+      "kind": "improvement",
+      "source_title": "Quoting Sean Lynch",
+      "source_url": "https://simonwillison.net/2026/Jun/19/sean-lynch/",
+      "source_name": "Simon Willison",
+      "headline": "MCP's real value is auth isolation, not tool exposure",
+      "body": "Sean Lynch argues MCP's core advantage over CLI tools or skills is keeping auth flows completely outside the agent's context window. ADO MCP Server already does this for Azure DevOps credentials, but the framing is worth making explicit in the architecture. If a second public MCP server is next, designing it as an auth gateway first — not a tool registry first — is the cleaner approach.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.65
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-20T11:32:00Z"
+  }
+}
