@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-21",
+  "items": [
+    {
+      "id": "2026-06-21-a",
+      "kind": "improvement",
+      "source_title": "Temporary Cloudflare accounts for AI agents",
+      "source_url": "https://blog.cloudflare.com/temporary-accounts/",
+      "source_name": "Cloudflare Blog",
+      "headline": "Ephemeral credentials are the right auth primitive for agents",
+      "body": "Cloudflare now issues temporary accounts scoped to individual AI agent sessions — credentials that expire when the session ends. The current ADO MCP Server relies on long-lived Azure DevOps PATs, which is the obvious weak point in that design. Short-lived, session-scoped credentials would make the server safer to hand to other people without needing to rotate keys after each use.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.72
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-21T14:25:00Z"
+  }
+}
