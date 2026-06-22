@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-22",
+  "items": [
+    {
+      "id": "2026-06-22-a",
+      "kind": "improvement",
+      "source_title": "sqlite-utils 4.0rc1 adds migrations and nested transactions",
+      "source_url": "https://simonwillison.net/2026/Jun/21/sqlite-utils-40rc1/",
+      "source_name": "Simon Willison",
+      "headline": "sqlite-utils gets real migrations at last",
+      "body": "sqlite-utils 4.0rc1 lands database migrations (ported from sqlite-migrate) and a `db.atomic()` context manager for nested transactions via savepoints. for a pipeline like dota-deals that ingests live market data, first-class migration support means schema changes don't require manual workarounds. the backwards-incompatible upsert and column type changes are worth checking before upgrading any existing code.",
+      "related_project": "dota-deals",
+      "confidence": 0.65
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-22T17:29:19Z"
+  }
+}
