@@ -1,0 +1,32 @@
+{
+  "date": "2026-06-23",
+  "items": [
+    {
+      "id": "2026-06-23-a",
+      "kind": "improvement",
+      "source_title": "Claude Code Changelog 2.1.186",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-186",
+      "source_name": "Claude Code Changelog",
+      "headline": "MCP servers get native CLI auth",
+      "body": "Claude Code 2.1.186 ships `claude mcp login/logout` commands, making MCP authentication a first-class CLI operation. ADO MCP Server connects to Azure DevOps, which has its own auth layer — if that's handled out-of-band today, this is the hook to clean it up. worth checking whether the new flow can replace whatever workaround is in the current implementation.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.82
+    },
+    {
+      "id": "2026-06-23-b",
+      "kind": "improvement",
+      "source_title": "Prompt Injection as Role Confusion",
+      "source_url": "https://simonwillison.net/2026/Jun/22/prompt-injection-as-role-confusion/",
+      "source_name": "Simon Willison",
+      "headline": "format style beats content for trust boundaries",
+      "body": "research shows LLMs distinguish system vs. user context by format style rather than actual content — mimicking internal thinking blocks can override safety guidelines. LaborQuest feeds user text directly into Claude prompts inside an RPG framing, which is a natural attack surface for this technique. an explicit trust-boundary note in the system prompt is the cheap fix.",
+      "related_project": "LaborQuest",
+      "confidence": 0.65
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-23T15:47:01Z"
+  }
+}
