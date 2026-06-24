@@ -1,0 +1,32 @@
+{
+  "date": "2026-06-24",
+  "items": [
+    {
+      "id": "2026-06-24-a",
+      "kind": "improvement",
+      "source_title": "2.1.187",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-187",
+      "source_name": "Claude Code Changelog",
+      "headline": "MCP tool timeout now configurable, CLI auth lands",
+      "body": "2.1.187 fixes remote MCP tool calls that hang past five minutes — they now abort with an error, configurable via CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT. 2.1.186 adds `claude mcp login/logout <name>` to handle MCP auth from the CLI without the interactive menu. The timeout fix is directly relevant for ADO MCP Server: Azure DevOps API calls under load can stall, and a configurable abort beats a silent hang.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.78
+    },
+    {
+      "id": "2026-06-24-b",
+      "kind": "improvement",
+      "source_title": "Introducing Claude Tag",
+      "source_url": "https://www.anthropic.com/news/introducing-claude-tag",
+      "source_name": "Anthropic News",
+      "headline": "Anthropic productizes the ADO MCP pattern",
+      "body": "Claude Tag puts Claude in Slack channels with scoped tool access, multi-user context, and ambient monitoring — structurally the same thing ADO MCP does inside Azure DevOps. Anthropic's design choices are worth examining: per-channel permission scoping, token spend limits, and full audit logs. Those three controls are the production-grade version of what any workflow-embedded MCP server eventually needs.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.62
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-24T15:34:04Z"
+  }
+}
