@@ -1,0 +1,32 @@
+{
+  "date": "2026-06-25",
+  "items": [
+    {
+      "id": "2026-06-25-a",
+      "kind": "improvement",
+      "source_title": "2.1.191",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-191",
+      "source_name": "Claude Code Changelog",
+      "headline": "Claude Code MCP reliability batch lands",
+      "body": "v2.1.191 ships a cluster of MCP fixes: transient error retries on capability discovery, OAuth token requests that skip browser popups in headless environments, and session-level memory for sandbox network permissions. For ADO MCP, the headless OAuth change removes the most awkward failure mode when running the server unattended. The retries on tools/list are worth having in any MCP server that calls an external API with intermittent availability.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.78
+    },
+    {
+      "id": "2026-06-25-b",
+      "kind": "new-project",
+      "source_title": "Cloudflare launched self-managed OAuth for all",
+      "source_url": "https://blog.cloudflare.com/oauth-for-all/",
+      "source_name": "Hacker News Front Page",
+      "headline": "Cloudflare OAuth opens a natural MCP target",
+      "body": "Cloudflare has opened self-managed OAuth to all developers — any app can now get delegated Cloudflare API access without manual onboarding. A Cloudflare MCP server managing Pages deployments, Workers, DNS, and firewall rules through natural language is now buildable without a special partnership. He already runs on Cloudflare and is looking for a second public MCP server; the surface area here is coherent and the tooling is new enough to be interesting.",
+      "related_project": null,
+      "confidence": 0.6
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-25T11:00:00Z"
+  }
+}
