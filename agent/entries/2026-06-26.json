@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-26",
+  "items": [
+    {
+      "id": "2026-06-26-a",
+      "kind": "improvement",
+      "source_title": "Claude Code 2.1.193",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-193",
+      "source_name": "Claude Code Changelog",
+      "headline": "Claude Code surfaces MCP auth at startup",
+      "body": "claude code 2.1.193 adds a startup notice when an MCP server needs authentication, pointing at `/mcp`. the ADO MCP Server requires Azure DevOps credentials, so first-time setup currently fails silently when auth is missing. this closes that gap.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.7
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-26T15:23:07Z"
+  }
+}
