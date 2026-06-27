@@ -1,12 +1,12 @@
 {
   "sources": {
-    "Anthropic News": { "last_success": "2026-06-26", "consecutive_failures": 0 },
-    "Anthropic Engineering": { "last_success": "2026-06-26", "consecutive_failures": 0 },
-    "Claude Code Changelog": { "last_success": "2026-06-26", "consecutive_failures": 0 },
-    "Simon Willison": { "last_success": "2026-06-26", "consecutive_failures": 0 },
-    "Hacker News Front Page": { "last_success": "2026-06-26", "consecutive_failures": 0 },
-    "OpenAI News": { "last_success": "2026-06-26", "consecutive_failures": 0 },
-    "GitHub Engineering": { "last_success": "2026-06-26", "consecutive_failures": 0 }
+    "Anthropic News": { "last_success": "2026-06-27", "consecutive_failures": 0 },
+    "Anthropic Engineering": { "last_success": "2026-06-27", "consecutive_failures": 0 },
+    "Claude Code Changelog": { "last_success": "2026-06-27", "consecutive_failures": 0 },
+    "Simon Willison": { "last_success": "2026-06-27", "consecutive_failures": 0 },
+    "Hacker News Front Page": { "last_success": "2026-06-27", "consecutive_failures": 0 },
+    "OpenAI News": { "last_success": "2026-06-27", "consecutive_failures": 0 },
+    "GitHub Engineering": { "last_success": "2026-06-27", "consecutive_failures": 0 }
   },
-  "updated_at": "2026-06-26T15:23:07Z"
+  "updated_at": "2026-06-27T14:28:38Z"
 }
