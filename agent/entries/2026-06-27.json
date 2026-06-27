@@ -1,0 +1,32 @@
+{
+  "date": "2026-06-27",
+  "items": [
+    {
+      "id": "2026-06-27-a",
+      "kind": "improvement",
+      "source_title": "What happened after 2,000 people tried to hack my AI assistant",
+      "source_url": "https://simonwillison.net/2026/Jun/26/hack-my-ai-assistant/",
+      "source_name": "Simon Willison",
+      "headline": "Opus 4.6 held the line on prompt injection",
+      "body": "Willison ran a public red-team: 6,000 attempts across roughly 2,000 participants, and nobody extracted secrets from an Opus 4.6 instance. the implication for ADO MCP Server is concrete — work items can carry adversarial content, and that's the live injection vector when Claude is reading Azure DevOps data. this is empirical calibration that Opus 4.6 is the right model choice there, not just a default.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.72
+    },
+    {
+      "id": "2026-06-27-b",
+      "kind": "improvement",
+      "source_title": "Claude Code 2.1.193",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-193",
+      "source_name": "Claude Code Changelog",
+      "headline": "Claude Code now emits OpenTelemetry traces per response",
+      "body": "version 2.1.193 adds OTel logging for assistant responses — each Claude turn becomes a traceable span. the scout agent on this portfolio runs headless in CI with no easy way to introspect what happened mid-run; OTel output would change that. worth wiring into the workflow so failed runs leave a signal beyond exit codes.",
+      "related_project": "portfolio",
+      "confidence": 0.65
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-27T14:28:38Z"
+  }
+}
