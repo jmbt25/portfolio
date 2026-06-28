@@ -1,0 +1,32 @@
+{
+  "date": "2026-06-28",
+  "items": [
+    {
+      "id": "2026-06-28-a",
+      "kind": "improvement",
+      "source_title": "Claude Code Changelog 2.1.195",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-195",
+      "source_name": "Claude Code Changelog",
+      "headline": "Claude Code fixes MCP OAuth reliability",
+      "body": "version 2.1.195 ships a targeted fix for MCP OAuth reliability alongside background job stability improvements. ADO MCP Server depends on that OAuth handshake for every Claude-to-Azure request — flakiness there shows up as silent auth failures mid-conversation. worth pulling the update.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.75
+    },
+    {
+      "id": "2026-06-28-b",
+      "kind": "improvement",
+      "source_title": "What happened after 2,000 people tried to hack my AI assistant",
+      "source_url": "https://www.fernandoi.cl/posts/hackmyclaw/",
+      "source_name": "Simon Willison",
+      "headline": "Prompt injection harder to land than assumed",
+      "body": "a public challenge threw 6,000 injection attempts at a Claude Opus 4.6 assistant; none extracted the secret phrase. LaborQuest is a public-facing Claude API app where users can type freely — this is evidence the system prompt boundary is sturdier than usually assumed. the caveat: controlled setup, single well-crafted system prompt, not a hardened production deployment.",
+      "related_project": "LaborQuest",
+      "confidence": 0.62
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-28T14:47:49Z"
+  }
+}
