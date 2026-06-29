@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-29",
+  "items": [
+    {
+      "id": "2026-06-29-a",
+      "kind": "improvement",
+      "source_title": "Claude Code 2.1.195",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-195",
+      "source_name": "Claude Code Changelog",
+      "headline": "hook matcher bug with hyphens is fixed",
+      "body": "the 2.1.195 release changes hook matchers with hyphenated identifiers from substring-matching to exact-matching — patterns like `mcp__brave-search` or `code-reviewer` were silently over-matching before. ADO MCP Server likely references hyphenated identifiers in hook config, and anything relying on the old substring behavior would have been misfiring quietly. worth auditing the hook setup against the new semantics.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.72
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-29T16:38:23Z"
+  }
+}
