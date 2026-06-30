@@ -1,0 +1,21 @@
+{
+  "date": "2026-06-30",
+  "items": [
+    {
+      "id": "2026-06-30-a",
+      "kind": "improvement",
+      "source_title": "Ornith-1.0: Self-Scaffolding LLMs for Agentic Coding",
+      "source_url": "https://simonwillison.net/2026/Jun/29/ornith/",
+      "source_name": "Simon Willison",
+      "headline": "agent scaffolding written by the agent itself",
+      "body": "Ornith-1.0 is an open-source system where the model generates and revises its own agentic scaffolding — the code controlling its tool loop, context window, and retry logic. the implication is that scaffolding is a design space, not a fixed layer; the model can optimize it given task constraints. for ADO MCP Server, where the scaffolding around Azure DevOps tool calls is entirely hand-written, this is a useful frame to bring to the next revision.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.6
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-06-30T15:26:18Z"
+  }
+}
