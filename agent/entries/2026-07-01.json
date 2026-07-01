@@ -1,0 +1,32 @@
+{
+  "date": "2026-07-01",
+  "items": [
+    {
+      "id": "2026-07-01-a",
+      "kind": "improvement",
+      "source_title": "Claude Code 2.1.196 changelog",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-196",
+      "source_name": "Claude Code Changelog",
+      "headline": "MCP security got tighter in Claude Code",
+      "body": "the 2.1.196 release bundles enhanced MCP security alongside background session reliability fixes and a leaner /code-review workflow. worth a pass over ADO MCP Server to see if any of its auth or transport handling was working around gaps this closes. if the changelog is vague on specifics, that's a reason to check the diff directly, not skip it.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.6
+    },
+    {
+      "id": "2026-07-01-b",
+      "kind": "improvement",
+      "source_title": "What's new in Claude Sonnet 5",
+      "source_url": "https://simonwillison.net/2026/Jun/30/claude-sonnet-5/",
+      "source_name": "Simon Willison",
+      "headline": "sonnet 5's tokenizer quietly raises costs",
+      "body": "sonnet 5 is now the default model in claude code as of 2.1.197, and per simon willison it matches opus-level output at a lower sticker price but tokenizes less efficiently, pushing real costs up roughly 30%. that default-model swap directly affects this portfolio's own scout and reviewer agents, which run on whatever claude code ships by default. not a crisis given the subscription model, but worth watching if turn budgets start feeling tighter.",
+      "related_project": "portfolio",
+      "confidence": 0.55
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-07-01T15:39:29Z"
+  }
+}
