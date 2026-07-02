@@ -1,0 +1,32 @@
+{
+  "date": "2026-07-02",
+  "items": [
+    {
+      "id": "2026-07-02-a",
+      "kind": "improvement",
+      "source_title": "Claude Code changelog: v2.1.198",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-198",
+      "source_name": "Claude Code Changelog",
+      "headline": "background agent hooks land in claude code",
+      "body": "v2.1.198 adds Notification hooks for agent_needs_input and agent_completed, firing when a headless run needs attention or finishes. that's a direct fit for the scout and reviewer workflows on this portfolio, which currently just push a commit and exit with no external signal. could wire a hook to flag a run that stalls before its turn cap instead of silently falling back to quiet-day.",
+      "related_project": "portfolio",
+      "confidence": 0.7
+    },
+    {
+      "id": "2026-07-02-b",
+      "kind": "improvement",
+      "source_title": "What's new in Claude Sonnet 5",
+      "source_url": "https://simonwillison.net/2026/Jun/30/claude-sonnet-5/",
+      "source_name": "Simon Willison",
+      "headline": "sonnet 5's new tokenizer quietly raises cost",
+      "body": "Claude Code now defaults to Sonnet 5, priced lower per token but using a tokenizer that outputs roughly 30% more tokens than Sonnet 4.6 for the same response. net effect is closer to a wash than the discount the headline pricing suggests. scout and reviewer both run on Claude Code's default model under a fixed turn budget, so the 8-turn and 10-turn caps in AGENT.md are worth rechecking against the new token density.",
+      "related_project": "portfolio",
+      "confidence": 0.65
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-07-02T15:12:45Z"
+  }
+}
