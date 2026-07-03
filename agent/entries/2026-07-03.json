@@ -1,0 +1,32 @@
+{
+  "date": "2026-07-03",
+  "items": [
+    {
+      "id": "2026-07-03-a",
+      "kind": "improvement",
+      "source_title": "Claude Code changelog: v2.1.199",
+      "source_url": "https://code.claude.com/docs/en/changelog#2-1-199",
+      "source_name": "Claude Code Changelog",
+      "headline": "background-agent daemon crash fix ships",
+      "body": "claude code 2.1.199 fixes the background-agent daemon crashing itself and every running agent roughly every 50 seconds after an unclean shutdown on linux, and raises the default retry count for transient rate-limit errors via CLAUDE_CODE_RETRY_WATCHDOG. scout and reviewer both run as headless claude -p processes inside github actions, so a daemon that silently kills agent sessions on the runner is exactly the kind of bug that would show up as missing entries with no error trail. worth confirming the runner never hit the unclean-shutdown path before assuming a quiet day was scout's own call.",
+      "related_project": "portfolio",
+      "confidence": 0.65
+    },
+    {
+      "id": "2026-07-03-b",
+      "kind": "improvement",
+      "source_title": "Using DSPy to Evaluate Datasette Agent's SQL Prompts",
+      "source_url": "https://simonwillison.net/2026/Jul/2/dspy-datasette-agent-prompts/",
+      "source_name": "Simon Willison",
+      "headline": "dspy could sharpen ado mcp's prompts",
+      "body": "simon willison writes up using DSPy to evaluate a datasette agent's SQL-generation prompts, and the finding was that thin schema context, not model choice, was driving most error-retry loops. ADO MCP Server's natural-language layer over the azure devops api has the same shape of problem — vague field or work-item-type context leading to failed calls that get silently retried. running its prompts through a DSPy-style eval harness would give a real answer instead of a guess about where those retries come from.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.6
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-07-03T15:08:19Z"
+  }
+}
