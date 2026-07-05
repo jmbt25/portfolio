@@ -1,0 +1,32 @@
+{
+  "date": "2026-07-05",
+  "items": [
+    {
+      "id": "2026-07-05-a",
+      "kind": "improvement",
+      "source_title": "Better Models: Worse Tools",
+      "source_url": "https://simonwillison.net/2026/Jul/4/better-models-worse-tools/",
+      "source_name": "Simon Willison",
+      "headline": "newer claude models misfire on custom tool schemas",
+      "body": "simon willison relays a report that opus 4.8 and sonnet 5 sometimes call third-party edit tools with invented extra fields in nested arrays, even though the edits themselves are usually right. the theory: heavy training on claude code's own built-in tools makes the model worse at adapting to other harnesses' schemas. worth a stress test on ado mcp server's tool definitions under sonnet 5 before assuming they still parse cleanly.",
+      "related_project": "ADO MCP Server",
+      "confidence": 0.6
+    },
+    {
+      "id": "2026-07-05-b",
+      "kind": "improvement",
+      "source_title": "sqlite-utils 4.0rc2, mostly written by Claude Fable",
+      "source_url": "https://simonwillison.net/2026/Jul/5/sqlite-utils-fable/",
+      "source_name": "Simon Willison",
+      "headline": "an agent review pass caught a silent data-loss bug",
+      "body": "willison ran claude fable through 37 prompts as a final pre-release review of sqlite-utils and it found a transaction bug where delete_where() left the connection open, silently dropping subsequent writes. gpt-5.5 reviewing fable's own work caught two more issues on top of that. total cost: $149.25, cheap next to shipping a data-loss bug. dota-deals already leans on production-grade error handling — a review pass like this before a release is the same discipline, not extra ceremony.",
+      "related_project": "dota-deals",
+      "confidence": 0.55
+    }
+  ],
+  "meta": {
+    "sources_checked": 7,
+    "sources_failed": 0,
+    "generated_at": "2026-07-05T14:35:00Z"
+  }
+}
