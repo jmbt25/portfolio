@@ -47,4 +47,4 @@ jobs:
           claude \
             -p "$(cat agent/reviewer-prompt.md)" \
             --permission-mode bypassPermissions \
-            --max-turns 10
+            --max-turns 20
