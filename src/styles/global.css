@@ -27,6 +27,56 @@ body {
   flex-direction: column;
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 -160px;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    radial-gradient(rgba(232, 232, 232, 0.055) 1px, transparent 1px),
+    radial-gradient(rgba(212, 168, 87, 0.045) 1px, transparent 1px);
+  background-size: 28px 28px, 64px 64px;
+  background-position: 0 0, 14px 22px;
+  animation: drift 120s linear infinite;
+}
+
+@keyframes drift {
+  to {
+    background-position: 0 -560px, 14px -618px;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  body::before {
+    animation: drift 120s linear infinite, parallax 1ms linear;
+    animation-timeline: auto, scroll();
+  }
+
+  main > section {
+    animation: rise 1ms linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+}
+
+@keyframes parallax {
+  to {
+    transform: translateY(-140px);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0.2;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 ::selection {
   background: var(--accent);
   color: var(--bg);
@@ -189,7 +239,9 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cursor {
+  .cursor,
+  body::before,
+  main > section {
     animation: none;
   }
 }
