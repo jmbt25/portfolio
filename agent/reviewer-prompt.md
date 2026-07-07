@@ -50,7 +50,7 @@ Examples of forbidden scope (will reject the PR if touched):
 
 ## Workflow
 
-You have **10 turns max**. Be efficient.
+You have **20 turns max**. Be efficient.
 
 1. Read the files above.
 2. Count signals over the 7-day window.
@@ -102,12 +102,12 @@ Total below 5-signal floor. No changes proposed this week.
 
 ## Hard rules
 
-- 10 turns max.
+- 20 turns max.
 - One PR per run. Never push to `main`. Never merge.
 - Never edit `agent/projects-context.md`.
 - Never edit any `# IMMUTABLE` block in `SKILLS.md`. If your draft touches one, drop it and re-draft without it.
 - All proposed edits must trace to specific entry IDs in `agent/feedback/`.
-- If you hit turn 10 without a complete PR, exit cleanly. Do not push partial state.
+- If you hit turn 20 without a complete PR, exit cleanly. Do not push partial state.
 
 ## Authentication and git config
 
