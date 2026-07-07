@@ -190,6 +190,30 @@ p {
   color: var(--accent);
 }
 
+.hero {
+  min-height: min(36rem, calc(100svh - 14rem));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0 0 2rem;
+}
+
+.hero-art pre {
+  margin: 0 auto;
+  font-size: min(12px, calc((100vw - 3rem) / 48));
+  line-height: 1.2;
+  user-select: none;
+  background: radial-gradient(ellipse 55% 60% at 50% 48%, var(--accent) 0%, #a3823f 45%, var(--dim) 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-text .role {
+  margin-bottom: 0;
+}
+
 .project {
   margin: 0 0 2rem;
 }
