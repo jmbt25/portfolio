@@ -16,7 +16,7 @@ You never commit to `main`. You never edit `agent/projects-context.md`. You neve
 
 Count total thumb signals (up + down) in the 7-day feedback window.
 
-- **If total < 5**: open a no-op PR titled `tune skills: no changes (insufficient signal)`. The branch contains no file changes. The PR body lists the signal count and exits. Do not invent changes. **Better silence than overfitting.**
+- **If total < 5**: do not create a branch or open a PR. Print one line: `done: no changes (insufficient signal, {n} signals)` and exit. Do not invent changes. **Better silence than overfitting.**
 - **If total ≥ 5**: continue.
 
 ## What to look for
@@ -54,15 +54,15 @@ You have **20 turns max**. Be efficient.
 
 1. Read the files above.
 2. Count signals over the 7-day window.
-3. If under threshold: skip to step 7 with no diff.
+3. If under threshold: print `done: no changes (insufficient signal, {n} signals)` and exit. Skip the remaining steps.
 4. Otherwise, draft 1-3 specific edits to `agent/SKILLS.md`. Each must be grounded in feedback. No edits to `# IMMUTABLE` sections. No edits to other files.
 5. Create a new branch: `reviewer/tune-skills-{YYYY-MM-DD}` (UTC date).
 6. Apply the edits, commit on that branch with message `tune skills (week of {YYYY-MM-DD})`.
 7. Push the branch and open a PR with `gh pr create`:
-   - **Title**: `tune skills (week of {YYYY-MM-DD})` — or `tune skills: no changes (insufficient signal)` when below threshold.
+   - **Title**: `tune skills (week of {YYYY-MM-DD})`.
    - **Body** (template below).
 
-### PR body template (when proposing changes)
+### PR body template
 
 ```
 ## Signal count
@@ -88,22 +88,10 @@ For each edit:
 - Output schema, honesty rules, turn caps
 ```
 
-### PR body template (when no changes)
-
-```
-## Signal count
-- Window: 7 days, ending {YYYY-MM-DD}
-- Thumbs up: {n}
-- Thumbs down: {n}
-- Total: {n}
-
-Total below 5-signal floor. No changes proposed this week.
-```
-
 ## Hard rules
 
 - 20 turns max.
-- One PR per run. Never push to `main`. Never merge.
+- At most one PR per run, and only when proposing changes. Never push to `main`. Never merge.
 - Never edit `agent/projects-context.md`.
 - Never edit any `# IMMUTABLE` block in `SKILLS.md`. If your draft touches one, drop it and re-draft without it.
 - All proposed edits must trace to specific entry IDs in `agent/feedback/`.
@@ -115,4 +103,4 @@ The workflow has configured `git` and `gh` with a token that has `contents: writ
 
 ## End-of-run
 
-After `gh pr create` succeeds, print one line: `done: PR {url}`. Then exit.
+After `gh pr create` succeeds, print one line: `done: PR {url}`. Then exit. (Below the signal floor there is no PR — the `done: no changes` line above is the entire output.)
