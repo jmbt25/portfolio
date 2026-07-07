@@ -3,6 +3,7 @@
   --fg: #e8e8e8;
   --dim: #8f8f8f;
   --accent: #d4a857;
+  --border: #1c1c1c;
   --max-width: 720px;
   --font: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
@@ -88,6 +89,7 @@ a {
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   text-decoration-color: var(--dim);
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 
 a:hover,
@@ -181,7 +183,7 @@ main {
   justify-content: space-between;
   color: var(--dim);
   font-size: 0.875rem;
-  border-top: 1px solid #1c1c1c;
+  border-top: 1px solid var(--border);
 }
 
 .site-footer a {
@@ -243,6 +245,9 @@ p {
   body::before,
   main > section {
     animation: none;
+  }
+  a {
+    transition: none;
   }
 }
 
