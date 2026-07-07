@@ -60,6 +60,7 @@ const ogImageUrl = new URL(ogImage, SITE).href;
     <slot name="head" />
   </head>
   <body>
+    <a class="skip-link" href="#main">skip to content</a>
     <header class="site-header">
       <a class="brand" href="/"><span class="tilde">~</span>{handle}</a>
       <nav class="nav" aria-label="primary">
@@ -69,7 +70,7 @@ const ogImageUrl = new URL(ogImage, SITE).href;
         <a href="/about" {...(current === 'about' ? { 'aria-current': 'page' } : {})}>about</a>
       </nav>
     </header>
-    <main>
+    <main id="main">
       <slot />
     </main>
     <footer class="site-footer">
