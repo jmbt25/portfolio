@@ -1,7 +1,7 @@
 # Sources scout reads daily.
 #
-# Curated starter list. Edit freely — scout will adapt and the reviewer
-# may suggest weighting changes via PR, but the file itself is hand-tended.
+# Curated starter list. Edit freely — scout will adapt, but the file itself is
+# hand-tended. Scout can no longer add or remove sources on its own.
 #
 # Fields:
 #   name:   human-readable label
@@ -10,21 +10,22 @@
 #   tags:   optional list, used by scout to short-circuit relevance checks
 #   note:   optional human note about provenance / caveats
 #
-# Add/remove freely. If a feed dies, scout logs to sources-status.json
-# and removes after 3 consecutive failures.
+# IMPORTANT: every hostname here must also be in the WebFetch allowlist in
+# .github/workflows/scout.yml. The two lists must stay in sync. Scout cannot
+# fetch any host that is not allowlisted, and cannot follow a redirect to one.
 
 sources:
   - name: Anthropic News
-    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml
+    url: https://www.anthropic.com/news
     weight: 3
     tags: [anthropic, claude, mcp]
-    note: anthropic.com has no official feed; this one is community-maintained (Olshansk/rss-feeds), regenerated hourly
+    note: first-party news index page (HTML). Replaced a third-party GitHub mirror.
 
   - name: Anthropic Engineering
-    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_engineering.xml
+    url: https://www.anthropic.com/engineering
     weight: 3
     tags: [anthropic, engineering, claude-code]
-    note: same source as above
+    note: first-party engineering index page (HTML). Replaced a third-party GitHub mirror.
 
   - name: Claude Code Changelog
     url: https://code.claude.com/docs/en/changelog/rss.xml
@@ -36,11 +37,6 @@ sources:
     url: https://simonwillison.net/atom/everything/
     weight: 3
     tags: [llm, tooling, commentary]
-
-  - name: Hacker News Front Page
-    url: https://hnrss.org/frontpage?points=200
-    weight: 2
-    tags: [hn, general]
 
   - name: OpenAI News
     url: https://openai.com/news/rss.xml
