@@ -6,6 +6,9 @@ on:
     - cron: '0 13 * * 0'
   workflow_dispatch: {}
 
+# contents: write to push the tuning branch, pull-requests: write to open the
+# PR. The agent has neither git nor gh; the workflow performs both, only after
+# the agent changed SKILLS.md and the guard passed.
 permissions:
   contents: write
   pull-requests: write
@@ -18,7 +21,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.AGENT_GITHUB_TOKEN }}
+          persist-credentials: false
           fetch-depth: 0
 
       - name: configure git
@@ -34,17 +37,79 @@ jobs:
       - name: install claude code
         run: npm install -g @anthropic-ai/claude-code
 
-      - name: authenticate gh
-        env:
-          GH_TOKEN: ${{ secrets.AGENT_GITHUB_TOKEN }}
-        run: gh auth status
-
-      - name: run reviewer
+      # Same sandbox as scout: dontAsk + the shared deny file, bare Edit/Write.
+      #
+      # Reviewer's untrusted input is agent/feedback/, which is written by a
+      # public internet endpoint (/api/vote). The surface is thin because each
+      # feedback file is constrained to a regex-locked entry_id and an enum
+      # signal; that constraint is the control, not an absence of untrusted
+      # input. If the vote schema ever widens, this job needs the same
+      # permission smoke test scout runs. (Reviewer does no WebFetch today, so
+      # it is not added here yet.)
+      #
+      # Exits guarded below: the staged SKILLS.md, the PR body, and stdout (this
+      # public Actions log). Stdout is captured, guarded, printed only if clean.
+      - name: run reviewer (guarded stdout)
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          GH_TOKEN: ${{ secrets.AGENT_GITHUB_TOKEN }}
         run: |
+          set +e
           claude \
             -p "$(cat agent/reviewer-prompt.md)" \
-            --permission-mode bypassPermissions \
-            --max-turns 20
+            --permission-mode dontAsk \
+            --settings agent/agent-ci-settings.json \
+            --allowedTools "Read,Edit,Write" \
+            --max-turns 10 > agent-run.log 2>&1
+          agent_code=$?
+          set -e
+          if bash .github/scripts/content-guard.sh --stdout agent-run.log; then
+            cat agent-run.log
+          else
+            echo "agent output withheld: content guard tripped on reviewer stdout"
+            exit 1
+          fi
+          [ "$agent_code" -eq 0 ] || { echo "::error::reviewer exited ${agent_code}"; exit "${agent_code}"; }
+
+      # Only proceed if the agent changed SKILLS.md. Stage it, then guard the
+      # staged set PLUS the PR body (published but never staged), before any
+      # branch or commit exists.
+      - name: stage and guard
+        id: stage
+        run: |
+          if git diff --quiet -- agent/SKILLS.md; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "reviewer: no SKILLS.md change this week, no PR"
+            exit 0
+          fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          git add agent/SKILLS.md
+          bash .github/scripts/content-guard.sh agent/reviewer-pr-body.md
+
+      # The workflow opens the PR, not the agent. Push token via GIT_CONFIG_*
+      # env, never on the command line.
+      - name: open tuning PR
+        if: steps.stage.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.AGENT_GITHUB_TOKEN }}
+          PUSH_TOKEN: ${{ secrets.AGENT_GITHUB_TOKEN }}
+        run: |
+          # Literal path (not a variable) so guard-target-test.sh can statically
+          # verify this published PR body is content-guarded.
+          if [ ! -f agent/reviewer-pr-body.md ]; then
+            echo "::error::SKILLS.md changed but the reviewer wrote no PR body"
+            exit 1
+          fi
+          DATE=$(date -u +%Y-%m-%d)
+          BRANCH="reviewer/tune-skills-${DATE}"
+          git checkout -b "${BRANCH}"
+          git commit -m "tune skills (week of ${DATE})"
+          export GIT_CONFIG_COUNT=1
+          export GIT_CONFIG_KEY_0=http.extraheader
+          export GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $(printf 'x-access-token:%s' "${PUSH_TOKEN}" | base64 -w0)"
+          git push origin "${BRANCH}"
+          gh pr create \
+            --title "tune skills (week of ${DATE})" \
+            --body-file agent/reviewer-pr-body.md \
+            --base main \
+            --head "${BRANCH}"
+          echo "opened tuning PR from ${BRANCH}"

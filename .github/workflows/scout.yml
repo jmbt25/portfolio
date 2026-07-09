@@ -6,6 +6,9 @@ on:
     - cron: '0 13 * * *'
   workflow_dispatch: {}
 
+# The workflow, not the agent, holds write access. The agent has no git and no
+# Bash (see the deny file and allowlist below), so it cannot commit, push, or
+# read the push token.
 permissions:
   contents: write
 
@@ -17,7 +20,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.AGENT_GITHUB_TOKEN }}
+          persist-credentials: false
           fetch-depth: 0
 
       - name: configure git
@@ -33,22 +36,83 @@ jobs:
       - name: install claude code
         run: npm install -g @anthropic-ai/claude-code
 
-      - name: run scout
+      # Prove the sandbox holds BEFORE running the agent, so a settings change
+      # that silently widens permissions fails here instead of shipping.
+      - name: permission smoke test
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: bash .github/scripts/permission-smoke-test.sh
+
+      # The agent ingests untrusted, attacker-authorable news content.
+      #
+      # Per the docs, bypassPermissions "offers no protection against prompt
+      # injection or unintended actions"
+      # (https://code.claude.com/docs/en/permission-modes). So dontAsk:
+      # auto-deny everything not allowlisted, fully non-interactively.
+      #
+      # Write scope: Claude Code does not honor scoped Write allow rules headless
+      # (verified), so the allowlist grants bare Write. The agent can write
+      # anywhere not blocked by the deny file (agent/agent-ci-settings.json). The
+      # REAL output scope is the `stage entry` step: only the dated entry is
+      # staged, and the content guard scans exactly that. WebFetch(domain:)
+      # scoping works. The WebFetch domains MUST match agent/sources.yaml.
+      #
+      # The agent's STDOUT is an exit too: it lands in this public Actions log.
+      # A poisoned source can print arbitrary text as the final message. So the
+      # stdout is captured, content-guarded, and only printed if clean.
+      - name: run scout (guarded stdout)
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         run: |
+          set +e
           claude \
             -p "$(cat agent/scout-prompt.md)" \
-            --permission-mode bypassPermissions \
-            --max-turns 20
+            --permission-mode dontAsk \
+            --settings agent/agent-ci-settings.json \
+            --allowedTools "Read,WebFetch(domain:www.anthropic.com),WebFetch(domain:code.claude.com),WebFetch(domain:simonwillison.net),WebFetch(domain:openai.com),WebFetch(domain:github.blog),Write" \
+            --max-turns 8 > agent-run.log 2>&1
+          agent_code=$?
+          set -e
+          if bash .github/scripts/content-guard.sh --stdout agent-run.log; then
+            cat agent-run.log
+          else
+            echo "agent output withheld: content guard tripped on scout stdout"
+            exit 1
+          fi
+          [ "$agent_code" -eq 0 ] || { echo "::error::scout exited ${agent_code}"; exit "${agent_code}"; }
 
-      - name: verify entry pushed
+      # Stage ONLY the entry. The agent may have written elsewhere in the runner;
+      # nothing else is staged, so nothing else can publish.
+      - name: stage entry
         run: |
           DATE=$(date -u +%Y-%m-%d)
           FILE="agent/entries/${DATE}.json"
-          if ! git cat-file -e "HEAD:${FILE}" 2>/dev/null; then
-            echo "::error::scout did not commit ${FILE}"
+          if [ ! -f "${FILE}" ]; then
+            echo "::error::scout did not write ${FILE}"
             exit 1
           fi
+          git add "${FILE}"
+
+      # The guard scans exactly the staged set. Any denylist hit fails the job
+      # before commit. Extend the denylist, not this workflow.
+      - name: content guard (staged set)
+        run: bash .github/scripts/content-guard.sh
+
+      # The workflow commits, not the agent. The push token is passed via
+      # GIT_CONFIG_* env, never on the command line, so it cannot appear in
+      # argv or in git's error output.
+      - name: commit and push entry
+        env:
+          PUSH_TOKEN: ${{ secrets.AGENT_GITHUB_TOKEN }}
+        run: |
+          if git diff --cached --quiet; then
+            echo "no staged changes to commit"
+            exit 0
+          fi
+          DATE=$(date -u +%Y-%m-%d)
+          git commit -m "scout: entry for ${DATE}"
+          export GIT_CONFIG_COUNT=1
+          export GIT_CONFIG_KEY_0=http.extraheader
+          export GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $(printf 'x-access-token:%s' "${PUSH_TOKEN}" | base64 -w0)"
           git push origin HEAD:main
-          echo "verified: ${FILE} present on HEAD and pushed"
+          echo "committed and pushed agent/entries/${DATE}.json"

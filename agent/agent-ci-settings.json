@@ -1,0 +1,30 @@
+{
+  "$comment_1": "CI-only permission denies for scout and reviewer, loaded via `claude --settings agent/agent-ci-settings.json` in the workflows. NOT .claude/settings.json (that would apply to local interactive sessions with no trust dialog). --settings merges over defaults; deny is evaluated before allow and wins unconditionally.",
+  "$comment_2_controls_ranked_by_durability": "1) THE COMMIT STEP is the load-bearing control. Claude Code does not honor scoped Write/Edit allow rules headless (verified in an ubuntu container: only bare Write works, WebFetch(domain:) scoping does work), so the agent can write anywhere not denied. Only paths the workflow `git add`s get committed and published; everything else is discarded with the ephemeral runner. The content guard scans exactly the staged set. 2) THESE DENY RULES are defense in depth for the containment machinery ONLY. 3) BARE WRITE is a tool limitation, not a design choice.",
+  "$comment_3_allowlist_inversion_warning": "This deny list is an INVERTED allowlist and it will rot. src/**, functions/**, package.json, astro.config.mjs, and every file added to this repo from now on are WRITABLE by the agent by default. They are NOT protected, they are UNPUBLISHED: nothing stages them, so the commit step drops them. Do not read this list as 'src/ is safe'. Do not try to enumerate every path here; deny-beats-allow means an inverted allowlist is the only shape available. The commit step is the control.",
+  "$comment_4_proc": "Read(//proc/**) is denied because the Read tool can open /proc/self/environ and read CLAUDE_CODE_OAUTH_TOKEN from the process environment with no Bash. Verified in an ubuntu container: Read opens /proc; the absolute anchor //proc/** blocks it, the repo-relative /proc/** does not.",
+  "permissions": {
+    "deny": [
+      "Bash",
+      "Read(.git/**)",
+      "Read(.env*)",
+      "Read(//proc/**)",
+      "Write(.github/**)",
+      "Edit(.github/**)",
+      "Write(agent/denylist.txt)",
+      "Edit(agent/denylist.txt)",
+      "Write(agent/agent-ci-settings.json)",
+      "Edit(agent/agent-ci-settings.json)",
+      "Write(agent/scout-prompt.md)",
+      "Edit(agent/scout-prompt.md)",
+      "Write(agent/reviewer-prompt.md)",
+      "Edit(agent/reviewer-prompt.md)",
+      "Write(agent/projects-context.md)",
+      "Edit(agent/projects-context.md)",
+      "Write(agent/sources.yaml)",
+      "Edit(agent/sources.yaml)",
+      "Write(AGENT.md)",
+      "Edit(AGENT.md)"
+    ]
+  }
+}
