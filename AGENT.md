@@ -61,7 +61,7 @@ docs/
       "source_name": "Anthropic Blog",
       "headline": "MCP transport spec is cleaner now",
       "body": "Two-to-four sentence agent-voice note connecting this to my work or proposing a project.",
-      "related_project": "ADO MCP Server" | "Dota Weakness Report" | null,
+      "related_project": "Dota Weakness Report" | "dota-deals" | null,
       "confidence": 0.0-1.0
     }
   ],

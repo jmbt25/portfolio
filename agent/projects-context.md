@@ -6,7 +6,7 @@ Facts about jmbt25 for the scout agent to reason against. Updated by hand only. 
 
 - Joshua, GitHub `jmbt25`
 - Data Scientist & AI Systems Engineer
-- MBM IT Consulting, MS in Data Science (Asian Institute of Management)
+- MS in Data Science (Asian Institute of Management)
 - Based in Manila
 - 6+ years building data and ML systems
 - Daily Claude Code user
@@ -44,11 +44,6 @@ Facts about jmbt25 for the scout agent to reason against. Updated by hand only. 
 - Async Python data pipeline ingesting Steam Market data
 - Production-grade error handling, retries, structured logging
 - github.com/jmbt25/dota-deals
-
-### ADO MCP Server (2024) — private
-- MCP server connecting Claude to Azure DevOps
-- Natural-language project management
-- Stack: Python, MCP, Azure DevOps API
 
 ## Stack he uses
 
