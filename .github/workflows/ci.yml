@@ -1,0 +1,32 @@
+name: ci
+
+# Model-free check on every change: the content guard must be green over the
+# agent-authored working tree. There is no staged set on a PR, so the guard runs
+# in --working-tree mode here. (The daily scout/reviewer runs guard the staged
+# set instead, which is exactly what they commit.)
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: content guard (working tree)
+        run: bash .github/scripts/content-guard.sh --working-tree

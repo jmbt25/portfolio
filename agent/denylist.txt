@@ -1,0 +1,59 @@
+# Content guard denylist for agent-authored content.
+#
+# Three sections. .github/scripts/content-guard.sh scans each against a
+# DIFFERENT target set, because the same blunt scan cannot serve all three
+# without either false positives (a cited article title is not the agent
+# speaking) or false negatives (an identity string in any field is a leak).
+#
+#   [identity]    Strings that identify my systems or affiliations. Must never
+#                 appear in ANY agent-authored content. Scanned against every
+#                 field of every entry, the reviewer PR body, SKILLS.md, and the
+#                 feedback files.
+#
+#   [repo-config] This repo's own config / instruction filenames. The agent must
+#                 never NAME them in published output. Scanned against every
+#                 field of every entry, the PR body, and feedback ONLY. NOT
+#                 SKILLS.md or the other instruction files, which reference these
+#                 filenames by necessity.
+#
+#   [vocabulary]  Security-weakness prose. Dangerous only in the agent's own
+#                 writing, harmless in a cited article title. Scanned against the
+#                 agent-authored fields ONLY (headline, body), never
+#                 source_title / source_url / source_name.
+#
+# One case-insensitive ERE pattern per line. '#' lines and blank lines are
+# ignored; a trailing '# comment' on a pattern line is stripped, so patterns
+# cannot contain a literal '#'. A few terms are stemmed or word-boundaried:
+#   \bADO\b   does not match shadow / meadow / avocado
+#   vulnerab  vulnerable, vulnerability, vulnerabilities
+#   exfiltrat exfiltrate, exfiltration
+#   \bleak    leak, leaks, leaked, leaking, leakage
+#   \binternal\b  deliberately blunt; also fires on benign "internal infra" in a
+#                 body. That is by design (fail closed). Keep it broad.
+
+[identity]
+\bADO\b
+Azure DevOps
+\bMBM\b
+\bUpside\b
+private repo
+
+[repo-config]
+scout\.yml
+reviewer\.yml
+AGENT\.md
+SKILLS\.md
+projects-context
+denylist\.txt
+agent-ci-settings
+content-guard
+
+[vocabulary]
+prompt.?injection
+vulnerab
+exfiltrat
+\bleak
+credential
+attack surface
+unaudited
+\binternal\b
