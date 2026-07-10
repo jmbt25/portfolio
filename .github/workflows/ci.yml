@@ -1,11 +1,8 @@
 name: ci
 
-# Model-free checks on every change. All must pass:
-#   - the exit-coverage test (every runner exit is guarded),
-#   - the validator unit tests (strict schema rejects the attack vectors),
-#   - the guard integration tests (staged-blob read, no content leak, fail-closed),
-#   - the content guard over the agent-authored working tree,
-#   - the site build, which runs the same validator on every entry.
+# Identity tripwire only. Fails the build if a removed-agent machinery string or
+# an affiliation string with no legitimate home reappears anywhere in the tree.
+# The site itself is built by Cloudflare Pages.
 
 on:
   pull_request:
@@ -16,34 +13,14 @@ permissions:
   contents: read
 
 jobs:
-  guard:
+  tripwire:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - name: checkout
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: install deps
-        run: npm ci
-
-      - name: exit-coverage test
-        run: bash .github/scripts/guard-target-test.sh
-
-      - name: validator unit tests
-        run: node .github/scripts/entry-validate.test.mjs
-
-      - name: guard integration tests
-        run: bash .github/scripts/guard-test.sh
-
-      - name: content guard (working tree)
-        run: bash .github/scripts/content-guard.sh --working-tree
-
-      - name: build (validates every entry)
-        run: npm run build
+      - name: identity tripwire
+        run: bash .github/scripts/content-guard.sh

@@ -1,0 +1,24 @@
+# Identity tripwire terms: strings that have NO legitimate location anywhere in
+# this repo, so any reappearance is by definition a regression.
+#
+# These are the removed /thinking agent's machinery filenames plus two
+# affiliation strings that never belong in the tree. One case-insensitive
+# extended-regex pattern per line; '#' and blank lines ignored.
+#
+# NOTE, on purpose: ADO, Azure DevOps, and MBM are NOT listed. They have real
+# homes (the ADO MCP Server project card, the employer string), so a blind grep
+# cannot tell a regression from the real thing. This is a tripwire for strings
+# with no valid home, not a statement that ADO/MBM are "allowed".
+
+\bUpside\b
+private repo
+
+scout-prompt
+reviewer-prompt
+SKILLS\.md
+projects-context
+agent-ci-settings
+sources\.yaml
+scout\.yml
+reviewer\.yml
+AGENT\.md
