@@ -5,6 +5,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { validateEntry, loadContext } from '../../../.github/scripts/entry-validate.mjs';
 
 type Item = {
   id: string;
@@ -28,19 +29,21 @@ export const getStaticPaths = (async ({ paginate }) => {
   const here = dirname(fileURLToPath(import.meta.url));
   const repoRoot = resolve(here, '..', '..', '..');
   const entriesDir = join(repoRoot, 'agent', 'entries');
+  const ctx = loadContext(repoRoot);
 
-  let entries: Entry[] = [];
-  try {
-    const files = readdirSync(entriesDir)
-      .filter((f) => f.endsWith('.json') && /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
-      .sort()
-      .reverse();
-    for (const f of files) {
-      const raw = readFileSync(join(entriesDir, f), 'utf8');
-      entries.push(JSON.parse(raw) as Entry);
-    }
-  } catch (_e) {
-    entries = [];
+  // Validate every entry with the SAME validator the content guard uses, so an
+  // invalid or off-policy entry (bad schema, non-referenceable project, off-host
+  // source) fails the build rather than rendering. No try/catch: a throw here is
+  // the point.
+  const entries: Entry[] = [];
+  const files = readdirSync(entriesDir)
+    .filter((f) => f.endsWith('.json') && /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+    .sort()
+    .reverse();
+  for (const f of files) {
+    const obj = JSON.parse(readFileSync(join(entriesDir, f), 'utf8'));
+    validateEntry(obj, { hosts: ctx.hosts, projects: ctx.projects, expectedDate: f.replace(/\.json$/, '') });
+    entries.push(obj as Entry);
   }
 
   return paginate(entries, { pageSize: 10 });
@@ -49,6 +52,19 @@ export const getStaticPaths = (async ({ paginate }) => {
 const handle = 'jmbt25';
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, '..', '..', '..');
+
+// Last line of defense: render a source link only if the URL is https and its
+// host is on the same allowlist the validator enforces.
+const { hosts } = loadContext(repoRoot);
+const safeSourceUrl = (url: string | undefined): boolean => {
+  if (!url) return false;
+  try {
+    const u = new URL(url);
+    return u.protocol === 'https:' && hosts.has(u.hostname);
+  } catch {
+    return false;
+  }
+};
 
 const { page } = Astro.props as { page: Page<Entry> };
 
@@ -96,7 +112,7 @@ const fmtDate = (iso: string) => iso;
             <>
               <p class="item-headline">{item.headline}</p>
               <p class="item-body">{item.body}</p>
-              {item.source_url && (
+              {item.source_url && safeSourceUrl(item.source_url) && (
                 <p class="item-source dim">
                   <a href={item.source_url} target="_blank" rel="noopener">{item.source_name || 'source'}: {item.source_title}</a>
                 </p>

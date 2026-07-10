@@ -6,13 +6,14 @@
 # content-guard.sh). For each workflow that runs the agent, this enumerates the
 # exits and fails if any is unguarded:
 #   E1  the agent's stdout is redirected to a *.log AND that log is passed to
-#       content-guard.sh --stdout (it lands in a public Actions log).
-#   E2  a content-guard.sh runs before any `git commit` (guards the staged set).
-#   E3  every `gh pr create --body-file FILE` has FILE passed to content-guard.sh
-#       (the PR body is published but never staged).
+#       content-guard.sh --stdout.
+#   E2  a STAGED-SET guard (a content-guard.sh call that is NOT --stdout) runs
+#       after `git add` and before `git commit`. The stdout guard does not count.
+#   E3  every `gh pr create --body-file FILE` has FILE passed to content-guard.sh.
 #
-# This is the test that catches the next exit someone adds without guarding it.
-# Exit: 0 all exits covered, 1 an exit is unguarded, 2 misconfiguration.
+# Any finding is a failure (exit 1). Deleting the staged-set guard step from a
+# workflow makes E2 fail. Exit: 0 all exits covered, 1 an exit is unguarded,
+# 2 misconfiguration.
 
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
@@ -33,14 +34,17 @@ for wf in .github/workflows/*.yml; do
     echo "  OK   $name: agent stdout ($logfile) is guarded"
   fi
 
-  # E2: a content guard runs before the first git commit
-  commit_line="$(grep -nE 'git( -c [^ ]+)* +commit' "$wf" | head -1 | cut -d: -f1)"
-  guard_line="$(grep -nE 'content-guard\.sh' "$wf" | head -1 | cut -d: -f1)"
+  # E2: a NON-stdout content-guard (the staged-set guard) runs between the first
+  # git add and the first git commit. The stdout guard must NOT satisfy this.
+  add_line="$(grep -nE '(^|[^A-Za-z])git add ' "$wf" | head -1 | cut -d: -f1)"
+  commit_line="$(grep -nE '(^|[^A-Za-z])git( -c [^ ]+)* +commit' "$wf" | head -1 | cut -d: -f1)"
+  staged_guard_line="$(grep -nE 'content-guard\.sh' "$wf" | grep -v -- '--stdout' | head -1 | cut -d: -f1)"
   if [[ -n "$commit_line" ]]; then
-    if [[ -z "$guard_line" || "$guard_line" -ge "$commit_line" ]]; then
-      echo "  FAIL $name: git commit (line $commit_line) is not preceded by a content guard" >&2; fail=1
+    if [[ -z "$add_line" || -z "$staged_guard_line" ]] \
+       || (( add_line >= staged_guard_line )) || (( staged_guard_line >= commit_line )); then
+      echo "  FAIL $name: a staged-set content guard must run after git add and before git commit (stdout guard does not count)" >&2; fail=1
     else
-      echo "  OK   $name: staged set guarded before commit"
+      echo "  OK   $name: staged-set guard runs between git add and git commit"
     fi
   fi
 

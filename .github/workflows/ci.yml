@@ -1,9 +1,11 @@
 name: ci
 
-# Model-free check on every change: the content guard must be green over the
-# agent-authored working tree. There is no staged set on a PR, so the guard runs
-# in --working-tree mode here. (The daily scout/reviewer runs guard the staged
-# set instead, which is exactly what they commit.)
+# Model-free checks on every change. All must pass:
+#   - the exit-coverage test (every runner exit is guarded),
+#   - the validator unit tests (strict schema rejects the attack vectors),
+#   - the guard integration tests (staged-blob read, no content leak, fail-closed),
+#   - the content guard over the agent-authored working tree,
+#   - the site build, which runs the same validator on every entry.
 
 on:
   pull_request:
@@ -16,7 +18,7 @@ permissions:
 jobs:
   guard:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -28,5 +30,20 @@ jobs:
         with:
           node-version: '22'
 
+      - name: install deps
+        run: npm ci
+
+      - name: exit-coverage test
+        run: bash .github/scripts/guard-target-test.sh
+
+      - name: validator unit tests
+        run: node .github/scripts/entry-validate.test.mjs
+
+      - name: guard integration tests
+        run: bash .github/scripts/guard-test.sh
+
       - name: content guard (working tree)
         run: bash .github/scripts/content-guard.sh --working-tree
+
+      - name: build (validates every entry)
+        run: npm run build
