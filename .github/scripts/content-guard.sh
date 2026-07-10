@@ -62,7 +62,9 @@ while IFS= read -r pat; do
   set +e
   files="$(git grep -lIiE -e "$pat" -- . \
     ':(exclude).github/scripts/denylist.txt' \
-    ':(exclude).github/scripts/content-guard.sh')"
+    ':(exclude).github/scripts/forbidden-paths.txt' \
+    ':(exclude).github/scripts/content-guard.sh' \
+    ':(exclude).github/scripts/tripwire-test.sh')"
   rc=$?
   set -e
   case $rc in
