@@ -1,0 +1,29 @@
+name: ci
+
+# Identity tripwire only. Fails the build if an agent-machinery PATH reappears
+# (even an empty file) or a disclosure string reappears in prose. The site itself
+# is built by Cloudflare Pages.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  tripwire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: identity tripwire
+        run: bash .github/scripts/content-guard.sh
+
+      - name: tripwire self-test
+        run: bash .github/scripts/tripwire-test.sh

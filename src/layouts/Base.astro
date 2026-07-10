@@ -4,7 +4,7 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
-  current?: 'home' | 'projects' | 'about' | 'thinking';
+  current?: 'home' | 'projects' | 'about';
   ogImage?: string;
   canonical?: string;
 }
@@ -61,7 +61,6 @@ const ogImageUrl = new URL(ogImage, SITE).href;
       <nav class="nav" aria-label="primary">
         <a href="/" {...(current === 'home' ? { 'aria-current': 'page' } : {})}>home</a>
         <a href="/projects" {...(current === 'projects' ? { 'aria-current': 'page' } : {})}>projects</a>
-        <a href="/thinking" {...(current === 'thinking' ? { 'aria-current': 'page' } : {})}>thinking</a>
         <a href="/about" {...(current === 'about' ? { 'aria-current': 'page' } : {})}>about</a>
       </nav>
     </header>
