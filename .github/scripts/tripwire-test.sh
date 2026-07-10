@@ -10,15 +10,19 @@
 #   (b) content: "private repo" fails without echoing the surrounding content.
 #   fail-closed: an empty denylist, an emptied [exact]/[workflow] section, and a
 #             malformed section header are each exit 2.
+#   no-newline: a pattern file with no trailing newline still loads its last line,
+#             so a final workflow pattern is caught and an unterminated final
+#             header exits 2. The denylist (grep-based loader) is immune.
 #
+# Prints its own assertion total; the count is machine-derived, not hand-asserted.
 # Exit: 0 all passed, 1 a test failed.
 
 set -uo pipefail
 cd "$(git rev-parse --show-toplevel)"
 G=".github/scripts/content-guard.sh"
-fail=0
-pass() { echo "  ok   $1"; }
-bad()  { echo "  FAIL $1"; fail=1; }
+pass_n=0; fail_n=0
+pass() { echo "  ok   $1"; pass_n=$((pass_n + 1)); }
+bad()  { echo "  FAIL $1"; fail_n=$((fail_n + 1)); }
 # Each workflow-case probe gets its own directory. Scout.yml / SCOUT.yml /
 # scout.YML share one basename, and a case-insensitive filesystem (NTFS, APFS)
 # treats them as the same path, which corrupts the index if they are staged in
@@ -30,11 +34,12 @@ NEG_PROBES=(src/content/skills.md src/content/agent.md)
 # (no scout/reviewer basename), unlike agent/scout.yml which matches both. It is
 # the probe the empty-[exact] gap needed.
 EXACT_ONLY_PROBE=agent/agent-ci-settings.json
-ALL_PROBES=(agent/scout.yml "$EXACT_ONLY_PROBE" src/_tripwire_probe.txt "${NEG_PROBES[@]}" "${WF_PROBES[@]}")
+NL_PROBE=src/p8/reviewer.yml   # for the no-trailing-newline pattern test
+ALL_PROBES=(agent/scout.yml "$EXACT_ONLY_PROBE" "$NL_PROBE" src/_tripwire_probe.txt "${NEG_PROBES[@]}" "${WF_PROBES[@]}")
 cleanup() {
   git reset -q HEAD "${ALL_PROBES[@]}" 2>/dev/null || true
   rm -f "${ALL_PROBES[@]}"
-  rm -rf src/p1 src/p2 src/p3 src/p4 src/p5 src/p6 src/p7 src/content
+  rm -rf src/p1 src/p2 src/p3 src/p4 src/p5 src/p6 src/p7 src/p8 src/content
   rmdir agent 2>/dev/null || true
   [[ -f /tmp/denylist.tt.bak ]] && { cp /tmp/denylist.tt.bak .github/scripts/denylist.txt; rm -f /tmp/denylist.tt.bak; }
   [[ -f /tmp/paths.tt.bak ]]    && { cp /tmp/paths.tt.bak    .github/scripts/forbidden-paths.txt; rm -f /tmp/paths.tt.bak; }
@@ -117,6 +122,32 @@ bash "$G" >/dev/null 2>&1; rc=$?
 cp /tmp/paths.tt.bak .github/scripts/forbidden-paths.txt; rm -f /tmp/paths.tt.bak
 [[ $rc -eq 2 ]] && pass "malformed [workflo] header -> exit 2" || bad "malformed header exit=$rc (want 2)"
 
-(( fail )) && { echo "tripwire-test: FAILURES"; exit 1; }
-echo "tripwire-test: all passed"
+# no trailing newline: a dropped final line silently loses the last pattern or an
+# unterminated final header. printf without a trailing \n reproduces it.
+cp .github/scripts/forbidden-paths.txt /tmp/paths.tt.bak
+# final pattern is a workflow name, no trailing newline -> that name still caught
+printf '[exact]\n^agent/\n[workflow]\n(^|/)scout\\.ya?ml$\n(^|/)reviewer\\.ya?ml$' > .github/scripts/forbidden-paths.txt
+stage "$NL_PROBE"
+out="$(bash "$G" 2>&1)"; rc=$?
+[[ $rc -eq 1 ]] && pass "no-trailing-newline: final workflow pattern still catches $NL_PROBE" || bad "no-trailing-newline probe exit=$rc (want 1)"
+unstage "$NL_PROBE"; rm -rf src/p8
+# file ending in an unterminated [workflo] header -> exit 2, not dropped
+printf '[exact]\n^agent/\n[workflow]\n(^|/)scout\\.ya?ml$\n[workflo]' > .github/scripts/forbidden-paths.txt
+bash "$G" >/dev/null 2>&1; rc=$?
+cp /tmp/paths.tt.bak .github/scripts/forbidden-paths.txt; rm -f /tmp/paths.tt.bak
+[[ $rc -eq 2 ]] && pass "unterminated [workflo] header -> exit 2" || bad "unterminated header exit=$rc (want 2)"
+
+# the denylist loader is grep-based, not a read loop, so it never drops the final
+# line. A last term with no trailing newline must still load and catch.
+cp .github/scripts/denylist.txt /tmp/denylist.tt.bak
+printf '# only a comment\nprivate repo' > .github/scripts/denylist.txt
+printf 'clone the private repo here\n' > src/_tripwire_probe.txt; git add src/_tripwire_probe.txt
+bash "$G" >/dev/null 2>&1; rc=$?
+git reset -q HEAD src/_tripwire_probe.txt; rm -f src/_tripwire_probe.txt
+cp /tmp/denylist.tt.bak .github/scripts/denylist.txt; rm -f /tmp/denylist.tt.bak
+[[ $rc -eq 1 ]] && pass "denylist final term w/o trailing newline still catches" || bad "denylist no-newline exit=$rc (want 1)"
+
+total=$((pass_n + fail_n))
+if (( fail_n )); then echo "tripwire-test: $fail_n/$total FAILED"; exit 1; fi
+echo "tripwire-test: $total assertions, all passed"
 exit 0

@@ -51,7 +51,10 @@ fail=0
 exact_patterns=""; workflow_patterns=""; seen_exact=""; seen_workflow=""
 [[ -f "$paths_file" ]] || { echo "tripwire: ERROR $paths_file not found" >&2; exit 2; }
 section=""
-while IFS= read -r line; do
+# `|| [[ -n "$line" ]]` processes a final line with no trailing newline, which an
+# editor or a merge can drop. Without it the last pattern, or an unterminated
+# final header, is silently ignored.
+while IFS= read -r line || [[ -n "$line" ]]; do
   line="${line%%#*}"
   line="$(printf '%s' "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
   [[ -z "$line" ]] && continue
