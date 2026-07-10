@@ -1,24 +1,15 @@
-# Identity tripwire terms: strings that have NO legitimate location anywhere in
-# this repo, so any reappearance is by definition a regression.
+# Content tripwire terms: disclosure strings whose THREAT is the string itself
+# appearing in prose. Filenames are NOT here; those are paths, and paths are
+# scanned by .github/scripts/forbidden-paths.txt (an empty file still gets
+# caught there). One case-insensitive extended-regex pattern per line;
+# '#' and blank lines are ignored.
 #
-# These are the removed /thinking agent's machinery filenames plus two
-# affiliation strings that never belong in the tree. One case-insensitive
-# extended-regex pattern per line; '#' and blank lines ignored.
-#
-# NOTE, on purpose: ADO, Azure DevOps, and MBM are NOT listed. They have real
-# homes (the ADO MCP Server project card, the employer string), so a blind grep
-# cannot tell a regression from the real thing. This is a tripwire for strings
-# with no valid home, not a statement that ADO/MBM are "allowed".
+# NOT here, on purpose:
+#   ADO / Azure DevOps / MBM: they have real homes (the ADO MCP Server card, the
+#   employer string), so a blind grep cannot tell a regression from the real
+#   thing.
+#   Upside: "the upside is" is common prose and the word has never appeared in
+#   this codebase, so scanning for it costs more than it protects. The
+#   filename scan plus "private repo" carry the load.
 
-\bUpside\b
 private repo
-
-scout-prompt
-reviewer-prompt
-SKILLS\.md
-projects-context
-agent-ci-settings
-sources\.yaml
-scout\.yml
-reviewer\.yml
-AGENT\.md

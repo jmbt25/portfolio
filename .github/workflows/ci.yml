@@ -1,8 +1,8 @@
 name: ci
 
-# Identity tripwire only. Fails the build if a removed-agent machinery string or
-# an affiliation string with no legitimate home reappears anywhere in the tree.
-# The site itself is built by Cloudflare Pages.
+# Identity tripwire only. Fails the build if an agent-machinery PATH reappears
+# (even an empty file) or a disclosure string reappears in prose. The site itself
+# is built by Cloudflare Pages.
 
 on:
   pull_request:
@@ -24,3 +24,6 @@ jobs:
 
       - name: identity tripwire
         run: bash .github/scripts/content-guard.sh
+
+      - name: tripwire self-test
+        run: bash .github/scripts/tripwire-test.sh

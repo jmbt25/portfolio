@@ -1,0 +1,18 @@
+# Forbidden-path tripwire: agent-machinery paths that must never reappear.
+#
+# Each non-comment line is an extended regex matched against every tracked path
+# (git ls-files). A match fails the build even if the file is empty, because the
+# PATH itself is the regression, not its content. This is the scan the content
+# grep could not do.
+
+^agent/
+^functions/
+(^|/)scout\.yml$
+(^|/)reviewer\.yml$
+(^|/)scout-prompt\.md$
+(^|/)reviewer-prompt\.md$
+(^|/)SKILLS\.md$
+(^|/)projects-context\.md$
+(^|/)sources\.yaml$
+(^|/)agent-ci-settings\.json$
+(^|/)AGENT\.md$
