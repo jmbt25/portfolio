@@ -48,7 +48,7 @@ load_patterns() {
 fail=0
 
 # ---- (a) filename regression: two groups, different case sensitivity ----
-exact_patterns=""; workflow_patterns=""
+exact_patterns=""; workflow_patterns=""; seen_exact=""; seen_workflow=""
 [[ -f "$paths_file" ]] || { echo "tripwire: ERROR $paths_file not found" >&2; exit 2; }
 section=""
 while IFS= read -r line; do
@@ -56,8 +56,14 @@ while IFS= read -r line; do
   line="$(printf '%s' "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
   [[ -z "$line" ]] && continue
   case "$line" in
-    '[exact]')    section=exact;    continue ;;
-    '[workflow]') section=workflow; continue ;;
+    '[exact]')
+      [[ -n "$seen_exact" ]] && { echo "tripwire: ERROR $paths_file: duplicate [exact] section" >&2; exit 2; }
+      seen_exact=1; section=exact; continue ;;
+    '[workflow]')
+      [[ -n "$seen_workflow" ]] && { echo "tripwire: ERROR $paths_file: duplicate [workflow] section" >&2; exit 2; }
+      seen_workflow=1; section=workflow; continue ;;
+    \[*\])  # any other bracketed line is a header, and no other header is valid
+      echo "tripwire: ERROR $paths_file: unknown section header: $line" >&2; exit 2 ;;
   esac
   case "$section" in
     exact)    exact_patterns+="$line"$'\n' ;;
@@ -65,7 +71,12 @@ while IFS= read -r line; do
     *) echo "tripwire: ERROR $paths_file: pattern outside a section: $line" >&2; exit 2 ;;
   esac
 done < "$paths_file"
-[[ -n "$exact_patterns$workflow_patterns" ]] || { echo "tripwire: ERROR $paths_file has no patterns (misconfiguration)" >&2; exit 2; }
+# Both sections must exist AND hold a pattern. An emptied section is a broken
+# guard that silently stops scanning its half, not a pass.
+[[ -n "$seen_exact" ]]        || { echo "tripwire: ERROR $paths_file: [exact] section missing" >&2; exit 2; }
+[[ -n "$seen_workflow" ]]     || { echo "tripwire: ERROR $paths_file: [workflow] section missing" >&2; exit 2; }
+[[ -n "$exact_patterns" ]]    || { echo "tripwire: ERROR $paths_file: [exact] section is empty" >&2; exit 2; }
+[[ -n "$workflow_patterns" ]] || { echo "tripwire: ERROR $paths_file: [workflow] section is empty" >&2; exit 2; }
 
 scan_paths() {  # PATTERNS GREPFLAGS
   local patterns="$1" flags="$2" pf rc hits
