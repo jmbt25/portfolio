@@ -4,12 +4,19 @@
 # two ways, because they are two different threats:
 #
 #   (a) FILENAME regression: an agent-machinery path reappears. Scans tracked
-#       PATHS (git ls-files) against .github/scripts/forbidden-paths.txt. An
-#       empty scout.yml that mentions nothing is still caught: the PATH is the
-#       regression, not the content.
+#       PATHS (git ls-files) against .github/scripts/forbidden-paths.txt, which
+#       has two groups:
+#         [exact]    matched CASE-SENSITIVELY. One real name each; a case variant
+#                    is not a plausible accident, and case-insensitivity here
+#                    false-positives on legitimate content (src/content/skills.md,
+#                    a docs/agent.md).
+#         [workflow] matched CASE-INSENSITIVELY, whole basename. A copy-paste or a
+#                    tool regenerating a workflow can produce Reviewer.yml or
+#                    SCOUT.yaml, so every capitalization and .yml/.yaml fails.
+#       An empty scout.yml is still caught: the PATH is the regression.
 #   (b) CONTENT regression: a disclosure string reappears in prose. git greps the
-#       tree (minus this tripwire's own files) for the terms in
-#       .github/scripts/denylist.txt, currently just "private repo".
+#       tree (minus this tripwire's own files) for the terms in denylist.txt,
+#       currently just "private repo".
 #
 # Both fail closed. (a) names the offending path; (b) names the file and the
 # pattern, never the surrounding content. It deliberately does not scan ADO /
@@ -22,9 +29,8 @@ cd "$(git rev-parse --show-toplevel)"
 paths_file=".github/scripts/forbidden-paths.txt"
 deny_file=".github/scripts/denylist.txt"
 
-# Load non-comment patterns, failing closed: grep 0 = patterns present, 1 = the
-# list is empty (misconfiguration), anything else = a read error. A partial read
-# that errors must not proceed on an incomplete list.
+# Load non-comment patterns from a flat file, failing closed: grep 0 = present,
+# 1 = empty list (misconfiguration), anything else = a read error.
 load_patterns() {
   local f="$1" out rc
   [[ -f "$f" ]] || { echo "tripwire: ERROR $f not found" >&2; exit 2; }
@@ -41,19 +47,43 @@ load_patterns() {
 
 fail=0
 
-# ---- (a) filename regression: scan tracked PATHS ----
-path_patterns="$(load_patterns "$paths_file")"
-ppf="$(mktemp)"; printf '%s\n' "$path_patterns" > "$ppf"
-set +e
-bad_paths="$(git ls-files | grep -iE -f "$ppf")"
-rc=$?
-set -e
-rm -f "$ppf"
-case $rc in
-  0) echo "tripwire: FAIL agent-machinery path reappeared:" >&2; printf '  %s\n' $bad_paths >&2; fail=1 ;;
-  1) : ;;
-  *) echo "tripwire: ERROR path scan grep exit $rc" >&2; exit 2 ;;
-esac
+# ---- (a) filename regression: two groups, different case sensitivity ----
+exact_patterns=""; workflow_patterns=""
+[[ -f "$paths_file" ]] || { echo "tripwire: ERROR $paths_file not found" >&2; exit 2; }
+section=""
+while IFS= read -r line; do
+  line="${line%%#*}"
+  line="$(printf '%s' "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+  [[ -z "$line" ]] && continue
+  case "$line" in
+    '[exact]')    section=exact;    continue ;;
+    '[workflow]') section=workflow; continue ;;
+  esac
+  case "$section" in
+    exact)    exact_patterns+="$line"$'\n' ;;
+    workflow) workflow_patterns+="$line"$'\n' ;;
+    *) echo "tripwire: ERROR $paths_file: pattern outside a section: $line" >&2; exit 2 ;;
+  esac
+done < "$paths_file"
+[[ -n "$exact_patterns$workflow_patterns" ]] || { echo "tripwire: ERROR $paths_file has no patterns (misconfiguration)" >&2; exit 2; }
+
+scan_paths() {  # PATTERNS GREPFLAGS
+  local patterns="$1" flags="$2" pf rc hits
+  [[ -z "$patterns" ]] && return 0
+  pf="$(mktemp)"; printf '%s' "$patterns" > "$pf"
+  set +e
+  hits="$(git ls-files | grep $flags -f "$pf")"
+  rc=$?
+  set -e
+  rm -f "$pf"
+  case $rc in
+    0) echo "tripwire: FAIL agent-machinery path reappeared:" >&2; printf '  %s\n' $hits >&2; fail=1 ;;
+    1) : ;;
+    *) echo "tripwire: ERROR path scan grep exit $rc" >&2; exit 2 ;;
+  esac
+}
+scan_paths "$exact_patterns"    "-E"    # case-sensitive
+scan_paths "$workflow_patterns" "-iE"   # case-insensitive
 
 # ---- (b) content regression: git grep the tree, per pattern, files-only ----
 content_patterns="$(load_patterns "$deny_file")"

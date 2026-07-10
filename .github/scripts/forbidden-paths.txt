@@ -1,15 +1,21 @@
 # Forbidden-path tripwire: agent-machinery paths that must never reappear.
 #
-# Each non-comment line is an extended regex matched CASE-INSENSITIVELY against
-# every tracked path (git ls-files). A match fails the build even if the file is
-# empty, because the PATH itself is the regression, not its content. This is the
-# scan the content grep could not do. The two workflow patterns allow .yml or
-# .yaml (GitHub accepts both); the other single-name files are matched exactly.
+# Two groups, matched against every tracked path (git ls-files). A match fails
+# the build even if the file is empty, because the PATH is the regression, not
+# its content. Each line is an extended regex.
+#
+# [exact]    matched CASE-SENSITIVELY. Each has one real name; a case variant is
+#            not a plausible accident, and case-insensitivity here would
+#            false-positive on legitimate content such as src/content/skills.md
+#            or a docs/agent.md.
+# [workflow] matched CASE-INSENSITIVELY, over the whole basename. A human
+#            copy-pasting or a tool regenerating a workflow can produce
+#            Reviewer.yml or SCOUT.yaml, so every capitalization and both the
+#            .yml and .yaml spellings must fail.
 
+[exact]
 ^agent/
 ^functions/
-(^|/)scout\.ya?ml$
-(^|/)reviewer\.ya?ml$
 (^|/)scout-prompt\.md$
 (^|/)reviewer-prompt\.md$
 (^|/)SKILLS\.md$
@@ -17,3 +23,7 @@
 (^|/)sources\.yaml$
 (^|/)agent-ci-settings\.json$
 (^|/)AGENT\.md$
+
+[workflow]
+(^|/)scout\.ya?ml$
+(^|/)reviewer\.ya?ml$
