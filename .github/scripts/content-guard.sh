@@ -45,7 +45,7 @@ fail=0
 path_patterns="$(load_patterns "$paths_file")"
 ppf="$(mktemp)"; printf '%s\n' "$path_patterns" > "$ppf"
 set +e
-bad_paths="$(git ls-files | grep -E -f "$ppf")"
+bad_paths="$(git ls-files | grep -iE -f "$ppf")"
 rc=$?
 set -e
 rm -f "$ppf"

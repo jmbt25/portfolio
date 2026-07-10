@@ -1,14 +1,15 @@
 # Forbidden-path tripwire: agent-machinery paths that must never reappear.
 #
-# Each non-comment line is an extended regex matched against every tracked path
-# (git ls-files). A match fails the build even if the file is empty, because the
-# PATH itself is the regression, not its content. This is the scan the content
-# grep could not do.
+# Each non-comment line is an extended regex matched CASE-INSENSITIVELY against
+# every tracked path (git ls-files). A match fails the build even if the file is
+# empty, because the PATH itself is the regression, not its content. This is the
+# scan the content grep could not do. The two workflow patterns allow .yml or
+# .yaml (GitHub accepts both); the other single-name files are matched exactly.
 
 ^agent/
 ^functions/
-(^|/)scout\.yml$
-(^|/)reviewer\.yml$
+(^|/)scout\.ya?ml$
+(^|/)reviewer\.ya?ml$
 (^|/)scout-prompt\.md$
 (^|/)reviewer-prompt\.md$
 (^|/)SKILLS\.md$

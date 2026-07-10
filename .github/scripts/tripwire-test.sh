@@ -15,9 +15,9 @@ fail=0
 pass() { echo "  ok   $1"; }
 bad()  { echo "  FAIL $1"; fail=1; }
 cleanup() {
-  git reset -q HEAD agent/scout.yml src/_tripwire_probe.txt 2>/dev/null || true
-  rm -f agent/scout.yml src/_tripwire_probe.txt
-  rmdir agent 2>/dev/null || true
+  git reset -q HEAD agent/scout.yml src/_tripwire_probe.txt src/Reviewer.yml src/reviewer.yaml src/nested/dir/Scout.YML 2>/dev/null || true
+  rm -f agent/scout.yml src/_tripwire_probe.txt src/Reviewer.yml src/reviewer.yaml
+  rm -rf src/nested; rmdir agent 2>/dev/null || true
   [[ -f /tmp/denylist.tt.bak ]] && { cp /tmp/denylist.tt.bak .github/scripts/denylist.txt; rm -f /tmp/denylist.tt.bak; }
 }
 trap cleanup EXIT
@@ -31,6 +31,18 @@ out="$(bash "$G" 2>&1)"; rc=$?
 [[ $rc -eq 1 ]] && pass "(a) empty agent/scout.yml fails" || bad "(a) filename regression exit=$rc (want 1)"
 grep -q 'agent/scout.yml' <<<"$out" && pass "(a) names the offending path" || bad "(a) did not name the path"
 git reset -q HEAD agent/scout.yml; rm -f agent/scout.yml; rmdir agent 2>/dev/null || true
+
+# (a) case and extension variants must also fail the PATH scan, and via the
+# FILENAME patterns (not the agent/ shortcut): a case-different Reviewer.yml, the
+# .yaml spelling, and a nested case-variant.
+for probe in "src/Reviewer.yml" "src/reviewer.yaml" "src/nested/dir/Scout.YML"; do
+  mkdir -p "$(dirname "$probe")"; : > "$probe"; git add "$probe"
+  out="$(bash "$G" 2>&1)"; rc=$?
+  [[ $rc -eq 1 ]] && pass "(a) $probe fails" || bad "(a) $probe exit=$rc (want 1)"
+  grep -qF "$probe" <<<"$out" && pass "(a)   names $probe" || bad "(a)   did not name $probe"
+  git reset -q HEAD "$probe"; rm -f "$probe"
+done
+rm -rf src/nested 2>/dev/null || true
 
 # (b) content regression: 'private repo' in a tracked file must fail, without
 # echoing the surrounding content (the sentinel).
