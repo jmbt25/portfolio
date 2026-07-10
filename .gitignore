@@ -25,12 +25,6 @@ pnpm-debug.log*
 # claude
 .claude/
 
-# transient artifact written by the reviewer agent for the workflow to consume
-agent/reviewer-pr-body.md
-
-# captured agent stdout (guarded, then printed) in CI
-agent-run.log
-
 # private notes (design/thinking + setup docs)
 CLAUDE.md
 SPEC.md
