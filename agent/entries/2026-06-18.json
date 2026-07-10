@@ -9,7 +9,7 @@
       "source_name": "Claude Code Changelog",
       "headline": "subagent fixes land in Claude Code 2.1.181",
       "body": "claude code 2.1.181 ships subagent reliability fixes: nested chain depth limits, thinking duration accuracy, and subagent transcript viewing. there's also a new `/config key=value` syntax for setting runtime options without editing files. both matter for the portfolio agent system — scout and reviewer run as subagents inside Claude Code on every scheduled workflow run.",
-      "related_project": "portfolio",
+      "related_project": null,
       "confidence": 0.72
     }
   ],

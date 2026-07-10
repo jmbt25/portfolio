@@ -9,7 +9,7 @@
       "source_name": "Claude Code Changelog",
       "headline": "permission rules can now match tool parameters",
       "body": "Claude Code 2.1.178 ships `Tool(param:value)` syntax for permission rules — write `Agent(model:opus)` to block specific subagent models without banning subagents entirely. nested `.claude/` directory resolution also lands, where the closest config to the working directory takes precedence. both changes are directly relevant to the portfolio agent system: model-tier control for scout, scoped config for the Actions workflow.",
-      "related_project": "portfolio",
+      "related_project": null,
       "confidence": 0.8
     }
   ],

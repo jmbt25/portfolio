@@ -3,6 +3,7 @@
   "$comment_2_controls_ranked_by_durability": "1) THE COMMIT STEP is the load-bearing control. Claude Code does not honor scoped Write/Edit allow rules headless (verified in an ubuntu container: only bare Write works, WebFetch(domain:) scoping does work), so the agent can write anywhere not denied. Only paths the workflow `git add`s get committed and published; everything else is discarded with the ephemeral runner. The content guard scans exactly the staged set. 2) THESE DENY RULES are defense in depth for the containment machinery ONLY. 3) BARE WRITE is a tool limitation, not a design choice.",
   "$comment_3_allowlist_inversion_warning": "This deny list is an INVERTED allowlist and it will rot. src/**, functions/**, package.json, astro.config.mjs, and every file added to this repo from now on are WRITABLE by the agent by default. They are NOT protected, they are UNPUBLISHED: nothing stages them, so the commit step drops them. Do not read this list as 'src/ is safe'. Do not try to enumerate every path here; deny-beats-allow means an inverted allowlist is the only shape available. The commit step is the control.",
   "$comment_4_proc": "Read(//proc/**) is denied because the Read tool can open /proc/self/environ and read CLAUDE_CODE_OAUTH_TOKEN from the process environment with no Bash. Verified in an ubuntu container: Read opens /proc; the absolute anchor //proc/** blocks it, the repo-relative /proc/** does not.",
+  "$comment_5_gitattributes": "Write/Edit on .gitattributes (root and nested) is denied: working-tree attributes can re-encode content between the working tree and the index, so the agent must never control them. Defense in depth; the real control is that the content guard reads the exact staged blob (git cat-file blob) via entry-validate.mjs, not the working-tree file.",
   "permissions": {
     "deny": [
       "Bash",
@@ -24,7 +25,11 @@
       "Write(agent/sources.yaml)",
       "Edit(agent/sources.yaml)",
       "Write(AGENT.md)",
-      "Edit(AGENT.md)"
+      "Edit(AGENT.md)",
+      "Write(.gitattributes)",
+      "Edit(.gitattributes)",
+      "Write(**/.gitattributes)",
+      "Edit(**/.gitattributes)"
     ]
   }
 }

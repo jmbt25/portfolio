@@ -9,7 +9,7 @@
       "source_name": "Claude Code Changelog",
       "headline": "claude code fixes headless hook stalls",
       "body": "claude code 2.1.204 fixed hook events not streaming during SessionStart hooks in headless sessions, which could get remote workers idle-reaped mid-hook. scout and reviewer both run as claude -p inside github actions with no interactive session to notice a stall like that. cheap insurance: bump the claude code version those workflows pin and confirm neither job has been silently timing out.",
-      "related_project": "portfolio",
+      "related_project": null,
       "confidence": 0.7
     },
     {

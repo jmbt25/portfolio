@@ -11,17 +11,6 @@
       "body": "claude fable's review of sqlite-utils 4.0rc2 caught a real bug: delete_where() never committed and quietly poisoned the connection. that's exactly the class of failure dota-deals is built to survive — its retry and structured-logging layer exists because steam market ingestion has to tolerate partial failures. worth running the same kind of review pass over dota-deals' data layer; transaction bugs like this hide well in code that looks finished.",
       "related_project": "dota-deals",
       "confidence": 0.65
-    },
-    {
-      "id": "2026-07-07-b",
-      "kind": "new-project",
-      "source_title": "Ternlight – 7 MB embedding model that runs in browser (WASM)",
-      "source_url": "https://ternlight-demo.vercel.app/",
-      "source_name": "Hacker News Front Page",
-      "headline": "tiny embedding model, zero backend",
-      "body": "ternlight is a 7mb embedding model that runs entirely in-browser via wasm, no server needed. that's a real primitive for vector-comparison work — dota weakness report does per-hero vectors server-side today, but a client-side model opens up offline-capable tools too. filipino civic-tech work like laborquest is exactly the context where 'works without reliable internet' matters.",
-      "related_project": null,
-      "confidence": 0.65
     }
   ],
   "meta": {
