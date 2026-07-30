@@ -3,7 +3,7 @@
     "id": "A",
     "claim": "beat 2 raking light on the hero: the starburst foil reads as material, not as a mechanical grid",
     "holoAmountAtCapture": 0.9,
-    "autocorrelationPeakRatio": 2.4,
+    "autocorrelationPeakRatio": 1.71,
     "peakLagPx": 6,
     "limit": 2.5,
     "verdict": "HOLDS",

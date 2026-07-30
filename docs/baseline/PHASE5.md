@@ -16,6 +16,17 @@ npm run verify:fps        # headed, so it runs on the real GPU
 npm run verify:falsifiers
 npm run verify:a11y
 npm run verify:identity
+npm run verify:crossfade
+```
+
+The poster is re-rendered from the running scene, so it needs the preview up
+first and it feeds the asset pipeline rather than the other way round:
+
+```
+npm run preview
+npm run poster            # renders assets-src/poster/slab-poster-phase5-2x-*.png
+npm run assets            # crops it, emits src/data/poster.json
+npm run build
 ```
 
 ---
@@ -51,6 +62,7 @@ ranges from the handoff spec.
 | 5 Lighthouse | See section 8 |
 | 6 axe-core | **Pass.** Zero violations at 1440 and at 390, canvas `aria-hidden` |
 | 7 check-identity | **Pass**, and the Phase 4 caveat is closed. The denylist exists here and the real scan runs |
+| Crossfade | **Pass.** Residual shift 0, 0 device px, residual scale 1.000, mean difference 6.29 of 255 |
 
 ### Gate 2, itemised
 
@@ -205,13 +217,28 @@ front is the one whose textures are replaced. A shader uniform crossfade covers
 the handoff, smoothstepped over `raw` 0.42 to 0.58, so the blend runs while the
 card is edge on and the slab is at plus or minus 92 degrees besides.
 
-**This deviates from the handoff spec, deliberately and on instruction.**
-Section 08 says the face swap happens "by visibility. Never by opacity, and
-never crossfaded." The Phase 5 brief specifies a shader-uniform crossfade. The
-brief is the later instruction and it is followed, and the window is tight
-enough and placed well enough that the two amount to the same thing on screen:
-at the midpoint the card has no projected area for a blend to show through. It
-is recorded here rather than quietly reconciled.
+**The reconciliation stands as built, and this is the record of it.**
+
+Handoff spec section 08 says the face swap happens "by visibility. Never by
+opacity, and never crossfaded." The Phase 5 brief specifies a shader-uniform
+crossfade. Built to the brief, and reviewed: it stands.
+
+What section 08 is protecting is not the mechanism, it is the outcome. A
+crossfade between two card faces held flat to the camera would dissolve one
+image through another and show both at once, and that ghosting is the thing the
+spec is ruling out. Windowing the uniform to the midpoint of the edge-on flip
+preserves that intent by construction rather than by care:
+
+- the blend runs over `raw` 0.42 to 0.58, smoothstepped, which is the middle 16
+  percent of the transition window
+- at `raw` 0.5 the card slot has turned 90 degrees and the card is edge on, so
+  its projected area is zero
+- the slab is simultaneously at plus or minus 92 degrees from its own edge pass
+
+There is no interval where both faces are legible and overlapping, which is the
+condition section 08 exists to prevent. The mechanism differs from the spec; the
+visible result is what the spec asked for. Recorded rather than quietly
+reconciled, and not revisited.
 
 The accumulated slot rotation is a pure function of the scroll position, in half
 turns, so a scrub that reverses lands exactly where it came from. `floor` rather
@@ -339,15 +366,101 @@ within 3.5 seconds that is invisible. It is only visible where the poster stays
 up, which is exactly the reduced-motion path. It is now set inline on the stage
 element.
 
-### Known caveat, the poster shows the placeholder glass
+### The poster is rendered from this scene, and the seam is measured
 
-The brief specifies cropping the existing `assets-src/poster/` 2x render, and
-that is what ships. PHASE4.md notes that render carries the **placeholder** slab
-material, not the one authored here. The crossfade therefore swaps a flat light
-grey acrylic for the fresnel one. The Phase 5 material was tuned toward the
-poster's read to keep the change small, and it is small, but it is a change and
-it is not nothing. Re-rendering the poster from the Phase 5 scene would remove
-it and is a one-line change to which pose the render script uses.
+Closed out after the first pass. The poster originally shipped as a crop of the
+Phase 4 render, which carried the **placeholder** slab material, so the
+crossfade swapped a flat grey acrylic for the fresnel one.
+`scripts/phase5/poster-render.mjs` now renders it from the scene that ships,
+and `scripts/verify/crossfade.mjs` measures what the crossfade interpolates
+between.
+
+**The Phase 4 camera and a seamless crossfade turned out to be incompatible,
+and that was not obvious going in.** Phase 4 framed the slab with a fit-based
+camera at fov 26, which put it 0.3496 m away. The page reproduces the mockup's
+`perspective: 1700px`, which at 1440 x 900 puts it 0.3775 m away at fov 29.6.
+The case is 7 mm deep, so its near face magnifies differently under the two and
+the canvas draws the posed slab 8.25 percent wider than a Phase 4 framed poster
+expects. No single scale registers them, because the difference is in the
+perspective and not only in the size. The poster is therefore rendered through
+the **page's** camera at the page's own beat 1 pose, including the 318 px offset
+from centre, since an off-axis object carries asymmetric perspective a centred
+render would not reproduce. Output stays 2880 x 1800, which is 2x what the gates
+shoot at and the size Phase 4 produced; the composition is preserved by the crop
+rather than by the camera.
+
+Three registration errors surfaced, each found by measuring rather than by
+looking, and each invisible until the one before it was fixed:
+
+| Error | Size | Cause |
+| --- | --- | --- |
+| Camera model | 8.25 percent | Phase 4's fit camera against the page's 1700 px perspective |
+| Ratio denominator | 1.55 percent | `slabFlatWidthPx` was the projected bounding box, which includes the front face magnifying over 7 mm of depth. `--cw` times 1.1075 is defined on the z = 0 plane |
+| Crop anchor | 9 px at 1440 | The crop is centred on the slab's projected centre, the stylesheet anchored it on the object centre, and perspective puts those apart |
+
+The last one is emitted as `offsetXRatioOfCw` and `offsetYRatioOfCw` in
+`src/data/poster.json` and applied in the `.stage-poster` transform.
+
+Measured after all three:
+
+```
+residual shift        0, 0 device px      (limit 2)
+residual scale        1.000               (limit 1 +/- 0.006)
+mean abs difference   6.29 of 255         (limit 8)
+pixels over 12        9.61 percent, reported only
+```
+
+**The gate is registration, not pixel equality.** The poster is a compressed
+still the browser resamples and the canvas is a live render; they cannot be
+pixel identical, and the tail metric mostly counts glyph edges. Residual
+translation and scale test the claim a seam actually makes, which is that the
+canvas draws the same thing in the same place at the same size. The mean
+difference catches a material change that leaves geometry alone. The difference
+image shows single thin edges around the label glyphs rather than doubled ones,
+which is resampling, and before the fixes it showed the text doubled outright.
+
+**The idle is excluded and reported instead.** The slab floats 7 px over 7.5 s
+and yaws plus or minus 1.8 degrees continuously, which sweeps 8.4 px of
+projected width. A still cannot match a moving frame, so the measurement parks
+the idle and the residual it contributes during a real crossfade is stated
+rather than hidden.
+
+**One residual stays by construction.** The page's camera distance depends on
+`--cw`, so one poster is exact at one width. Across the range the 3D path runs
+at, `--cw` 245.8 to 372, near-face magnification varies 1.044 to 1.068, so a
+poster rendered at 1440 is within 2 percent everywhere and exact where the gates
+measure.
+
+### The slab material, retuned
+
+The brief asked for the fresnel parameters to be restored to pre-workaround
+values on the grounds they had been tuned toward flat grey to hide the seam.
+Checking the history, that is not quite what happened and the distinction
+matters for what to restore.
+
+The slab colour and alpha were changed to fix a `DoubleSide` double-composite
+and an over-blue tint, both independent of the poster. The decision that *was*
+constrained by the poster is D10, tone mapping, whose own text says the crossfade
+would otherwise read as a colour shift. The sentence in the first draft of this
+document claiming the material was tuned toward the poster overstated it, and is
+corrected here.
+
+Both were re-decided by rendering rather than by assertion, since the constraint
+is now gone either way:
+
+- **Tone mapping stays off.** An ACES variant rendered through the poster camera
+  is visibly desaturated: the label copy loses contrast, the red rule mutes and
+  the card art dulls. D10's conclusion survives on a reason that does not depend
+  on the poster at all, which is that a canvas compositing over untone-mapped
+  CSS paper should not tone map. D10's rationale is updated to the version that
+  holds.
+- **The fresnel is pushed further than it was.** Four variants compared through
+  the poster camera. The shipped figures move the case from a fairly opaque grey
+  to clear acrylic with a sharper rim: `uGlass` #eef1f3 to #f2f6f9,
+  `uFresnelPower` 2.6 to 3.4, `uBaseAlpha` 0.34 to 0.22, `uWellAlpha` 0.030 to
+  0.022, `uRimAlpha` 0.92 to 1.0. Going further, to a base alpha of 0.16, loses
+  the case edge into the paper on the unlit side, so 0.22 is the floor rather
+  than the direction of travel.
 
 ---
 
@@ -376,6 +489,58 @@ what ships.
 Context restoration is deliberately **not** resumed. Once the static path is
 showing, swapping back mid-scroll is a second unannounced visual change on a
 page the visitor is already reading.
+
+### What actually triggers the static path
+
+Written down because "the animation is not working" is a support question, and
+almost every real instance of it is configuration rather than a defect. Route
+these to config first. The page exposes its own state: read
+`document.querySelector('[data-stage]').dataset.canvas`, which is absent if the
+island never started, `ready` if the canvas is up, `lost` after a context loss,
+and `failed` if the module threw.
+
+**Reduced motion, and it is inherited from the OS.** The guard is
+`matchMedia('(prefers-reduced-motion: reduce)')`, and browsers derive that from
+a system setting rather than from anything in the browser's own preferences:
+
+- Windows: Settings, Accessibility, Visual effects, Animation effects off. Also
+  set by Ease of Access on older builds
+- macOS: System Settings, Accessibility, Display, Reduce motion
+- iOS and iPadOS: Settings, Accessibility, Motion, Reduce Motion
+- Android: Settings, Accessibility, Remove animations
+- GNOME: Settings, Accessibility, Seeing, Reduced Animation
+
+A visitor who turned this on years ago for a different reason will see the
+static path everywhere and have no memory of having asked for it. That is the
+single most likely cause of a "no animation" report from a desktop machine.
+
+**No WebGL2.** The guard is a real `getContext('webgl2')` call, so anything that
+makes that return null takes the static path. In practice:
+
+- **Hardware acceleration disabled.** Chrome and Edge, Settings, System, "Use
+  graphics acceleration when available". Firefox, `gfx.webrender.all` and
+  `layers.acceleration.disabled`. This is a common fix-it step for unrelated
+  problems and it is rarely turned back on
+- **Privacy hardening.** Firefox `privacy.resistFingerprinting` disables WebGL
+  readback and can block context creation outright. The Tor Browser blocks WebGL
+  by default at the standard security level. Brave's fingerprint blocking set to
+  strict, and extensions such as CanvasBlocker or NoScript, do the same
+- **Enterprise policy.** Chrome's `HardwareAccelerationModeEnabled` policy set to
+  false, which is a common managed-desktop default
+- **Driver blocklist.** Chrome maintains a blocklist of GPU and driver
+  combinations; an out-of-date driver can land on it. `chrome://gpu` reports it
+- **Remote sessions and VMs.** RDP, some VDI stacks and headless VMs present no
+  usable GPU
+
+**Under 1024 px.** Layout, not capability. Handoff spec section 06 puts the
+static card in the reading order at these widths on purpose, so a narrow window
+on a capable desktop shows the static path and that is correct. Widening past
+1024 does not start the island on its own, because the guard runs once at load.
+A reload does.
+
+**None of these are failures.** All four render every one of the seven beats as
+plain HTML, which is the point of D2: the fallback is the path every visitor
+renders, not a degraded branch.
 
 ### C1 is enforced, not assumed
 

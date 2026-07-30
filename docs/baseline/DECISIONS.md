@@ -443,14 +443,25 @@ larger number and shipping it is a loss.
 used ACES Filmic.
 
 The two are doing different jobs. Phase 4 framed a lit object on its own, where
-a filmic curve is the right default. Phase 5 composites a canvas over paper
-white, directly beside a static poster of the same slab that the canvas
-crossfades in over. ACES desaturated the card art enough that the crossfade read
-as a colour shift rather than as a swap, which is the one thing the crossfade
-must not do. The shaders are balanced to stay in range instead.
+a filmic curve is the right default. Phase 5 composites a canvas over CSS paper
+white that is not tone mapped and never can be, so a filmic curve on the canvas
+alone puts the slab's whites on a different response from the page they sit on.
+The shaders are balanced to stay in range instead.
+
+**Re-checked at the Phase 5 closeout, and the original justification was
+narrower than the decision.** As first written this cited the poster crossfade:
+ACES desaturated the card enough that the swap read as a colour shift. That
+constraint disappeared when the poster began rendering from this scene, so the
+decision was re-decided by rendering an ACES variant through the poster camera
+and looking at it. ACES is worse on its own terms: the label copy loses
+contrast, the red rule mutes and the card art dulls. The decision stands on the
+compositing argument, which does not depend on the poster.
 
 The rule worth carrying: **a compositing layer should match the surface it
-composites over, not the curve a standalone render would want.**
+composites over, not the curve a standalone render would want.** And the
+smaller one: when a decision is made under a constraint, record which part of
+the reasoning the constraint is carrying, so that removing it later is a
+re-check rather than a rediscovery.
 
 ---
 

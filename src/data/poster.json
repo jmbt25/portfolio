@@ -1,21 +1,52 @@
 {
   "src": "/assets/hero-poster.webp",
-  "width": 824,
-  "height": 1304,
-  "widthRatioOfCw": 1.15494,
+  "width": 1058,
+  "height": 1433,
+  "widthRatioOfCw": 1.42074,
+  "offsetXRatioOfCw": 0.02696,
+  "offsetYRatioOfCw": 0.01399,
   "slabRatioOfCw": 1.1075,
-  "posedOverFlat": 1.03647,
+  "posedOverFlat": 1.09312,
   "crop": {
-    "left": 971,
-    "top": 131,
-    "width": 983,
-    "height": 1556
+    "left": 1604,
+    "top": 245,
+    "width": 982,
+    "height": 1330
   },
-  "sourceBounds": {
-    "left": 974,
-    "top": 134,
-    "width": 977,
-    "height": 1550,
+  "render": {
+    "file": "slab-poster-phase5-2x-2880x1800.png",
+    "camera": {
+      "model": "page, perspective 1700px at 1440x900",
+      "z": 0.37754,
+      "worldPerPx": 0.00022208
+    },
+    "pose": {
+      "rx": 6,
+      "ry": -16,
+      "rz": -2
+    },
+    "slabPosedPx": {
+      "x": 1669.77,
+      "y": 280.58,
+      "width": 849.73,
+      "height": 1258.18
+    },
+    "slabFlatWidthPx": 777.34,
+    "slabFlatWidthAtZ0Px": 765.49,
+    "anchorPx": {
+      "x": 2076,
+      "y": 900
+    },
+    "projectedCentreOffsetPx": {
+      "x": 18.64,
+      "y": 9.67
+    }
+  },
+  "contentBounds": {
+    "left": 1607,
+    "top": 282,
+    "width": 910,
+    "height": 1289,
     "imageW": 2880,
     "imageH": 1800
   },

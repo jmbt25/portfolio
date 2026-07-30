@@ -15,7 +15,9 @@
     "verify:fps": "node scripts/verify/fps.mjs",
     "verify:falsifiers": "node scripts/verify/falsifiers.mjs",
     "verify:a11y": "node scripts/verify/a11y.mjs",
-    "verify:identity": "node scripts/verify/identity.mjs"
+    "verify:identity": "node scripts/verify/identity.mjs",
+    "poster": "node scripts/phase5/poster-render.mjs",
+    "verify:crossfade": "node scripts/verify/crossfade.mjs"
   },
   "dependencies": {
     "astro": "^4.16.0",

@@ -1,0 +1,24 @@
+{
+  "region": {
+    "x": 778,
+    "y": 98,
+    "width": 539,
+    "height": 713
+  },
+  "idleYawSwingPx": 8.4,
+  "idleFloatPx": 7,
+  "residualShiftPx": {
+    "x": 0,
+    "y": 0
+  },
+  "residualScale": 1,
+  "meanAbsoluteDifference": 6.29,
+  "shareOverThreshold": 0.0961,
+  "threshold": 12,
+  "limits": {
+    "shiftPx": 2,
+    "scale": 0.006,
+    "meanAbsoluteDifference": 8
+  },
+  "verdict": "NO VISIBLE SEAM"
+}

@@ -20,7 +20,7 @@ import poster from '../data/poster.json';
   path where the canvas never covers the poster, which is exactly the reduced
   motion path, so it hides from every screenshot taken with the 3D running.
 -->
-<div class="stage" data-stage aria-hidden="true" style={`--poster-ratio:${poster.widthRatioOfCw}`}>
+<div class="stage" data-stage aria-hidden="true" style={`--poster-ratio:${poster.widthRatioOfCw};--poster-dx:${poster.offsetXRatioOfCw};--poster-dy:${poster.offsetYRatioOfCw}`}>
   <canvas class="stage-canvas" data-stage-canvas aria-hidden="true"></canvas>
   <img
     class="stage-poster"

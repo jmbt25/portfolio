@@ -214,7 +214,18 @@ a:focus-visible,
   top: 50%;
   width: calc(var(--cw) * var(--poster-ratio));
   height: auto;
-  transform: translate(-50%, -50%) translate3d(318px, 0, 0);
+  /*
+   * 318px is the slab's object centre, handoff spec section 03. The two extra
+   * terms move the still onto the slab's projected centre, which perspective
+   * puts a few pixels off the object centre on a case with real depth. Both
+   * ratios are generated with the crop. See scripts/phase5/assets.mjs.
+   */
+  transform: translate(-50%, -50%)
+    translate3d(
+      calc(318px + var(--cw) * var(--poster-dx, 0)),
+      calc(var(--cw) * var(--poster-dy, 0)),
+      0
+    );
   transition: opacity 620ms ease;
   opacity: 1;
 }

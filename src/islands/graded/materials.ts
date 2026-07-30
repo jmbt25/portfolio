@@ -308,19 +308,29 @@ export function createSlabMaterial(): ShaderMaterial {
     side: DoubleSide,
     blending: NormalBlending,
     uniforms: {
-      uGlass: { value: new Color(0xeef1f3) },
-      uRim: { value: new Color(0xffffff) },
-      uFresnelPower: { value: 2.6 },
       /*
-       * The alpha is halved against what the case is meant to read at, because
-       * the material is DoubleSide and every ray through the slab crosses two
-       * walls. Two layers at 0.34 composite to 0.56, which is the figure this
-       * is actually tuned to. Setting the intended value here instead gives a
-       * case that is opaque and blue.
+       * Retuned once the poster stopped being a fixed reference.
+       *
+       * The poster now renders from this scene, so nothing here has to sit
+       * beside a still of a different material. The earlier figures held the
+       * case at a fairly opaque grey, which read as a flat plate rather than as
+       * acrylic. Compared by rendering four variants through the poster camera
+       * and looking at them: a lighter body with a sharper fresnel reads as
+       * clear plastic, and going further still, to a base alpha of 0.16, loses
+       * the case edge into the paper on the unlit side.
        */
-      uBaseAlpha: { value: 0.34 },
-      uWellAlpha: { value: 0.030 },
-      uRimAlpha: { value: 0.92 },
+      uGlass: { value: new Color(0xf2f6f9) },
+      uRim: { value: new Color(0xffffff) },
+      uFresnelPower: { value: 3.4 },
+      /*
+       * Halved against what the case is meant to read at, because the material
+       * is DoubleSide and every ray through the slab crosses two walls. Two
+       * layers at 0.22 composite to 0.39. Setting the intended figure here
+       * instead gives a case that is opaque and blue.
+       */
+      uBaseAlpha: { value: 0.22 },
+      uWellAlpha: { value: 0.022 },
+      uRimAlpha: { value: 1.0 },
       uOpacity: { value: 1.0 },
       uLightDir: { value: new Vector3(-0.28, 0.36, 0.72).normalize() },
       uWellMin: { value: new Vector2(-0.033, -0.052) },

@@ -8,7 +8,7 @@
  * generates new imagery; it crops, resamples, transcodes and places.
  *
  * Steps:
- *   1  poster       crop the Phase 4 2x render to the slab, emit WebP + metrics
+ *   1  poster       crop the Phase 5 scene render, emit WebP plus its metrics
  *   2  og           1200x630 social card built from the same render
  *   3  faces        five card faces to WebP for the static and narrow layouts
  *   4  paper        the warm-white grain tile
@@ -38,18 +38,6 @@ const DATA = path.join(REPO, 'src', 'data');
 const KTX_BIN = process.env.KTX_BIN || 'C:\\Program Files\\KTX-Software\\bin';
 
 const PAPER = '#faf5ee';
-
-/** Slab outer dimensions in millimetres, from scripts/blender/spec.py. */
-const SLAB_W_MM = 85.0;
-
-/**
- * Posed bounding box of the beat 1 hero pose, in metres, as measured by the
- * Phase 4 headless render and recorded in PHASE4.md section 5. The poster is a
- * render of the slab at that pose, so its pixel width is the posed width, not
- * the flat width. The page sizes the slab by its flat width, so the poster
- * needs this ratio to line up with the canvas underneath it.
- */
-const POSED_BBOX_M = { x: 0.0881, y: 0.1392 };
 
 /** Slab display width as a ratio of --cw. Per docs/handoff/design-ref/README.md. */
 const SLAB_RATIO_OF_CW = 1.1075;
@@ -103,38 +91,94 @@ async function contentBounds(file, ground, threshold = 6) {
 
 async function poster() {
   log('\n1  poster');
-  const src = path.join(SRC, 'poster', 'slab-poster-2x-2880x1800.png');
-  const bounds = await contentBounds(src, [0xfa, 0xf5, 0xee]);
-  log(`  slab bounds in the 2x render          ${bounds.width} x ${bounds.height}` +
-    ` at ${bounds.left}, ${bounds.top}`);
 
-  // Three pixels of ground on every side. The silhouette threshold puts the
-  // antialiased edge inside the box already; this keeps the reduction from
-  // pulling ground colour across a hard boundary.
+  /*
+   * The source is the Phase 5 render, not the Phase 4 one.
+   *
+   * Phase 4's poster showed the placeholder slab material, so the canvas
+   * crossfading in over it swapped one material for another in front of the
+   * visitor. `scripts/phase5/poster-render.mjs` renders the same pose through
+   * the same camera from the scene that actually ships, which removes the
+   * swap. The Phase 4 render stays in assets-src/poster/ as the artifact that
+   * phase produced.
+   */
+  const src = path.join(SRC, 'poster', 'slab-poster-phase5-2x-2880x1800.png');
+  const metaPath = src.replace(/\.png$/, '.json');
+  if (!fs.existsSync(src) || !fs.existsSync(metaPath)) {
+    throw new Error('missing the Phase 5 poster render. Run:\n' +
+      '  npm run preview\n  node scripts/phase5/poster-render.mjs');
+  }
+  const render = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+
+  const bounds = await contentBounds(src, [0xfa, 0xf5, 0xee]);
+  log(`  content bounds, shadow included       ${bounds.width} x ${bounds.height}` +
+    ` at ${bounds.left}, ${bounds.top}`);
+  log(`  slab, projected                       ${render.slabPosedPx.width.toFixed(0)} x ` +
+    `${render.slabPosedPx.height.toFixed(0)} at ${render.slabPosedPx.x.toFixed(0)}, ` +
+    `${render.slabPosedPx.y.toFixed(0)}`);
+
+  /*
+   * The crop is symmetric about the slab centre, not about the content.
+   *
+   * The contact shadow is offset 34 px down and to one side, so a tight crop of
+   * the content is not centred on the slab. The page positions the poster by
+   * centring it on the slab's centre, so an off-centre crop lands the still
+   * beside the canvas rather than on top of it. Growing the box symmetrically
+   * until it contains the shadow costs a little dead paper and keeps the two
+   * registered.
+   */
+  const cx = render.slabPosedPx.x + render.slabPosedPx.width / 2;
+  const cy = render.slabPosedPx.y + render.slabPosedPx.height / 2;
   const PAD = 3;
+  const halfW = Math.ceil(Math.max(cx - bounds.left, bounds.left + bounds.width - cx)) + PAD;
+  const halfH = Math.ceil(Math.max(cy - bounds.top, bounds.top + bounds.height - cy)) + PAD;
   const crop = {
-    left: bounds.left - PAD,
-    top: bounds.top - PAD,
-    width: bounds.width + PAD * 2,
-    height: bounds.height + PAD * 2,
+    left: Math.round(cx - halfW),
+    top: Math.round(cy - halfH),
+    width: halfW * 2,
+    height: halfH * 2,
   };
 
-  // 412 CSS px is the slab at the clamp maximum, 372 * 1.1075. The poster ships
-  // at 2x that so it is sharp on the displays that will actually see it.
-  const targetW = Math.round(SLAB_RATIO_OF_CW * 372) * 2;
-  const targetH = Math.round(crop.height * (targetW / crop.width));
+  /*
+   * The denominator is the slab's width on the z = 0 plane, not its projected
+   * bounding box. `--cw` times 1.1075 is defined at that plane, and the box is
+   * about 1.5 percent wider because the case is 7 mm deep and its front face
+   * magnifies. Both numbers come out of the render itself; the wrong one made
+   * the poster 1.55 percent small and ghosted the crossfade by 8 device pixels.
+   */
+  const widthRatioOfCw = SLAB_RATIO_OF_CW * (crop.width / render.slabFlatWidthAtZ0Px);
+
+  /*
+   * The crop is centred on the slab's projected centre; the stylesheet anchors
+   * the poster on the slab's object centre, 318 px from the viewport centre.
+   * Perspective puts those two points 18.6 and 9.7 render pixels apart, because
+   * the case is 7 mm deep and turned, so its near half magnifies. Left
+   * uncorrected that is a 9 px horizontal ghost through the crossfade. Both are
+   * divided by the crop width because the poster keeps its aspect, so one
+   * scale factor converts both axes.
+   */
+  const offX = render.slabPosedPx.x + render.slabPosedPx.width / 2 - render.anchorPx.x;
+  const offY = render.slabPosedPx.y + render.slabPosedPx.height / 2 - render.anchorPx.y;
+  const offsetXRatioOfCw = (offX / crop.width) * widthRatioOfCw;
+  const offsetYRatioOfCw = (offY / crop.width) * widthRatioOfCw;
+
+  /*
+   * Sized from where the poster is actually displayed, not from the slab.
+   *
+   * `--cw` tops out at 372, so the widest the poster is ever drawn is
+   * 372 * widthRatioOfCw CSS px, and at a device pixel ratio of 2 that is twice
+   * as many device pixels. Anything smaller is upscaled by the browser: an
+   * earlier version shipped 850 px into a 967 px slot and the softening showed
+   * up as a raised floor in the crossfade difference, which reads like a seam
+   * and is not one.
+   */
+  const targetW = Math.ceil(372 * widthRatioOfCw * 2);
+  const targetH = Math.round(targetW * (crop.height / crop.width));
 
   const out = path.join(OUT, 'hero-poster.webp');
   await sharp(src).extract(crop).resize(targetW, targetH, { kernel: 'lanczos3' })
     .webp({ quality: 84, effort: 6 }).toFile(out);
   stamp('hero-poster.webp', out);
-
-  // The flat slab is 85 mm wide. At this pose it projects to POSED_BBOX_M.x, so
-  // the crop is wider than the flat width by that ratio plus the padding. The
-  // page sizes the slab flat, so the poster has to carry the difference.
-  const posedOverFlat = POSED_BBOX_M.x / (SLAB_W_MM / 1000);
-  const padOverPosed = crop.width / bounds.width;
-  const widthRatioOfCw = SLAB_RATIO_OF_CW * posedOverFlat * padOverPosed;
 
   const meta = {
     src: '/assets/hero-poster.webp',
@@ -142,17 +186,33 @@ async function poster() {
     height: targetH,
     // CSS: width = calc(var(--cw) * widthRatioOfCw)
     widthRatioOfCw: Number(widthRatioOfCw.toFixed(5)),
+    // CSS: translate3d(calc(318px + var(--cw) * offsetXRatioOfCw), ...)
+    offsetXRatioOfCw: Number(offsetXRatioOfCw.toFixed(5)),
+    offsetYRatioOfCw: Number(offsetYRatioOfCw.toFixed(5)),
     slabRatioOfCw: SLAB_RATIO_OF_CW,
-    posedOverFlat: Number(posedOverFlat.toFixed(5)),
+    posedOverFlat: render.posedOverFlat,
     crop,
-    sourceBounds: bounds,
+    render: {
+      file: render.file,
+      camera: render.camera,
+      pose: render.pose,
+      slabPosedPx: render.slabPosedPx,
+      slabFlatWidthPx: render.slabFlatWidthPx,
+      slabFlatWidthAtZ0Px: render.slabFlatWidthAtZ0Px,
+      anchorPx: render.anchorPx,
+      projectedCentreOffsetPx: { x: Number(offX.toFixed(2)), y: Number(offY.toFixed(2)) },
+    },
+    contentBounds: bounds,
     note: 'Generated by scripts/phase5/assets.mjs. Do not edit by hand.',
   };
   ensure(DATA);
   fs.writeFileSync(path.join(DATA, 'poster.json'), `${JSON.stringify(meta, null, 2)}\n`);
-  log(`  posed over flat width                  ${posedOverFlat.toFixed(5)}`);
-  log(`  poster width as a ratio of --cw        ${meta.widthRatioOfCw}`);
-  return { src, crop, targetW, targetH };
+  log(`  crop, centred on the slab             ${crop.width} x ${crop.height}` +
+    ` at ${crop.left}, ${crop.top}`);
+  log(`  posed over flat width                 ${render.posedOverFlat}`);
+  log(`  poster width as a ratio of --cw       ${meta.widthRatioOfCw}`);
+  log(`  centre offset as a ratio of --cw      ${meta.offsetXRatioOfCw}, ${meta.offsetYRatioOfCw}`);
+  return { src, crop, targetW, targetH, slabPosedPx: render.slabPosedPx };
 }
 
 /* ---------------------------------------------------------------------- 2 og */
@@ -162,16 +222,24 @@ async function og(posterInfo) {
   const W = 1200;
   const H = 630;
 
-  // The slab is centred and fills 88 percent of the height. Cropped from the
-  // same 2x render the poster comes from, per the Phase 1 relocation of item
-  // 1g. No lettering is drawn over it: the label inside the render already
-  // carries the name and the subject line, and text composited here would be
-  // invisible to the D4 identity guard, which greps strings and cannot read a
-  // raster.
-  const slabH = Math.round(H * 0.88);
-  const slabW = Math.round(posterInfo.crop.width * (slabH / posterInfo.crop.height));
+  /*
+   * The slab fills 84 percent of the height and is centred. Sized by the slab
+   * rather than by the crop: the crop carries enough dead paper to contain the
+   * contact shadow, and scaling that to 88 percent of the frame put the case
+   * itself at about 78 and left the card looking lost in the middle of a large
+   * empty card.
+   *
+   * No lettering is drawn over it. The label inside the render already carries
+   * the name and the subject line, and text composited here would be invisible
+   * to the D4 identity guard, which greps strings and cannot read a raster.
+   */
+  const targetSlabH = H * 0.84;
+  const cropH = Math.round(targetSlabH * (posterInfo.crop.height / posterInfo.slabPosedPx.height));
+  const cropW = Math.round(posterInfo.crop.width * (cropH / posterInfo.crop.height));
+  const slabH = cropH;
+  const slabW = cropW;
   const slab = await sharp(posterInfo.src).extract(posterInfo.crop)
-    .resize(slabW, slabH, { kernel: 'lanczos3' }).png().toBuffer();
+    .resize(cropW, cropH, { kernel: 'lanczos3' }).png().toBuffer();
 
   const grain = await sharp(path.join(REPO, 'output', 'imagegen', 'paper-grain-warm-white.png'))
     .resize(W, H, { fit: 'cover', kernel: 'lanczos3' }).png().toBuffer();
