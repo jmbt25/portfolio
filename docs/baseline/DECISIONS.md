@@ -96,15 +96,40 @@ of an empty canvas.
 
 These bind all new work on this branch.
 
-### C1. Entrance animations start at opacity 0.55 minimum, never 0.2
+### C1. Entrance reveals animate transform only, never opacity, on text
 
-All new CSS. Entrance and scroll-driven reveal animations start at an opacity of
-at least `0.55`. `prefers-reduced-motion: reduce` forces opacity to `1`.
+**Carry into Phase 2 brief.** This rule replaces the earlier opacity-floor
+constraint wholesale. When the Phase 2 brief goes to Claude Design, this is the
+motion constraint that ships with it, and the 0.55 floor must not travel
+alongside it. The two are alternatives, not layers.
 
-This is the fix for the axe `color-contrast` finding that holds the baseline
-accessibility score at 95. The cause is not the palette. Every color token
-passes AA against the background, `--fg` at 16.16:1 and `--dim` at 6.12:1. The
-cause is this rule in `global.css`:
+The rule:
+
+- Entrance and scroll-driven reveals animate `transform` only. `translateY` from
+  16px to 24px, settling with an ease-out curve.
+- `opacity` stays at `1` at all times for any subtree containing text. It is not
+  animated, not on the container, not on the text itself.
+- `prefers-reduced-motion: reduce` removes the transform animation as well.
+  Content renders settled, in final position, with no entrance at all.
+- Opacity animation remains allowed for **non-text elements only**. The D2 canvas
+  crossfade is explicitly unaffected, since there is no text in that subtree.
+
+**Rationale.** An opacity reveal can only ever be proven safe one token at a
+time, at one alpha at a time. Every new color, every new alpha, every new
+pairing reopens the question and needs a fresh contrast calculation. A
+translate-only reveal cannot regress contrast at any point in the animation,
+under any palette, because the rendered color never changes. It removes the bug
+class instead of tuning around it, and it reads nearly the same on screen.
+
+This supersedes the 0.55 opacity floor, which was necessary but not sufficient.
+Measured, the floor passed `--fg` at 5.29:1 and left `--dim` at 2.57:1, still
+failing 4.5:1. The full table is attached below as the evidence for why the
+floor approach was abandoned rather than raised.
+
+The underlying defect this addresses is the axe `color-contrast` finding that
+holds the baseline accessibility score at 95. The cause is not the palette.
+Every color token passes AA against the background, `--fg` at 16.16:1 and
+`--dim` at 6.12:1. The cause is this rule in `global.css`:
 
 ```css
 main > section {
@@ -121,8 +146,8 @@ what axe reported. Verified by execution at Lighthouse's 412x823 emulation:
 below-fold sections report `opacity=0.2`, and under reduced motion all sections
 report `opacity=1`.
 
-**The 0.55 floor is necessary but not sufficient, and the gap needs a decision
-in Phase 5.** Measured contrast against `#0a0a0a` at each candidate alpha:
+**Why the opacity-floor approach was abandoned.** Measured contrast against
+`#0a0a0a` at each candidate alpha:
 
 | Alpha | `--fg` #e8e8e8 | `--dim` #8f8f8f |
 | --- | --- | --- |
@@ -138,17 +163,11 @@ before it crosses 4.5:1. That matters because the axe failures were not all
 `.project-stack`, `.project-title .year`, and `.dim` spans. Holding those at
 0.55 during a reveal leaves them at 2.57:1 and the audit still fails.
 
-So C1 as written binds, and the remaining gap gets closed one of two ways in
-Phase 5, whichever suits the new stylesheet:
-
-- raise the floor to 0.85 for any element whose subtree contains `--dim` text,
-  which keeps the reveal but weakens it considerably, or
-- animate `transform` only on reveals and leave `opacity` at 1, which sidesteps
-  the blend entirely and is the option I would take
-
-The second is cleaner. A translate-only reveal reads nearly the same, cannot
-regress contrast at any point in the animation, and removes the whole class of
-bug rather than tuning around it.
+Raising the floor to 0.85 would have worked for today's two text tokens, but it
+weakens the reveal to near invisibility and, more importantly, it is a result
+that holds only for this exact palette. Any new dim token in the revamp would
+need the table recomputed. That is the fragility the transform-only rule
+removes.
 
 The existing rule in `global.css` is left alone for now. It gets fixed when the
 stylesheet is rewritten, not as a patch to `main`.
@@ -164,3 +183,15 @@ Remove it in Phase 5, when fonts are being touched anyway. Not before, since
 deleting it in isolation is a change with no runtime effect and a nonzero chance
 of breaking a page that later needs extended Latin coverage. If any revamp copy
 introduces characters in that range, this rule is void and the subset stays.
+
+---
+
+## Known cosmetic, no action
+
+**`.gitkeep` files copy into `dist/`.** `public/assets/cards/.gitkeep` and
+`public/assets/models/.gitkeep` are copied verbatim into `dist/assets/` by
+Astro, since everything under `public/` ships as-is, and they would deploy as
+two empty files. Reviewed and accepted as harmless. It self-resolves in Phase 1
+once real card assets land in those directories and the `.gitkeep` placeholders
+are no longer needed. Recorded here so it is not rediscovered and investigated a
+second time.
