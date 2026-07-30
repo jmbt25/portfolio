@@ -36,7 +36,7 @@ import sharp from 'sharp';
 const args = process.argv.slice(2);
 const arg = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const PAGE_URL = arg('--url', 'http://localhost:4321/');
-const OUT = arg('--out', 'docs/baseline/phase5-evidence/crossfade');
+const OUT = arg('--out', 'docs/baseline-v1/phase5-evidence/crossfade');
 
 /** A per-channel step this size is where a swap starts to be noticeable. */
 const VISIBLE = 12;
