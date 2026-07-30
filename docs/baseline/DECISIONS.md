@@ -159,7 +159,77 @@ Phase 1 output is invalidated by this decision.
 
 ---
 
-## Carry-forward rules
+## D4. Identity boundary, portfolio and studio stay separate
+
+**Decided. Binds every phase and every asset.**
+
+This portfolio and the studio are separate entities. They do not reference each
+other, and the separation is enforced mechanically rather than by memory.
+
+The rules:
+
+- **No studio name, brand, or domain appears anywhere in this repository.** Not
+  in source, not in content, not in comments, not in commit messages, not in
+  documentation, not baked into an image asset.
+- **komikfind ships unlinked.** It appears as a project with no outbound link.
+  It is a studio property, so linking it would join the two identities on a
+  public page regardless of how the link is labelled.
+- **Contact is GitHub and X only.** No studio contact route, no studio email
+  domain, no cross-site footer link.
+
+The studio is deliberately not named in this document. Naming it here to define
+the rule would place it in tracked history permanently and defeat the rule.
+
+### Current state, verified
+
+At the time this was recorded the working tree was already clean. A case
+insensitive search of the entire working tree, excluding `.git` and
+`node_modules`, returned **zero hits**, as did a search of every object on every
+branch in history and a search of the build output. The expected hits in a plan
+document and in `PICKS.md` did not exist, because no plan document is tracked
+here and `PICKS.md` refers to the label by generation filename rather than by
+brand. No grading-mark substitution was needed, and no studio links existed to
+remove.
+
+`assets-src/label-ref.png` was checked visually as well, since text rendered
+into a raster is invisible to grep. It contains placeholder bars and a grade
+numeral, no lettering. That is round two's no-text-in-image-prompts rule paying
+off, and it is why the production label is authored as SVG in Phase 3.
+
+### The guard
+
+`scripts/check-identity.sh` greps the built `dist/` for every denied term and
+exits nonzero on any hit.
+
+Run it as `npm run check:identity`, or `npm run verify` to build and check in
+one step.
+
+**The denylist file must exist locally.** Create `scripts/.identity-denylist`
+with the studio terms, one per line. Blank lines and anything after a `#` are
+ignored, matching is case insensitive and literal. The file is gitignored, and
+that is the entire point: putting the denied terms under version control would
+write them into history permanently, which is the outcome the guard prevents.
+Because it is untracked, **every clone needs the file recreated by hand**, and a
+fresh clone cannot run the guard until that is done.
+
+The script fails closed. A missing denylist, an empty denylist, or a missing
+`dist/` all exit nonzero rather than passing quietly. A guard that reports green
+when it could not actually run is worse than no guard. On failure it prints the
+offending file paths but never the term itself, so a denied string cannot leak
+into a CI log.
+
+**Deliberate limitation, worth knowing before relying on this.** The guard is
+wired into `npm run verify`, not into `npm run build`. Cloudflare Pages runs the
+plain build and has no access to the untracked denylist, so wiring it into
+`build` would either break every deploy or force the guard to pass when the file
+is absent. As it stands this is a local and pre-push gate, not a deploy gate. To
+make it a true deploy gate, set the `IDENTITY_DENYLIST` environment variable as
+a build secret in Cloudflare with the terms newline separated, which the script
+already reads in preference to the file, then move the call into `build`.
+
+A second limitation: grep over `dist/` catches literal strings, including inside
+binary assets, but it cannot read text rendered into an image. Rendered
+lettering still needs a human check, which is one more reason the label is SVG.
 
 These bind all new work on this branch.
 

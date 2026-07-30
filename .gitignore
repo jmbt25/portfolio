@@ -63,3 +63,9 @@ output/
 # bases at any time, so they stay out of main's history. The bases themselves
 # and the recorded verdicts in docs/design-inputs/PICKS.md are what matter.
 assets-src/holo/tile-test/
+
+# Local identity denylist, read by scripts/check-identity.sh. Untracked on
+# purpose: committing the denied terms would put them in history permanently,
+# which is exactly what the guard exists to prevent. See D4 in
+# docs/baseline/DECISIONS.md for how to recreate it.
+scripts/.identity-denylist
