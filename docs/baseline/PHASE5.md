@@ -609,9 +609,29 @@ Run against the Cloudflare Pages preview,
 | | Perf | A11y | Best practices | SEO | FCP | LCP | TBT | CLS | Speed index |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | baseline desktop | 100 | 95 | 100 | 100 | 0.5 s | 0.5 s | 0 ms | 0 | 1.1 s |
-| **phase 5 desktop** | **100** | **100** | **100** | 66 | 0.5 s | 0.6 s | 0 ms | 0.001 | 0.8 s |
+| phase 5 desktop | 100 | 100 | 100 | 66 | 0.5 s | 0.6 s | 0 ms | 0.001 | 0.8 s |
+| **closeout desktop** | **100** | **100** | **100** | 66 | 0.3 s | 0.8 s | 0 ms | **0** | 0.5 s |
 | baseline mobile | 100 | 95 | 100 | 100 | 0.9 s | 1.1 s | 0 ms | 0 | 0.9 s |
-| **phase 5 mobile** | **100** | **100** | **100** | 69 | 0.8 s | 1.4 s | 0 ms | 0 | 0.8 s |
+| phase 5 mobile | 100 | 100 | 100 | 69 | 0.8 s | 1.4 s | 0 ms | 0 | 0.8 s |
+| **closeout mobile** | **100** | **100** | **100** | 69 | 0.8 s | **1.3 s** | 0 ms | 0 | 0.8 s |
+
+**Desktop LCP is noisy at this speed.** Three runs against the preview gave
+0.6, 0.4 and 0.8 s. On a connection where the whole document is under half a
+second, run-to-run variance is larger than any change made here, so the desktop
+LCP row is reported rather than read as a trend. The mobile figures are throttled
+and stable.
+
+**Mobile LCP went 1.4 to 1.7 and back to 1.3.** The re-rendered poster is 1041
+px and 127 KB, sized for the desktop stage, and it grew because it now has to
+carry the contact shadow for the crossfade to register. Mobile draws it at 208
+CSS px, so a phone was fetching about six times the pixels it could show. Both
+img elements and the preload now carry the same `srcset` and `sizes`, so every
+viewport resolves to exactly one file and D2's property that the poster is one
+shared asset on every path is unchanged. The 416 px cut is 30.6 KB. The net is
+0.1 s better than before the poster was ever re-rendered.
+
+**CLS 0.001 to 0.** The srcset carries explicit `sizes`, so the poster's box is
+resolved before it loads on every path rather than on most of them.
 
 **Accessibility 95 to 100.** That is the C1 defect closed. DECISIONS.md
 identified the cause as `@keyframes rise` starting at `opacity: 0.2`, which
