@@ -82,14 +82,18 @@ and downscaled with Lanczos 3.
 All five are genuine downscales at 0.5352, so no upscaling artifacts enter the
 pipeline.
 
-**Assumption that needs confirming.** The brief said 2x the final texture window
-size without stating the final card texture size. The frame master is 2048
-square. Taking the production card texture as 1024 square, half the master, the
-art window occupies 548 x 497 in the final texture and 2x that is 1096 x 994,
-which lands exactly on the window as measured on the master. That coincidence is
-why this reading was chosen. If the production card texture is not 1024 square,
-these five files need regenerating at the correct multiple. Nothing else in the
-pipeline depends on the choice.
+**Sizing resolved, these files stand unchanged.** The Phase 1 prompt asked for 2x
+the final texture window without stating the final texture size, and this was
+processed under a provisional reading. That reading is now superseded by
+[D3](../baseline/DECISIONS.md), which sets the production card texture at
+1008 x 1408 and moves all compositing to the 2048 master scale followed by a
+single Lanczos downscale of the finished card.
+
+Under D3 these five files at 1096 x 994 are exactly master-window scale, so they
+are consumed at native resolution during compositing. **No regeneration is
+needed and no Phase 1 output is invalidated.** The art window lands at 877 x 795
+in texture space after the 0.8 reduction, but that reduction happens to the
+assembled card, not to these source files.
 
 The `project-art-*-rounder-cuter` set was not used. Both sets were complete and
 covered the same four projects, and `matched-card-art-*` was selected as the
@@ -99,13 +103,28 @@ later corrective pass.
 
 ## Character sheet
 
-**PENDING, not recorded here.** The brief calls for the five traits verbatim.
-The traits do not appear anywhere in the repository, the generation outputs
-carry no embedded prompt or parameter metadata, and no plan document is tracked
-on this branch. They have deliberately not been paraphrased or reconstructed,
-since verbatim is the whole point of the requirement.
+Paste this verbatim into any generation depicting Joshua. Do not paraphrase it,
+do not summarise it, and do not reorder it. Round one failed in part because the
+style block was not pasted verbatim, so treat this block as literal text.
 
-Supply the five traits and they go in here unchanged.
+> Chibi cartoon man, short black spiky hair, round glasses, light chin
+> scruff, red hoodie over black pants and black sneakers. Default pose:
+> sitting cross-legged with a laptop. Friendly confident grin. Flat
+> cel-shaded style with thick clean black outlines per the set style
+> block.
+
+The five traits, for checking a generation against the sheet:
+
+1. Short black spiky hair
+2. Round glasses
+3. Light chin scruff
+4. Red hoodie over black pants and black sneakers
+5. Friendly confident grin
+
+Default pose is sitting cross-legged with a laptop. Rendering is flat cel-shaded
+with thick clean black outlines, per the set style block.
+
+The approved hero art, `assets-src/art/hero-art-src.png`, matches all five.
 
 ---
 
@@ -205,16 +224,17 @@ in place until then.
 
 ## Generation IDs
 
-**PENDING, not recorded here.** The brief calls for all generation IDs. The 26
-source PNGs carry no `tEXt`, `iTXt`, `zTXt` or `eXIf` chunks containing prompt
-or generation metadata. The only embedded text is an ImageMagick
-`date:create` and `date:modify` pair on the four frame candidates. No IDs are
-recoverable from the files, and none have been invented.
+**UNAVAILABLE.** No generation IDs were captured for this run and none are
+recoverable. The 26 source PNGs carry no `tEXt`, `iTXt`, `zTXt` or `eXIf` chunks
+containing prompt or generation metadata. The only embedded text is an
+ImageMagick `date:create` and `date:modify` pair on the four frame candidates.
+Nothing has been invented to fill the gap.
 
-Generation times are recoverable from filesystem timestamps and are recorded
-here as a partial substitute, since they establish the order of the passes:
+Batch timestamps from the filesystem are the **permanent substitute**, recorded
+here because they establish the order of the passes and let any output be traced
+back to the batch that produced it.
 
-| Time | Batch |
+| Time, 2026-07-30 | Batch |
 | --- | --- |
 | 13:46 | 4 TCG frame candidates |
 | 13:54 | 3 certification label candidates |
@@ -224,4 +244,15 @@ here as a partial substitute, since they establish the order of the passes:
 | 14:52 | 2 paper grain backgrounds |
 | 15:08 | 4 matched card arts |
 
-Supply the IDs and they go in here against these batches.
+### Consequence
+
+Without seeds, **regenerations are style-matched via the verbatim style block,
+not seed-matched**. Nothing can be reproduced exactly. A regenerated card will
+be a new image that resembles the set rather than a controlled variation of the
+original.
+
+Therefore **any regenerated card must re-pass the five-card set-coherence check
+before entering `assets-src`**. Regenerating one card in isolation and dropping
+it in is not permitted, because a card that looks correct alone can still break
+the set when seen alongside the other four. The check is against the full set of
+five, not against the card it replaces.

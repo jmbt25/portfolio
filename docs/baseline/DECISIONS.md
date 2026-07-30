@@ -92,6 +92,73 @@ of an empty canvas.
 
 ---
 
+## D3. Card texture 1008x1408, composite at master scale
+
+**Decided. Supersedes the 1024x1408 figure in the plan doc, and supersedes the
+"2x final window" phrasing in the Phase 1 prompt.**
+
+### Texture size
+
+Production card texture is **1008 x 1408**.
+
+| Spec | Aspect | Deviation from 63:88 |
+| --- | --- | --- |
+| **1008 x 1408** | 0.715909 | **0.0000 percent** |
+| 1024 x 1408, superseded | 0.727273 | 1.5873 percent |
+
+1008 is 16 x 63 and 1408 is 16 x 88, so the texture is exactly 63:88 at an
+integer scale rather than approximately. Both dimensions divide by 4, 1008 into
+252 and 1408 into 352, which is what KTX2 and Basis need for block compression.
+
+The superseded 1024 x 1408 was not a rounding convenience. It carried a real
+1.59 percent aspect distortion, which on a card read against a real trading card
+silhouette is the kind of error that looks wrong without the viewer being able
+to say why.
+
+### Compositing pipeline
+
+All card compositing happens at the **2048 master scale**, where the frame
+silhouette is 1260 x 1760. That includes the frame, the art, and the SVG text
+overlays. The finished card is then reduced to 1008 x 1408 in a **single Lanczos
+downscale**.
+
+One resample at the end, not one per layer. Compositing at target size would
+resample each layer independently and accumulate softening, and it would land
+the SVG text on a fractional grid. Text stays crisp because it is rasterised
+once at master scale and reduced once.
+
+### Canonical scale chain
+
+This is the reference for Phase 3 and Phase 4. Verified by arithmetic.
+
+| Element | Master, 2048 space | Scale | Texture, 1008x1408 space |
+| --- | --- | --- | --- |
+| Card silhouette | 1260 x 1760 | 0.800000 | **1008 x 1408** |
+| Art window | 1096 x 994 | 0.800000 | **877 x 795** |
+| Art window origin | 490, 233 | 0.800000 | 392, 186 |
+| Text box | 1072 x 385 | 0.800000 | 858 x 308 |
+| Name bar | 1106 x 145 | 0.800000 | 885 x 116 |
+
+The scale is **exactly 0.8000 on both axes**, uniform, with no anisotropy:
+1008 / 1260 = 0.8 and 1408 / 1760 = 0.8. That the reduction is a clean 4:5 is a
+consequence of choosing 1008 rather than 1024, and it is the reason the whole
+chain stays on integers.
+
+Art window rounding: 1096 x 0.8 is 876.8 and 994 x 0.8 is 795.2, so the window
+rounds to 877 x 795. The sub-pixel rounding shifts the window aspect from
+1.102616 to 1.103145, a 0.048 percent change, which is below anything that can
+be seen and well inside the tolerance the frame notches already impose.
+
+### Consequence for existing assets
+
+**The five `assets-src/art/*-art-src.png` files stand unchanged at 1096 x 994.**
+Under this pipeline they are exactly master-window scale, so they are consumed
+at native resolution during compositing and reduced once with the rest of the
+card. The earlier Phase 1 note that they might need regenerating is void. No
+Phase 1 output is invalidated by this decision.
+
+---
+
 ## Carry-forward rules
 
 These bind all new work on this branch.

@@ -53,3 +53,13 @@ public/generated/
 creative-lab/**
 !creative-lab/**/
 !creative-lab/**/*.md
+
+# Raw Codex generation dump, roughly 70 MB. Post-processed results live in
+# assets-src, which is tracked. This must never be one git add -A away from
+# permanent history.
+output/
+
+# Regenerable tile-test diagnostics, roughly 13 MB. Reproducible from the holo
+# bases at any time, so they stay out of main's history. The bases themselves
+# and the recorded verdicts in docs/design-inputs/PICKS.md are what matter.
+assets-src/holo/tile-test/
