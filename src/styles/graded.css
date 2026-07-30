@@ -1,0 +1,534 @@
+/*
+ * The Graded Collection landing.
+ *
+ * Tokens are handoff spec sections 01 to 03. The breakpoint variable blocks are
+ * the WIDE, TABLET and MOBILE maps from the mockup, moved from JavaScript into
+ * media queries so the correct layout is in the first paint rather than applied
+ * after hydration.
+ *
+ * Motion here obeys C1 in docs/baseline/DECISIONS.md. Entrance reveals animate
+ * transform only and opacity is never animated on a subtree that contains text.
+ * The single opacity animation on the page is the canvas crossfade, which is
+ * sanctioned by D2 and lives in a subtree with no text in it.
+ */
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* The latin-ext subset is dropped per C2. No copy on this page needs it. */
+
+:root {
+  color-scheme: light;
+
+  --paper: #faf5ee;
+  --paper2: #f3ecdf;
+  --ink: #121110;
+  --dim: #6f6a63;
+  --rule: #e4ddd1;
+  --brass: #d4a857;
+  --brass-ink: #8a6415;
+
+  --cw: clamp(240px, 24vw, 372px);
+  --slab-ratio: 1.1075;
+
+  --font: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Wide is the default so the widest layout needs no media query to arrive. */
+  --pad: 96px;
+  --colA: 1 / span 5;
+  --colB: 8 / span 5;
+  --colHalf: 1 / span 6;
+  --colFull: 1 / span 12;
+  --beatmin: 100vh;
+  --beatpad: 0px;
+  --stage3d: block;
+  --cardimg: none;
+  --cardgrid: none;
+  --posterimg: none;
+  --rail: flex;
+  --hud: block;
+  --metcols: 1fr 1fr;
+  --cardw2: 300px;
+
+  --t-hero: 64px;
+  --t-display: 48px;
+  --t-h2: 40px;
+  --t-role: 25px;
+  --t-metric: 25px;
+  --t-body: 20px;
+  --t-base: 16px;
+  --t-sm: 13px;
+  --t-micro: 11px;
+}
+
+/*
+ * Below 1024 there is no 3D at any point, which is handoff spec section 06:
+ * "At 768 and below there is no 3D at all", extended to the tablet band
+ * because the mockup's TABLET map also sets the stage to none. The card
+ * becomes a static face image stacked above the panel, in the same reading
+ * order.
+ */
+@media (max-width: 1023.98px) {
+  :root {
+    --pad: 48px;
+    --colA: 1 / span 12;
+    --colB: 1 / span 12;
+    --colHalf: 1 / span 12;
+    --beatmin: auto;
+    --beatpad: 72px;
+    --stage3d: none;
+    --cardimg: block;
+    --cardgrid: grid;
+    --posterimg: block;
+    --rail: none;
+    /*
+     * The choreography readout goes with the stage. The mockup's TABLET map
+     * keeps it, but it reports the state of a scrub that does not exist below
+     * 1024, so it sits there frozen at 01 HERO 0.00% on top of the metrics row.
+     * Dead chrome that covers live copy is not a readout.
+     */
+    --hud: none;
+    --cardw2: 300px;
+
+    --t-hero: 48px;
+    --t-display: 36px;
+    --t-h2: 32px;
+    --t-role: 22px;
+    --t-metric: 22px;
+    --t-body: 18px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --pad: 24px;
+    --beatpad: 56px;
+    --hud: none;
+    --metcols: 1fr;
+    --cardw2: 208px;
+
+    --t-hero: 40px;
+    --t-display: 30px;
+    --t-h2: 28px;
+    --t-role: 20px;
+    --t-metric: 20px;
+    --t-body: 17px;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  position: relative;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--brass); color: var(--ink); }
+
+a { color: var(--brass-ink); text-underline-offset: 3px; }
+a:focus-visible,
+.skip-link:focus-visible { outline: 2px solid var(--brass-ink); outline-offset: 3px; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 20;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 10px 16px;
+  border: 1px solid var(--ink);
+  font-size: var(--t-sm);
+}
+.skip-link:focus { left: 12px; top: 12px; }
+
+/* ---------------------------------------------------------------- ground */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('/assets/paper-warm-white.webp');
+  background-size: 512px 512px;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+}
+
+/* ------------------------------------------------------------- 3D stage */
+
+/*
+ * The stage carries no body copy, which is what lets the canvas crossfade in
+ * on opacity without touching C1. It is aria-hidden and inert to the pointer,
+ * so nothing here is in the accessibility tree or the tab order.
+ */
+.stage {
+  display: var(--stage3d);
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.stage-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 620ms ease;
+}
+.stage[data-canvas='ready'] .stage-canvas { opacity: 1; }
+
+/*
+ * The stage poster. Sized off --cw by the ratio the crop was produced with, so
+ * the still and the render land on the same pixels. See src/data/poster.json
+ * and scripts/phase5/assets.mjs.
+ */
+.stage-poster {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--cw) * var(--poster-ratio));
+  height: auto;
+  /*
+   * 318px is the slab's object centre, handoff spec section 03. The two extra
+   * terms move the still onto the slab's projected centre, which perspective
+   * puts a few pixels off the object centre on a case with real depth. Both
+   * ratios are generated with the crop. See scripts/phase5/assets.mjs.
+   */
+  transform: translate(-50%, -50%)
+    translate3d(
+      calc(318px + var(--cw) * var(--poster-dx, 0)),
+      calc(var(--cw) * var(--poster-dy, 0)),
+      0
+    );
+  transition: opacity 620ms ease;
+  opacity: 1;
+}
+.stage[data-canvas='ready'] .stage-poster { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-canvas, .stage-poster { transition: none; }
+}
+
+/* ---------------------------------------------------------------- chrome */
+
+.rail {
+  display: var(--rail);
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  flex-direction: column;
+  gap: 11px;
+  font-size: var(--t-micro);
+  letter-spacing: 0.14em;
+  color: var(--dim);
+}
+.rail a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+.rail i {
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+  display: block;
+  transition: width 200ms ease;
+}
+@media (prefers-reduced-motion: reduce) { .rail i { transition: none; } }
+.rail a[aria-current='true'] { color: var(--ink); }
+.rail a[aria-current='true'] i { width: 30px; background: var(--brass-ink); }
+
+.hud {
+  display: var(--hud);
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 4;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 12px 14px;
+  width: 244px;
+  font-size: var(--t-micro);
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+  box-shadow: 0 10px 30px -20px rgba(30, 28, 24, 0.5);
+}
+.hud-top {
+  display: flex;
+  justify-content: space-between;
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+.hud hr { height: 1px; background: var(--rule); border: 0; margin: 8px 0; }
+.hud dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 12px;
+  row-gap: 3px;
+  margin: 0;
+}
+.hud dd { margin: 0; color: var(--ink); }
+.hud dd.phase { color: var(--brass-ink); }
+.hud-track { height: 4px; background: var(--rule); margin-top: 10px; position: relative; }
+.hud-bar { position: absolute; inset: 0 auto 0 0; width: 0%; background: var(--brass); }
+
+/* ----------------------------------------------------------- page frame */
+
+.wrap { position: relative; z-index: 2; max-width: 1440px; margin: 0 auto; }
+
+.site-head {
+  padding: 28px var(--pad) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: var(--t-sm);
+  letter-spacing: 0.10em;
+}
+.site-head a { text-decoration: none; color: var(--ink); font-weight: 600; }
+.site-head .tilde { color: var(--brass-ink); margin-right: 0.4ch; }
+.site-head .meta { color: var(--dim); }
+
+.beat {
+  min-height: var(--beatmin);
+  padding: var(--beatpad) var(--pad);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 24px;
+  align-items: center;
+}
+#beat-7 { align-items: end; align-content: end; }
+
+.panel { background: var(--paper); padding: 8px 0; }
+.panel-a { grid-column: var(--colA); }
+.panel-b { grid-column: var(--colB); }
+.panel-full { grid-column: var(--colFull); padding: 32px 0 96px; }
+
+.site-foot {
+  padding: 24px var(--pad) 40px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  font-size: var(--t-sm);
+  color: var(--dim);
+  letter-spacing: 0.06em;
+}
+
+/* ------------------------------------------------------------------ type */
+
+.eyebrow {
+  font-size: var(--t-micro);
+  letter-spacing: 0.20em;
+  color: var(--dim);
+  margin-bottom: 32px;
+}
+h1 {
+  font-size: var(--t-hero);
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin: 0 0 12px;
+}
+.beat h2 {
+  font-size: var(--t-h2);
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+}
+#beat-7 h2 {
+  font-size: var(--t-display);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.role { font-size: var(--t-role); line-height: 1.4; margin: 0 0 24px; }
+.lede { font-size: var(--t-body); line-height: 1.7; margin: 0 0 12px; max-width: 34ch; text-wrap: pretty; }
+.wink { font-size: var(--t-body); line-height: 1.7; margin: 0 0 48px; max-width: 34ch; color: var(--dim); }
+.body { font-size: var(--t-body); line-height: 1.7; margin: 0 0 32px; max-width: 38ch; text-wrap: pretty; }
+.statement {
+  font-size: var(--t-h2);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  text-wrap: pretty;
+}
+.hairline { height: 1px; background: var(--rule); border: 0; margin: 0 0 24px; }
+.caption { font-size: var(--t-base); line-height: 1.7; margin: 0; max-width: 44ch; color: var(--dim); text-wrap: pretty; }
+
+.cue {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--t-micro);
+  letter-spacing: 0.20em;
+  color: var(--dim);
+}
+.cue span:first-child { display: block; width: 1px; height: 28px; background: var(--rule); }
+
+/* --------------------------------------------------------------- metrics */
+
+.metrics {
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: var(--metcols);
+  column-gap: 24px;
+}
+.metrics.closed { border-bottom: 1px solid var(--rule); }
+.metrics > div { padding: 16px 0; }
+.metrics dt {
+  font-size: var(--t-micro);
+  letter-spacing: 0.16em;
+  color: var(--dim);
+  margin-bottom: 6px;
+}
+.metrics dd {
+  font-size: var(--t-metric);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+}
+
+.links {
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+  font-size: var(--t-base);
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.links .note { color: var(--dim); }
+
+/* ------------------------------------------------------------ card stills */
+
+/*
+ * Every static face is lazy. Above 1024 they are display:none and never enter
+ * the viewport, so the desktop path never fetches them at all, which is what
+ * keeps 428 KB of WebP out of the wide initial payload.
+ */
+.card-still {
+  display: var(--cardimg);
+  width: var(--cardw2);
+  height: auto;
+  margin: 0 0 32px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px rgba(40, 38, 34, 0.2), 0 16px 30px -18px rgba(30, 28, 24, 0.5);
+}
+.poster-still {
+  display: var(--posterimg);
+  width: var(--cardw2);
+  height: auto;
+  margin: 0 0 32px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.collection-grid {
+  display: var(--cardgrid);
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+  margin: 0 0 40px;
+}
+.collection-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 0 1px rgba(40, 38, 34, 0.2), 0 10px 20px -12px rgba(30, 28, 24, 0.45);
+}
+
+/* ------------------------------------------------------------------- CTA */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 24px;
+  row-gap: 40px;
+  align-items: end;
+}
+.contact-grid > :first-child { grid-column: var(--colHalf); }
+.contact-grid > :last-child { grid-column: var(--colB); }
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--ink);
+  padding: 14px 20px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: var(--t-base);
+  letter-spacing: 0.06em;
+  margin-bottom: 24px;
+}
+.cta:hover { background: var(--ink); color: var(--paper); }
+
+.elsewhere {
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 24px;
+  row-gap: 8px;
+  padding-top: 20px;
+  font-size: var(--t-base);
+  margin: 0;
+}
+.elsewhere dt {
+  color: var(--dim);
+  font-size: var(--t-micro);
+  letter-spacing: 0.16em;
+  padding-top: 7px;
+}
+.elsewhere dd { margin: 0; }
+
+/* -------------------------------------------------------------- reveals */
+
+/*
+ * C1. Transform only. The reveal offset is 16px on the hero panel and 24px on
+ * every later panel, settling on cubic-bezier(0.16, 1, 0.30, 1) over 640ms.
+ * Opacity is never touched here, so no alpha the text is composited at can
+ * differ from its final one and no contrast calculation is reopened.
+ *
+ * The starting offset is applied by script, not by this stylesheet, so a page
+ * with JavaScript disabled renders settled rather than permanently displaced.
+ */
+[data-reveal] { transition: transform 640ms cubic-bezier(0.16, 1, 0.30, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { transition: none; transform: none !important; }
+}

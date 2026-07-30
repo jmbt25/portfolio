@@ -31,4 +31,58 @@ SPEC.md
 STACK.md
 DEPLOY.md
 CONTENT.md
-docs/
+
+# docs stays private by default. Git cannot re-include a path inside a fully
+# ignored directory, so exclude the children rather than the directory itself,
+# then negate the revamp pipeline dirs that are meant to be tracked.
+docs/*
+!docs/baseline/
+!docs/design-inputs/
+!docs/handoff/
+
+# regenerable experiment output from experiment/cinematic-scroll, roughly 15 MB
+# of concept stills and motion tests. They live on disk permanently and are
+# untracked on every branch, so ignore them here too or they show up as noise.
+public/generated/
+
+# Mirrors the creative-lab rule on experiment/cinematic-scroll so the two
+# branches agree. The heavy output stays ignored, markdown stays trackable.
+# Checking out this branch removes the review docs from disk anyway, since they
+# are tracked over there and absent here, so this mainly keeps the rules
+# consistent and stops any stray markdown from being silently ignored.
+creative-lab/**
+!creative-lab/**/
+!creative-lab/**/*.md
+
+# Raw Codex generation dump, roughly 70 MB. Post-processed results live in
+# assets-src, which is tracked. This must never be one git add -A away from
+# permanent history.
+output/
+
+# Regenerable tile-test diagnostics, roughly 13 MB. Reproducible from the holo
+# bases at any time, so they stay out of main's history. The bases themselves
+# and the recorded verdicts in docs/design-inputs/PICKS.md are what matter.
+assets-src/holo/tile-test/
+
+# Phase 3 texture pipeline local state. The venv is a machine-local
+# interpreter, and build/ holds the decompressed font plus the raw ComfyUI
+# generations, all of which are reproducible: the font from the tracked woff2,
+# the generations from the tracked workflow JSON, prompt and seed recorded in
+# the sidecar metadata. The finished textures in assets-src are what ship.
+.venv-textures/
+scripts/textures/build/
+scripts/textures/__pycache__/
+
+# Phase 4 intermediates. build/blender/ holds scene.blend and the three GLB
+# stages between Blender and the shipped file, all reproducible with
+# `node scripts/phase4.mjs`. The shipped slab.glb, its KTX2 textures, the baked
+# maps and the poster render are tracked; these are the scaffolding.
+build/
+scripts/blender/__pycache__/
+scripts/label/__pycache__/
+
+# Local identity denylist, read by scripts/check-identity.sh. Untracked on
+# purpose: committing the denied terms would put them in history permanently,
+# which is exactly what the guard exists to prevent. See D4 in
+# docs/baseline/DECISIONS.md for how to recreate it.
+scripts/.identity-denylist

@@ -6,12 +6,27 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "check:identity": "bash scripts/check-identity.sh",
+    "verify": "npm run build && npm run check:identity",
+    "assets": "node scripts/phase5/assets.mjs",
+    "verify:screens": "node scripts/verify/shoot.mjs",
+    "verify:bundle": "node scripts/verify/bundle.mjs",
+    "verify:fps": "node scripts/verify/fps.mjs",
+    "verify:falsifiers": "node scripts/verify/falsifiers.mjs",
+    "verify:a11y": "node scripts/verify/a11y.mjs",
+    "verify:identity": "node scripts/verify/identity.mjs",
+    "poster": "node scripts/phase5/poster-render.mjs",
+    "verify:crossfade": "node scripts/verify/crossfade.mjs"
   },
   "dependencies": {
-    "astro": "^4.16.0"
+    "astro": "^4.16.0",
+    "gsap": "^3.13.0",
+    "three": "^0.180.0"
   },
   "devDependencies": {
-    "@astrojs/sitemap": "^3.2.1"
+    "@astrojs/sitemap": "^3.2.1",
+    "@playwright/test": "^1.62.0",
+    "axe-core": "^4.12.1"
   }
 }

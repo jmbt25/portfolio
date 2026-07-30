@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 600;font-display:swap;src:url('assets/fonts/jetbrains-mono-latin.woff2') format('woff2');}
+html,body{margin:0;padding:0;background:#faf5ee;}
+*,*::before,*::after{box-sizing:border-box;}
+a{color:#8a6415;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:#c8b898;}
+a:hover{color:#121110;text-decoration-color:#121110;}
+::selection{background:#d4a857;color:#121110;}
+@keyframes slabIdle{0%{transform:translateY(0)}50%{transform:translateY(-7px)}100%{transform:translateY(0)}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="--paper:#faf5ee;--paper2:#f3ecdf;--ink:#121110;--dim:#6f6a63;--rule:#e4ddd1;--brass:#d4a857;--brass-ink:#8a6415;--cw:clamp(240px,24vw,372px);--pad:96px;--colA:1 / span 5;--colB:8 / span 5;--colHalf:1 / span 6;--colFull:1 / span 12;--beatmin:100vh;--beatpad:0px;--stage3d:block;--cardimg:none;--cardw2:300px;--rail:flex;--hud:block;--metcols:1fr 1fr;--t-hero:64px;--t-display:48px;--t-h2:40px;--t-role:25px;--t-metric:25px;--t-body:20px;--t-base:16px;--t-sm:13px;--t-micro:11px;background:var(--paper);color:var(--ink);font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:16px;line-height:1.7;position:relative;overflow-x:hidden;">
+
+  <div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url(assets/paper-warm-white.png);background-size:512px 512px;opacity:0.55;mix-blend-mode:multiply;"></div>
+
+  <!-- ===================== FIXED 3D STAGE (carries no body copy) ===================== -->
+  <div ref="{{ stageRef }}" aria-hidden="true" style="display:var(--stage3d);position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;perspective:1700px;">
+    <div style="position:absolute;left:50%;top:0;width:100%;max-width:1440px;height:100%;transform:translateX(-50%);">
+
+      <div ref="{{ washRef }}" style="position:absolute;inset:0;opacity:0;background:radial-gradient(60% 50% at 32% 42%,rgba(212,168,87,0.32),transparent 70%);"></div>
+
+      <div ref="{{ slabRef }}" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translate3d(318px,0,0) rotateY(-16deg) rotateX(6deg);transform-style:preserve-3d;will-change:transform;">
+        <div data-slab style="animation:slabIdle 7.5s ease-in-out infinite;transform-style:preserve-3d;">
+        <div style="width:calc(var(--cw) + 40px);padding:14px 20px 20px;border-radius:16px;background:linear-gradient(148deg,rgba(255,255,255,0.94),rgba(216,226,234,0.72) 38%,rgba(244,248,250,0.88) 62%,rgba(206,217,226,0.70));border:1px solid rgba(122,138,152,0.30);box-shadow:0 1px 0 rgba(255,255,255,0.98) inset,0 -2px 0 rgba(96,112,126,0.30) inset,2px 0 0 rgba(255,255,255,0.7) inset,-2px 0 0 rgba(120,136,150,0.18) inset,0 34px 64px -26px rgba(30,28,24,0.44),0 2px 8px rgba(30,28,24,0.12);transform-style:preserve-3d;">
+
+          <div style="background:#ffffff;border:1px solid #121110;display:grid;grid-template-columns:1fr auto auto;font-size:var(--cw);margin-bottom:14px;">
+            <div style="padding:0.030em 0.034em 0.024em;border-right:1px solid #121110;">
+              <div style="font-size:0.026em;letter-spacing:0.20em;font-weight:600;color:#121110;line-height:1.5;">JMBT GRADING</div>
+              <div ref="{{ labelNameRef }}" style="font-size:0.044em;font-weight:600;letter-spacing:-0.01em;color:#121110;line-height:1.25;">JOSHUA</div>
+              <div ref="{{ labelSubRef }}" style="font-size:0.023em;letter-spacing:0.10em;color:#3b3833;line-height:1.5;">DATA SCIENTIST / AI SYSTEMS ENGINEER</div>
+              <div style="height:2px;background:#e0201c;margin:0.020em 0 0.012em;"></div>
+              <div ref="{{ labelCertRef }}" style="font-size:0.020em;letter-spacing:0.14em;color:#6f6a63;line-height:1.5;">CERT 2026 0001 · FIRST EDITION</div>
+            </div>
+            <div style="padding:0.026em 0.030em;border-right:1px solid #121110;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+              <div style="font-size:0.021em;letter-spacing:0.16em;font-weight:600;color:#121110;line-height:1.4;">GEM MT</div>
+              <div style="font-size:0.098em;font-weight:600;letter-spacing:-0.04em;color:#121110;line-height:0.95;">10</div>
+            </div>
+            <div style="padding:0.030em 0.026em;display:flex;flex-direction:column;justify-content:center;gap:0.010em;">
+              <div style="display:flex;gap:0.007em;align-items:flex-end;height:0.068em;">
+                <div style="width:0.008em;height:100%;background:#121110;"></div>
+                <div style="width:0.004em;height:70%;background:#121110;"></div>
+                <div style="width:0.012em;height:100%;background:#121110;"></div>
+                <div style="width:0.004em;height:55%;background:#121110;"></div>
+                <div style="width:0.008em;height:85%;background:#121110;"></div>
+                <div style="width:0.004em;height:100%;background:#121110;"></div>
+                <div style="width:0.010em;height:65%;background:#121110;"></div>
+              </div>
+              <div style="font-size:0.018em;letter-spacing:0.12em;color:#6f6a63;line-height:1.4;">SET 5</div>
+            </div>
+          </div>
+
+          <div ref="{{ wellRef }}" style="position:relative;width:var(--cw);height:calc(var(--cw) * 88 / 63);margin:0 auto;border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px rgba(40,38,34,0.20),0 6px 14px -6px rgba(30,28,24,0.45);--holo:0.16;--sheen:-150%;">
+
+            <div ref="{{ faceHeroRef }}" style="position:absolute;inset:0;font-size:var(--cw);">
+              <img src="assets/cards/hero-face.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;display:block;" />
+              <div style="position:absolute;left:7.619%;top:5.057%;width:86.984%;height:56.477%;overflow:hidden;">
+                <div style="position:absolute;inset:-25%;background-image:url(assets/holo/starburst.png);background-size:56% auto;background-position:center;mix-blend-mode:color-dodge;opacity:var(--holo);"></div>
+                <div style="position:absolute;inset:-10%;background:linear-gradient(102deg,transparent 40%,rgba(255,255,255,0.92) 50%,transparent 60%);mix-blend-mode:overlay;transform:translateX(var(--sheen));"></div>
+              </div>
+              <div style="position:absolute;left:0.47%;top:0.44%;width:15.1%;height:10.81%;display:none;align-items:center;justify-content:center;font-size:0.054em;font-weight:600;color:#121110;letter-spacing:-0.02em;">01</div>
+              <div style="position:absolute;left:76.65%;top:0.44%;width:15.1%;height:10.81%;display:none;align-items:center;justify-content:center;font-size:0.050em;color:#0e7ea8;">◈</div>
+              <div style="position:absolute;left:10.079%;top:63.579%;width:85.079%;height:21.875%;padding:0.020em 0.024em;font-size:var(--cw);display:none;flex-direction:column;justify-content:center;gap:0.010em;">
+                <div style="font-size:0.024em;letter-spacing:0.14em;color:#6f6a63;line-height:1.4;">SUPPORT / ENGINEER · 6 YRS</div>
+                <div style="font-size:0.034em;font-weight:600;letter-spacing:0.06em;color:#121110;line-height:1.3;">IDLE ANIMATION</div>
+                <div style="font-size:0.029em;line-height:1.45;color:#2a2823;">Sits cross-legged with a laptop. Ships anyway.</div>
+              </div>
+              <div style="position:absolute;left:6.111%;top:88.011%;width:87.778%;height:8.239%;display:none;align-items:center;justify-content:center;font-size:0.056em;font-weight:600;letter-spacing:0.10em;color:#121110;">JOSHUA</div>
+            </div>
+
+            <div ref="{{ faceKomikRef }}" style="position:absolute;inset:0;font-size:var(--cw);visibility:hidden;">
+              <img src="assets/cards/komikfind-face.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;display:block;" />
+              <div style="position:absolute;left:7.619%;top:5.057%;width:86.984%;height:56.477%;overflow:hidden;">
+                <div style="position:absolute;inset:-25%;background-image:url(assets/holo/halftone.png);background-size:56% auto;background-position:center;mix-blend-mode:color-dodge;opacity:var(--holo);"></div>
+                <div style="position:absolute;inset:-10%;background:linear-gradient(102deg,transparent 40%,rgba(255,255,255,0.92) 50%,transparent 60%);mix-blend-mode:overlay;transform:translateX(var(--sheen));"></div>
+              </div>
+              <div style="position:absolute;left:0.47%;top:0.44%;width:15.1%;height:10.81%;display:none;align-items:center;justify-content:center;font-size:0.054em;font-weight:600;color:#121110;letter-spacing:-0.02em;">02</div>
+              <div style="position:absolute;left:76.65%;top:0.44%;width:15.1%;height:10.81%;display:none;align-items:center;justify-content:center;font-size:0.050em;color:#0e7ea8;">◈</div>
+              <div style="position:absolute;left:10.079%;top:63.579%;width:85.079%;height:21.875%;padding:0.020em 0.024em;font-size:var(--cw);display:none;flex-direction:column;justify-content:center;gap:0.010em;">
+                <div style="font-size:0.024em;letter-spacing:0.14em;color:#6f6a63;line-height:1.4;">SEARCH / STAGE 1</div>
+                <div style="font-size:0.034em;font-weight:600;letter-spacing:0.06em;color:#121110;line-height:1.3;">PANEL RECALL</div>
+                <div style="font-size:0.029em;line-height:1.45;color:#2a2823;">Search the whole shelf at once. Median search stage 3.9s to 472ms.</div>
+              </div>
+              <div style="position:absolute;left:6.111%;top:88.011%;width:87.778%;height:8.239%;display:none;align-items:center;justify-content:center;font-size:0.056em;font-weight:600;letter-spacing:0.10em;color:#121110;">KOMIKFIND</div>
+            </div>
+
+            <div ref="{{ faceKalakalRef }}" style="position:absolute;inset:0;font-size:var(--cw);visibility:hidden;">
+              <img src="assets/cards/kalakal-face.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;display:block;" />
+              <div style="position:absolute;left:7.619%;top:5.057%;width:86.984%;height:56.477%;overflow:hidden;">
+                <div style="position:absolute;inset:-25%;background-image:url(assets/holo/hex.png);background-size:56% auto;background-position:center;mix-blend-mode:color-dodge;opacity:var(--holo);"></div>
+                <div style="position:absolute;inset:-10%;background:linear-gradient(102deg,transparent 40%,rgba(255,255,255,0.92) 50%,transparent 60%);mix-blend-mode:overlay;transform:translateX(var(--sheen));"></div>
+              </div>
+              <div style="position:absolute;left:0.47%;top:0.44%;width:15.1%;height:10.81%;display:none;align-items:center;justify-content:center;font-size:0.054em;font-weight:600;color:#121110;letter-spacing:-0.02em;">03</div>
+              <div style="position:absolute;left:76.65%;top:0.44%;width:15.1%;height:10.81%;display:none;align-items:center;justify-content:center;font-size:0.050em;color:#0e7ea8;">◈</div>
+              <div style="position:absolute;left:10.079%;top:63.579%;width:85.079%;height:21.875%;padding:0.020em 0.024em;font-size:var(--cw);display:none;flex-direction:column;justify-content:center;gap:0.010em;">
+                <div style="font-size:0.024em;letter-spacing:0.14em;color:#6f6a63;line-height:1.4;">AGENT / SOLANA</div>
+                <div style="font-size:0.034em;font-weight:600;letter-spacing:0.06em;color:#121110;line-height:1.3;">POLICY GATE</div>
+                <div style="font-size:0.029em;line-height:1.45;color:#2a2823;">The agent proposes. The executor enforces. DRY_RUN is the hard default.</div>
+              </div>
+              <div style="position:absolute;left:6.111%;top:88.011%;width:87.778%;height:8.239%;display:none;align-items:center;justify-content:center;font-size:0.056em;font-weight:600;letter-spacing:0.10em;color:#121110;">KALAKAL</div>
+            </div>
+
+            <div ref="{{ faceRaidRef }}" style="position:absolute;inset:0;font-size:var(--cw);visibility:hidden;">
+              <img src="assets/cards/raidyard-face.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;display:block;" />
+              <div style="position:absolute;left:7.619%;top:5.057%;width:86.984%;height:56.477%;overflow:hidden;">
+                <div style="position:absolute;inset:-25%;background-image:url(assets/holo/prismatic.png);background-size:56% auto;background-position:center;mix-blend-mode:color-dodge;opacity:var(--holo);"></div>
+                <div style="position:absolute;inset:-10%;background:linear-gradient(102deg,transparent 40%,rgba(255,255,255,0.92) 50%,transparent 60%);mix-blend-mode:overlay;transform:translateX(var(--sheen));"></div>
+              </div>
+              <div style="position:absolute;left:0.47%;top:0.44%;width:15.1%;height:10.81%;display:none;align-items:center;justify-content:center;font-size:0.054em;font-weight:600;color:#121110;letter-spacing:-0.02em;">04</div>
+              <div style="position:absolute;left:76.65%;top:0.44%;width:15.1%;height:10.81%;display:none;align-items:center;justify-content:center;font-size:0.050em;color:#0e7ea8;">◈</div>
+              <div style="position:absolute;left:10.079%;top:63.579%;width:85.079%;height:21.875%;padding:0.020em 0.024em;font-size:var(--cw);display:none;flex-direction:column;justify-content:center;gap:0.010em;">
+                <div style="font-size:0.024em;letter-spacing:0.14em;color:#6f6a63;line-height:1.4;">GAME / DEVVIT WEB</div>
+                <div style="font-size:0.034em;font-weight:600;letter-spacing:0.06em;color:#121110;line-height:1.3;">ASYNC RAID</div>
+                <div style="font-size:0.029em;line-height:1.45;color:#2a2823;">Resolves inside the post. Deterministic sim, same result for every player.</div>
+              </div>
+              <div style="position:absolute;left:6.111%;top:88.011%;width:87.778%;height:8.239%;display:none;align-items:center;justify-content:center;font-size:0.056em;font-weight:600;letter-spacing:0.10em;color:#121110;">RAIDYARD</div>
+            </div>
+
+            <div ref="{{ faceDotaRef }}" style="position:absolute;inset:0;font-size:var(--cw);visibility:hidden;">
+              <img src="assets/cards/dotaweakness-face.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;display:block;" />
+              <div style="position:absolute;left:7.619%;top:5.057%;width:86.984%;height:56.477%;overflow:hidden;">
+                <div style="position:absolute;inset:-25%;background-image:url(assets/holo/prismatic.png);background-size:56% auto;background-position:center;mix-blend-mode:color-dodge;opacity:var(--holo);"></div>
+                <div style="position:absolute;inset:-10%;background:linear-gradient(102deg,transparent 40%,rgba(255,255,255,0.92) 50%,transparent 60%);mix-blend-mode:overlay;transform:translateX(var(--sheen));"></div>
+              </div>
+              <div style="position:absolute;left:0.47%;top:0.44%;width:15.1%;height:10.81%;display:none;align-items:center;justify-content:center;font-size:0.054em;font-weight:600;color:#121110;letter-spacing:-0.02em;">05</div>
+              <div style="position:absolute;left:76.65%;top:0.44%;width:15.1%;height:10.81%;display:none;align-items:center;justify-content:center;font-size:0.050em;color:#0e7ea8;">◈</div>
+              <div style="position:absolute;left:10.079%;top:63.579%;width:85.079%;height:21.875%;padding:0.020em 0.024em;font-size:var(--cw);display:none;flex-direction:column;justify-content:center;gap:0.010em;">
+                <div style="font-size:0.024em;letter-spacing:0.14em;color:#6f6a63;line-height:1.4;">ANALYSIS / DOTA 2</div>
+                <div style="font-size:0.034em;font-weight:600;letter-spacing:0.06em;color:#121110;line-height:1.3;">HONEST MODE</div>
+                <div style="font-size:0.029em;line-height:1.45;color:#2a2823;">Reveal nine analysis cards. A banned-token validator blocks the comforting words.</div>
+              </div>
+              <div style="position:absolute;left:6.111%;top:88.011%;width:87.778%;height:8.239%;display:none;align-items:center;justify-content:center;font-size:0.052em;font-weight:600;letter-spacing:0.08em;color:#121110;">DOTAWEAKNESS</div>
+            </div>
+
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <img ref="{{ posterRef }}" src="assets/hero-poster-v2.png" alt="" style="position:absolute;left:50%;top:50%;width:calc(var(--cw) + 40px);height:auto;transform:translate(-50%,-50%) translate3d(318px,0,0) rotateX(6deg) rotateY(-16deg) rotateZ(-2deg);transition:opacity 620ms ease;opacity:1;" />
+
+      <div ref="{{ fanRef }}" style="position:absolute;left:50%;top:32%;transform:translate(-50%,-50%) translateY(120vh);--sp:0;">
+        <div style="position:relative;width:calc(var(--cw) * 0.62);height:calc(var(--cw) * 0.62 * 88 / 63);">
+          <div style="position:absolute;inset:0;font-size:calc(var(--cw) * 0.62);transform-origin:50% 130%;transform:rotate(calc(-15deg * var(--sp))) translate(calc(-238px * var(--sp)),calc(30px * var(--sp)));">
+            <img src="assets/cards/hero-face.png" alt="" style="width:100%;height:100%;display:block;border-radius:6px;box-shadow:0 0 0 1px rgba(40,38,34,0.22),0 14px 26px -14px rgba(30,28,24,0.5);" />
+            <div style="position:absolute;left:6.111%;top:88.011%;width:87.778%;height:8.239%;display:none;align-items:center;justify-content:center;font-size:0.056em;font-weight:600;letter-spacing:0.08em;color:#121110;">JOSHUA</div>
+          </div>
+          <div style="position:absolute;inset:0;font-size:calc(var(--cw) * 0.62);transform-origin:50% 130%;transform:rotate(calc(-7.5deg * var(--sp))) translate(calc(-119px * var(--sp)),calc(8px * var(--sp)));">
+            <img src="assets/cards/komikfind-face.png" alt="" style="width:100%;height:100%;display:block;border-radius:6px;box-shadow:0 0 0 1px rgba(40,38,34,0.22),0 14px 26px -14px rgba(30,28,24,0.5);" />
+            <div style="position:absolute;left:6.111%;top:88.011%;width:87.778%;height:8.239%;display:none;align-items:center;justify-content:center;font-size:0.050em;font-weight:600;letter-spacing:0.06em;color:#121110;">KOMIKFIND</div>
+          </div>
+          <div style="position:absolute;inset:0;font-size:calc(var(--cw) * 0.62);">
+            <img src="assets/cards/kalakal-face.png" alt="" style="width:100%;height:100%;display:block;border-radius:6px;box-shadow:0 0 0 1px rgba(40,38,34,0.22),0 18px 34px -14px rgba(30,28,24,0.55);" />
+            <div style="position:absolute;left:6.111%;top:88.011%;width:87.778%;height:8.239%;display:none;align-items:center;justify-content:center;font-size:0.056em;font-weight:600;letter-spacing:0.08em;color:#121110;">KALAKAL</div>
+          </div>
+          <div style="position:absolute;inset:0;font-size:calc(var(--cw) * 0.62);transform-origin:50% 130%;transform:rotate(calc(7.5deg * var(--sp))) translate(calc(119px * var(--sp)),calc(8px * var(--sp)));">
+            <img src="assets/cards/raidyard-face.png" alt="" style="width:100%;height:100%;display:block;border-radius:6px;box-shadow:0 0 0 1px rgba(40,38,34,0.22),0 14px 26px -14px rgba(30,28,24,0.5);" />
+            <div style="position:absolute;left:6.111%;top:88.011%;width:87.778%;height:8.239%;display:none;align-items:center;justify-content:center;font-size:0.052em;font-weight:600;letter-spacing:0.06em;color:#121110;">RAIDYARD</div>
+          </div>
+          <div style="position:absolute;inset:0;font-size:calc(var(--cw) * 0.62);transform-origin:50% 130%;transform:rotate(calc(15deg * var(--sp))) translate(calc(238px * var(--sp)),calc(30px * var(--sp)));">
+            <img src="assets/cards/dotaweakness-face.png" alt="" style="width:100%;height:100%;display:block;border-radius:6px;box-shadow:0 0 0 1px rgba(40,38,34,0.22),0 14px 26px -14px rgba(30,28,24,0.5);" />
+            <div style="position:absolute;left:6.111%;top:88.011%;width:87.778%;height:8.239%;display:none;align-items:center;justify-content:center;font-size:0.038em;font-weight:600;letter-spacing:0.04em;color:#121110;">DOTAWEAKNESS</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== BEAT RAIL ===================== -->
+  <nav ref="{{ railRef }}" aria-label="beats" style="display:var(--rail);position:fixed;left:20px;top:50%;transform:translateY(-50%);z-index:3;flex-direction:column;gap:11px;font-size:var(--t-micro);letter-spacing:0.14em;color:var(--dim);">
+    <a href="#beat-1" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;"><span style="width:14px;height:1px;background:currentColor;display:block;"></span>01</a>
+    <a href="#beat-2" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;"><span style="width:14px;height:1px;background:currentColor;display:block;"></span>02</a>
+    <a href="#beat-3" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;"><span style="width:14px;height:1px;background:currentColor;display:block;"></span>03</a>
+    <a href="#beat-4" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;"><span style="width:14px;height:1px;background:currentColor;display:block;"></span>04</a>
+    <a href="#beat-5" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;"><span style="width:14px;height:1px;background:currentColor;display:block;"></span>05</a>
+    <a href="#beat-6" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;"><span style="width:14px;height:1px;background:currentColor;display:block;"></span>06</a>
+    <a href="#beat-7" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;"><span style="width:14px;height:1px;background:currentColor;display:block;"></span>07</a>
+  </nav>
+
+  <!-- ===================== CHOREOGRAPHY HUD ===================== -->
+  <div style="display:var(--hud);position:fixed;right:20px;bottom:20px;z-index:4;background:var(--paper);border:1px solid var(--rule);padding:12px 14px;width:244px;font-size:var(--t-micro);line-height:1.6;letter-spacing:0.08em;color:var(--dim);box-shadow:0 10px 30px -20px rgba(30,28,24,0.5);">
+    <div style="display:flex;justify-content:space-between;color:var(--ink);font-weight:600;letter-spacing:0.14em;">
+      <span>SCROLL CHOREOGRAPHY</span><span ref="{{ hudPctRef }}">0.00%</span>
+    </div>
+    <div style="height:1px;background:var(--rule);margin:8px 0;"></div>
+    <div style="display:grid;grid-template-columns:auto 1fr;column-gap:12px;row-gap:3px;">
+      <span>BEAT</span><span ref="{{ hudBeatRef }}" style="color:var(--ink);">01 HERO</span>
+      <span>RANGE</span><span ref="{{ hudRangeRef }}" style="color:var(--ink);">0.00 to 14.29%</span>
+      <span>PHASE</span><span ref="{{ hudPhaseRef }}" style="color:var(--brass-ink);">ENTRANCE</span>
+    </div>
+    <div style="height:4px;background:var(--rule);margin-top:10px;position:relative;">
+      <div ref="{{ hudBarRef }}" style="position:absolute;left:0;top:0;bottom:0;width:0%;background:var(--brass);"></div>
+    </div>
+  </div>
+
+  <!-- ===================== HEADER ===================== -->
+  <header style="position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:28px var(--pad) 0;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;font-size:var(--t-sm);letter-spacing:0.10em;">
+    <a href="#beat-1" style="text-decoration:none;color:var(--ink);font-weight:600;"><span style="color:var(--brass-ink);margin-right:0.4ch;">~</span>jmbt25</a>
+    <span style="color:var(--dim);">JMBT GRADING · POP 1 · 2026</span>
+  </header>
+
+  <!-- ===================== BEAT 1 HERO ===================== -->
+  <section id="beat-1" data-screen-label="01 Hero" style="position:relative;z-index:2;min-height:var(--beatmin);padding:var(--beatpad) var(--pad);max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:center;">
+    <div data-reveal style="grid-column:var(--colA);background:var(--paper);padding:8px 0;">
+      <img src="assets/hero-poster-v2.png" alt="Graded slab, JMBT GRADING, GEM MT 10" style="display:var(--cardimg);width:var(--cardw2);height:auto;margin:0 0 32px;" />
+      <div style="font-size:var(--t-micro);letter-spacing:0.20em;color:var(--dim);margin-bottom:32px;">01 / 07 · CERT 2026 0001</div>
+      <h1 style="font-size:var(--t-hero);line-height:1.05;font-weight:600;letter-spacing:-0.03em;margin:0 0 12px;color:var(--ink);">joshua</h1>
+      <p style="font-size:var(--t-role);line-height:1.4;margin:0 0 24px;color:var(--ink);">Data Scientist / AI Systems Engineer</p>
+      <p style="font-size:var(--t-body);line-height:1.7;margin:0 0 12px;max-width:34ch;color:var(--ink);text-wrap:pretty;">Six years of data and ML systems out of Manila. Pipelines that hold, agents that stay on their rails, small tools with opinions.</p>
+      <p style="font-size:var(--t-body);line-height:1.7;margin:0 0 48px;max-width:34ch;color:var(--dim);">Graded once, by me, generously.</p>
+      <div style="display:flex;align-items:center;gap:12px;font-size:var(--t-micro);letter-spacing:0.20em;color:var(--dim);">
+        <span style="display:block;width:1px;height:28px;background:var(--rule);"></span>
+        <span>SCROLL · THE SLAB TURNS</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BEAT 2 REVEAL ===================== -->
+  <section id="beat-2" data-screen-label="02 Reveal" style="position:relative;z-index:2;min-height:var(--beatmin);padding:var(--beatpad) var(--pad);max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:center;">
+    <div data-reveal style="grid-column:var(--colB);background:var(--paper);padding:8px 0;">
+      <img src="assets/cards/hero-face.png" alt="Card face, JOSHUA" style="display:var(--cardimg);width:var(--cardw2);height:auto;margin:0 0 32px;border-radius:6px;box-shadow:0 0 0 1px rgba(40,38,34,0.2),0 16px 30px -18px rgba(30,28,24,0.5);" />
+      <div style="font-size:var(--t-micro);letter-spacing:0.20em;color:var(--dim);margin-bottom:32px;">02 / 07 · THE REVEAL</div>
+      <p style="font-size:var(--t-h2);line-height:1.2;font-weight:600;letter-spacing:-0.02em;margin:0 0 24px;color:var(--ink);text-wrap:pretty;">Build the boring rails first, then the clever part is safe to ship.</p>
+      <div style="height:1px;background:var(--rule);margin:0 0 24px;"></div>
+      <p style="font-size:var(--t-base);line-height:1.7;margin:0;max-width:44ch;color:var(--dim);text-wrap:pretty;">Raking light crosses the case, foil flares through the art window. The seams show on purpose.</p>
+    </div>
+  </section>
+
+  <!-- ===================== BEAT 3 KOMIKFIND ===================== -->
+  <section id="beat-3" data-screen-label="03 komikfind" style="position:relative;z-index:2;min-height:var(--beatmin);padding:var(--beatpad) var(--pad);max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:center;">
+    <div data-reveal style="grid-column:var(--colA);background:var(--paper);padding:8px 0;">
+      <img src="assets/cards/komikfind-face.png" alt="Card face, KOMIKFIND" style="display:var(--cardimg);width:var(--cardw2);height:auto;margin:0 0 32px;border-radius:6px;box-shadow:0 0 0 1px rgba(40,38,34,0.2),0 16px 30px -18px rgba(30,28,24,0.5);" />
+      <div style="font-size:var(--t-micro);letter-spacing:0.20em;color:var(--dim);margin-bottom:32px;">03 / 07 · PROJECT</div>
+      <h2 style="font-size:var(--t-h2);line-height:1.15;font-weight:600;letter-spacing:-0.02em;margin:0 0 20px;color:var(--ink);">komikfind</h2>
+      <p style="font-size:var(--t-body);line-height:1.7;margin:0 0 32px;max-width:38ch;color:var(--ink);text-wrap:pretty;">Semantic manga search that reads panels instead of filenames. Describe a half-remembered scene and it hands back the chapter.</p>
+      <div style="border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);display:grid;grid-template-columns:var(--metcols);column-gap:24px;">
+        <div style="padding:16px 0;">
+          <div style="font-size:var(--t-micro);letter-spacing:0.16em;color:var(--dim);margin-bottom:6px;">MEDIAN SEARCH STAGE</div>
+          <div style="font-size:var(--t-metric);font-weight:600;letter-spacing:-0.02em;color:var(--ink);">3.9s → 472ms</div>
+        </div>
+        <div style="padding:16px 0;">
+          <div style="font-size:var(--t-micro);letter-spacing:0.16em;color:var(--dim);margin-bottom:6px;">INT8 QUANTIZATION</div>
+          <div style="font-size:var(--t-metric);font-weight:600;letter-spacing:-0.02em;color:var(--ink);">8.2x</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BEAT 4 KALAKAL ===================== -->
+  <section id="beat-4" data-screen-label="04 kalakal" style="position:relative;z-index:2;min-height:var(--beatmin);padding:var(--beatpad) var(--pad);max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:center;">
+    <div data-reveal style="grid-column:var(--colB);background:var(--paper);padding:8px 0;">
+      <img src="assets/cards/kalakal-face.png" alt="Card face, KALAKAL" style="display:var(--cardimg);width:var(--cardw2);height:auto;margin:0 0 32px;border-radius:6px;box-shadow:0 0 0 1px rgba(40,38,34,0.2),0 16px 30px -18px rgba(30,28,24,0.5);" />
+      <div style="font-size:var(--t-micro);letter-spacing:0.20em;color:var(--dim);margin-bottom:32px;">04 / 07 · PROJECT</div>
+      <h2 style="font-size:var(--t-h2);line-height:1.15;font-weight:600;letter-spacing:-0.02em;margin:0 0 20px;color:var(--ink);">kalakal</h2>
+      <p style="font-size:var(--t-body);line-height:1.7;margin:0 0 32px;max-width:38ch;color:var(--ink);text-wrap:pretty;">An autonomous Solana trading agent running on deterministic rails. The agent proposes, the executor enforces, and nothing moves unless policy allows it.</p>
+      <div style="border-top:1px solid var(--rule);display:grid;grid-template-columns:var(--metcols);column-gap:24px;">
+        <div style="padding:16px 0;">
+          <div style="font-size:var(--t-micro);letter-spacing:0.16em;color:var(--dim);margin-bottom:6px;">HARD DEFAULT</div>
+          <div style="font-size:var(--t-metric);font-weight:600;letter-spacing:-0.02em;color:var(--ink);">DRY_RUN</div>
+        </div>
+        <div style="padding:16px 0;">
+          <div style="font-size:var(--t-micro);letter-spacing:0.16em;color:var(--dim);margin-bottom:6px;">AUTHORITY</div>
+          <div style="font-size:var(--t-metric);font-weight:600;letter-spacing:-0.02em;color:var(--ink);">executor</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--rule);padding-top:20px;font-size:var(--t-base);">
+        <a href="https://github.com/jmbt25" target="_blank" rel="noopener">github.com/jmbt25</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BEAT 5 RAIDYARD ===================== -->
+  <section id="beat-5" data-screen-label="05 Raidyard" style="position:relative;z-index:2;min-height:var(--beatmin);padding:var(--beatpad) var(--pad);max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:center;">
+    <div data-reveal style="grid-column:var(--colA);background:var(--paper);padding:8px 0;">
+      <img src="assets/cards/raidyard-face.png" alt="Card face, RAIDYARD" style="display:var(--cardimg);width:var(--cardw2);height:auto;margin:0 0 32px;border-radius:6px;box-shadow:0 0 0 1px rgba(40,38,34,0.2),0 16px 30px -18px rgba(30,28,24,0.5);" />
+      <div style="font-size:var(--t-micro);letter-spacing:0.20em;color:var(--dim);margin-bottom:32px;">05 / 07 · PROJECT</div>
+      <h2 style="font-size:var(--t-h2);line-height:1.15;font-weight:600;letter-spacing:-0.02em;margin:0 0 20px;color:var(--ink);">Raidyard</h2>
+      <p style="font-size:var(--t-body);line-height:1.7;margin:0 0 32px;max-width:38ch;color:var(--ink);text-wrap:pretty;">An async base-raid game that lives inside Reddit posts. The sim is deterministic, so a raid resolves the same way for everyone who opens the thread.</p>
+      <div style="border-top:1px solid var(--rule);display:grid;grid-template-columns:var(--metcols);column-gap:24px;">
+        <div style="padding:16px 0;">
+          <div style="font-size:var(--t-micro);letter-spacing:0.16em;color:var(--dim);margin-bottom:6px;">PLATFORM</div>
+          <div style="font-size:var(--t-metric);font-weight:600;letter-spacing:-0.02em;color:var(--ink);">Devvit Web</div>
+        </div>
+        <div style="padding:16px 0;">
+          <div style="font-size:var(--t-micro);letter-spacing:0.16em;color:var(--dim);margin-bottom:6px;">SIM</div>
+          <div style="font-size:var(--t-metric);font-weight:600;letter-spacing:-0.02em;color:var(--ink);">deterministic</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--rule);padding-top:20px;font-size:var(--t-base);display:flex;gap:20px;flex-wrap:wrap;">
+        <a href="https://github.com/jmbt25" target="_blank" rel="noopener">github.com/jmbt25</a>
+        <span style="color:var(--dim);">hackathon entry</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BEAT 6 DOTAWEAKNESS ===================== -->
+  <section id="beat-6" data-screen-label="06 dotaweakness" style="position:relative;z-index:2;min-height:var(--beatmin);padding:var(--beatpad) var(--pad);max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:center;">
+    <div data-reveal style="grid-column:var(--colB);background:var(--paper);padding:8px 0;">
+      <img src="assets/cards/dotaweakness-face.png" alt="Card face, DOTAWEAKNESS" style="display:var(--cardimg);width:var(--cardw2);height:auto;margin:0 0 32px;border-radius:6px;box-shadow:0 0 0 1px rgba(40,38,34,0.2),0 16px 30px -18px rgba(30,28,24,0.5);" />
+      <div style="font-size:var(--t-micro);letter-spacing:0.20em;color:var(--dim);margin-bottom:32px;">06 / 07 · PROJECT</div>
+      <h2 style="font-size:var(--t-h2);line-height:1.15;font-weight:600;letter-spacing:-0.02em;margin:0 0 20px;color:var(--ink);">dotaweakness</h2>
+      <p style="font-size:var(--t-body);line-height:1.7;margin:0 0 32px;max-width:38ch;color:var(--ink);text-wrap:pretty;">Dota 2 self-analysis that names what you are actually bad at. Honest Mode runs a banned-token validator, so the report cannot soften the verdict.</p>
+      <div style="border-top:1px solid var(--rule);display:grid;grid-template-columns:var(--metcols);column-gap:24px;">
+        <div style="padding:16px 0;">
+          <div style="font-size:var(--t-micro);letter-spacing:0.16em;color:var(--dim);margin-bottom:6px;">ANALYSIS CARDS</div>
+          <div style="font-size:var(--t-metric);font-weight:600;letter-spacing:-0.02em;color:var(--ink);">nine</div>
+        </div>
+        <div style="padding:16px 0;">
+          <div style="font-size:var(--t-micro);letter-spacing:0.16em;color:var(--dim);margin-bottom:6px;">HONEST MODE</div>
+          <div style="font-size:var(--t-metric);font-weight:600;letter-spacing:-0.02em;color:var(--ink);">validated</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--rule);padding-top:20px;font-size:var(--t-base);">
+        <a href="https://dotaweakness.com" target="_blank" rel="noopener">dotaweakness.com</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BEAT 7 COLLECTION ===================== -->
+  <section id="beat-7" data-screen-label="07 Collection" style="position:relative;z-index:2;min-height:var(--beatmin);padding:var(--beatpad) var(--pad);max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-content:end;">
+    <div data-reveal style="grid-column:var(--colFull);background:var(--paper);padding:32px 0 96px;">
+      <div style="display:var(--cardgrid,none);grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;margin:0 0 40px;">
+        <img src="assets/cards/hero-face.png" alt="Card face, JOSHUA" style="width:100%;height:auto;border-radius:5px;box-shadow:0 0 0 1px rgba(40,38,34,0.2),0 10px 20px -12px rgba(30,28,24,0.45);" />
+        <img src="assets/cards/komikfind-face.png" alt="Card face, KOMIKFIND" style="width:100%;height:auto;border-radius:5px;box-shadow:0 0 0 1px rgba(40,38,34,0.2),0 10px 20px -12px rgba(30,28,24,0.45);" />
+        <img src="assets/cards/kalakal-face.png" alt="Card face, KALAKAL" style="width:100%;height:auto;border-radius:5px;box-shadow:0 0 0 1px rgba(40,38,34,0.2),0 10px 20px -12px rgba(30,28,24,0.45);" />
+        <img src="assets/cards/raidyard-face.png" alt="Card face, RAIDYARD" style="width:100%;height:auto;border-radius:5px;box-shadow:0 0 0 1px rgba(40,38,34,0.2),0 10px 20px -12px rgba(30,28,24,0.45);" />
+        <img src="assets/cards/dotaweakness-face.png" alt="Card face, DOTAWEAKNESS" style="width:100%;height:auto;border-radius:5px;box-shadow:0 0 0 1px rgba(40,38,34,0.2),0 10px 20px -12px rgba(30,28,24,0.45);" />
+      </div>
+      <div style="font-size:var(--t-micro);letter-spacing:0.20em;color:var(--dim);margin-bottom:32px;">07 / 07 · THE COLLECTION</div>
+      <div style="display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;row-gap:40px;align-items:end;">
+        <div style="grid-column:var(--colHalf);">
+          <h2 style="font-size:var(--t-display);line-height:1.1;font-weight:600;letter-spacing:-0.03em;margin:0 0 20px;color:var(--ink);">Five cards, one set.</h2>
+          <p style="font-size:var(--t-body);line-height:1.7;margin:0;max-width:38ch;color:var(--ink);text-wrap:pretty;">That is the whole collection so far. The sixth card gets built with somebody, so it may as well be you.</p>
+        </div>
+        <div style="grid-column:var(--colB);">
+          <a href="https://x.com/jmbt_dev" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:12px;border:1px solid var(--ink);padding:14px 20px;text-decoration:none;color:var(--ink);font-size:var(--t-base);letter-spacing:0.06em;margin-bottom:24px;">Start a conversation <span aria-hidden="true">→</span></a>
+          <div style="border-top:1px solid var(--rule);display:grid;grid-template-columns:auto 1fr;column-gap:24px;row-gap:8px;padding-top:20px;font-size:var(--t-base);">
+            <span style="color:var(--dim);font-size:var(--t-micro);letter-spacing:0.16em;padding-top:7px;">CODE</span><a href="https://github.com/jmbt25" target="_blank" rel="noopener">github.com/jmbt25</a>
+            <span style="color:var(--dim);font-size:var(--t-micro);letter-spacing:0.16em;padding-top:7px;">CONTACT</span><a href="https://x.com/jmbt_dev" target="_blank" rel="noopener">x.com/jmbt_dev</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:24px var(--pad) 40px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 32px;font-size:var(--t-sm);color:var(--dim);letter-spacing:0.06em;">
+    <span>graded by hand · deployed on cloudflare</span>
+    <span>JMBT GRADING · CERT 2026 0001 THROUGH 0005</span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;background&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;warm&quot;,&quot;cool&quot;],&quot;default&quot;:&quot;warm&quot;,&quot;tsType&quot;:&quot;'warm' | 'cool'&quot;,&quot;section&quot;:&quot;Ground&quot;},&quot;showChoreography&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Review tools&quot;},&quot;holoPeak&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.9,&quot;min&quot;:0.3,&quot;max&quot;:1,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Card&quot;}}">
+const BEATS = [
+  { name: 'HERO', x: 318, ry: -16, rx: 6, rz: -2, s: 1.00, face: 0 },
+  { name: 'REVEAL', x: -318, ry: 0, rx: 2, rz: 0, s: 1.06, face: 0 },
+  { name: 'KOMIKFIND', x: 318, ry: -15, rx: 5, rz: -3, s: 1.00, face: 1 },
+  { name: 'KALAKAL', x: -318, ry: 15, rx: 5, rz: 3, s: 1.00, face: 2 },
+  { name: 'RAIDYARD', x: 318, ry: -15, rx: 5, rz: -3, s: 1.00, face: 3 },
+  { name: 'DOTAWEAKNESS', x: -318, ry: 15, rx: 5, rz: 3, s: 1.00, face: 4 },
+  { name: 'COLLECTION', x: 0, ry: 0, rx: 0, rz: 0, s: 0.92, face: 4 },
+];
+const LABELS = [
+  ['JOSHUA', 'DATA SCIENTIST / AI SYSTEMS ENGINEER', 'CERT 2026 0001 · FIRST EDITION'],
+  ['KOMIKFIND', 'SEMANTIC MANGA SEARCH', 'CERT 2026 0002 · FIRST EDITION'],
+  ['KALAKAL', 'AUTONOMOUS SOLANA TRADING AGENT', 'CERT 2026 0003 · FIRST EDITION'],
+  ['RAIDYARD', 'ASYNC BASE RAID INSIDE REDDIT', 'CERT 2026 0004 · FIRST EDITION'],
+  ['DOTAWEAKNESS', 'DOTA 2 SELF ANALYSIS', 'CERT 2026 0005 · FIRST EDITION'],
+];
+const WIDE = {
+  '--pad': '96px', '--colA': '1 / span 5', '--colB': '8 / span 5', '--colHalf': '1 / span 6',
+  '--beatmin': '100vh', '--beatpad': '0px', '--stage3d': 'block', '--cardimg': 'none', '--cardgrid': 'none', '--rail': 'flex', '--hud': 'block',
+  '--metcols': '1fr 1fr', '--t-hero': '64px', '--t-display': '48px', '--t-h2': '40px', '--t-role': '25px',
+  '--t-metric': '25px', '--t-body': '20px', '--t-base': '16px', '--t-sm': '13px', '--t-micro': '11px',
+};
+const TABLET = {
+  '--pad': '48px', '--colA': '1 / span 12', '--colB': '1 / span 12', '--colHalf': '1 / span 12',
+  '--beatmin': 'auto', '--beatpad': '72px', '--stage3d': 'none', '--cardimg': 'block', '--cardgrid': 'grid', '--cardw2': '300px',
+  '--rail': 'none', '--hud': 'block', '--metcols': '1fr 1fr', '--t-hero': '48px', '--t-display': '36px',
+  '--t-h2': '32px', '--t-role': '22px', '--t-metric': '22px', '--t-body': '18px', '--t-base': '16px',
+  '--t-sm': '13px', '--t-micro': '11px',
+};
+const MOBILE = {
+  '--pad': '24px', '--colA': '1 / span 12', '--colB': '1 / span 12', '--colHalf': '1 / span 12',
+  '--beatmin': 'auto', '--beatpad': '56px', '--stage3d': 'none', '--cardimg': 'block', '--cardgrid': 'grid', '--cardw2': '208px',
+  '--rail': 'none', '--hud': 'none', '--metcols': '1fr', '--t-hero': '40px', '--t-display': '30px',
+  '--t-h2': '28px', '--t-role': '20px', '--t-metric': '20px', '--t-body': '17px', '--t-base': '16px',
+  '--t-sm': '13px', '--t-micro': '11px',
+};
+const TR = 0.16;
+const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const lerp = (a, b, t) => a + (b - a) * t;
+const pct = (n) => (n * 100).toFixed(2);
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const r = () => React.createRef();
+    this.rootRef = r(); this.stageRef = r(); this.slabRef = r(); this.wellRef = r(); this.washRef = r();
+    this.posterRef = r(); this.fanRef = r(); this.railRef = r();
+    this.hudPctRef = r(); this.hudBeatRef = r(); this.hudRangeRef = r(); this.hudPhaseRef = r(); this.hudBarRef = r();
+    this.labelNameRef = r(); this.labelSubRef = r(); this.labelCertRef = r();
+    this.faceHeroRef = r(); this.faceKomikRef = r(); this.faceKalakalRef = r(); this.faceRaidRef = r(); this.faceDotaRef = r();
+    this.curFace = -1;
+    this.mode = '';
+  }
+
+  componentDidMount() {
+    this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.faces = [this.faceHeroRef, this.faceKomikRef, this.faceKalakalRef, this.faceRaidRef, this.faceDotaRef].map((x) => x.current);
+    this.applyMode();
+    this.applyProps();
+    this.setFace(0);
+    this.setupReveals();
+    this.setupPoster();
+    this.frame = () => { this.queued = false; this.update(); };
+    this.onScroll = () => { if (!this.queued) { this.queued = true; requestAnimationFrame(this.frame); } };
+    this.onResize = () => { this.applyMode(); this.measure(); this.update(); };
+    this.measure();
+    addEventListener('load', () => { this.measure(); this.update(); });
+    setTimeout(() => { this.measure(); this.update(); }, 900);
+    addEventListener('scroll', this.onScroll, { passive: true });
+    addEventListener('resize', this.onResize, { passive: true });
+    this.update();
+    if (!this.reduced) {
+      this.tick = () => { this.raf = requestAnimationFrame(this.tick); this.update(); };
+      this.raf = requestAnimationFrame(this.tick);
+    }
+  }
+
+  componentWillUnmount() {
+    removeEventListener('scroll', this.onScroll);
+    removeEventListener('resize', this.onResize);
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.io) this.io.disconnect();
+  }
+
+  componentDidUpdate() { this.applyProps(); this.update(); }
+
+  measure() {
+    const els = [1, 2, 3, 4, 5, 6, 7].map((k) => document.getElementById('beat-' + k));
+    this.tops = els.map((e) => (e ? e.offsetTop : 0));
+    this.heights = els.map((e) => (e ? e.offsetHeight : innerHeight));
+  }
+
+  applyProps() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    const cool = (this.props.background ?? 'warm') === 'cool';
+    root.style.setProperty('--paper', cool ? '#f3f6f8' : '#faf5ee');
+    root.style.setProperty('--rule', cool ? '#dee4e8' : '#e4ddd1');
+    const tex = root.firstElementChild;
+    if (tex) tex.style.backgroundImage = 'url(assets/paper-' + (cool ? 'cool' : 'warm') + '-white.png)';
+    if (this.mode === 'wide' || this.mode === 'tablet') {
+      root.style.setProperty('--hud', (this.props.showChoreography ?? true) ? 'block' : 'none');
+    }
+  }
+
+  applyMode() {
+    const w = innerWidth;
+    const next = w >= 1024 ? 'wide' : w >= 768 ? 'tablet' : 'mobile';
+    if (next === this.mode) return;
+    this.mode = next;
+    const root = this.rootRef.current;
+    if (!root) return;
+    const vars = next === 'wide' ? WIDE : next === 'tablet' ? TABLET : MOBILE;
+    Object.keys(vars).forEach((k) => root.style.setProperty(k, vars[k]));
+    if (next === 'wide') root.style.setProperty('--cardw2', '300px');
+    this.applyProps();
+  }
+
+  setupPoster() {
+    const img = this.posterRef.current;
+    if (!img) return;
+    img.addEventListener('error', () => { img.style.display = 'none'; });
+    const hide = () => { img.style.opacity = '0'; };
+    if (this.reduced) { hide(); return; }
+    requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(hide, 420)));
+  }
+
+  setupReveals() {
+    const nodes = Array.from(document.querySelectorAll('[data-reveal]'));
+    if (this.reduced) { nodes.forEach((n) => { n.style.transform = 'none'; }); return; }
+    nodes.forEach((n, i) => {
+      const below = n.getBoundingClientRect().top > innerHeight * 0.85;
+      n.style.transition = 'transform 640ms cubic-bezier(0.16,1,0.30,1)';
+      n.style.transform = below ? 'translateY(' + (i === 0 ? 16 : 24) + 'px)' : 'none';
+    });
+    this.io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.style.transform = 'none'; this.io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -18% 0px', threshold: 0.01 });
+    nodes.forEach((n) => this.io.observe(n));
+  }
+
+  setFace(i) {
+    if (i === this.curFace || !this.faces) return;
+    this.curFace = i;
+    this.faces.forEach((el, k) => { if (el) el.style.visibility = k === i ? 'visible' : 'hidden'; });
+    const L = LABELS[i];
+    if (this.labelNameRef.current) this.labelNameRef.current.textContent = L[0];
+    if (this.labelSubRef.current) this.labelSubRef.current.textContent = L[1];
+    if (this.labelCertRef.current) this.labelCertRef.current.textContent = L[2];
+  }
+
+  update() {
+    // Progress is measured against the seven beat sections themselves, not raw document
+    // height, so header and footer chrome can never shift a beat away from its panel.
+    // Beat k always occupies the k-th seventh of p, at every width.
+    if (!this.tops) this.measure();
+    const center = (scrollY || document.documentElement.scrollTop) + innerHeight / 2;
+    let i = 0, u = 0;
+    const T = this.tops, Hs = this.heights;
+    if (center <= T[0]) { i = 0; u = 0; }
+    else if (center >= T[6] + Hs[6]) { i = 6; u = 0.9999; }
+    else {
+      for (let k = 6; k >= 0; k--) { if (center >= T[k]) { i = k; u = Math.min(0.9999, (center - T[k]) / Hs[k]); break; } }
+    }
+    const g = i + u;
+    const p = g / 7;
+    const cur = BEATS[i];
+    let st = { x: cur.x, ry: cur.ry, rx: cur.rx, rz: cur.rz, s: cur.s, face: cur.face };
+    let flip = 0;
+
+    if (u < TR && i > 0) {
+      const prev = BEATS[i - 1];
+      const raw = (u + TR) / (2 * TR);
+      const t = ease(raw);
+      st = { x: lerp(prev.x, cur.x, t), ry: lerp(prev.ry, cur.ry, t), rx: lerp(prev.rx, cur.rx, t), rz: lerp(prev.rz, cur.rz, t), s: lerp(prev.s, cur.s, t), face: raw < 0.5 ? prev.face : cur.face };
+      flip = 92 * Math.sin(Math.PI * raw) * (cur.x >= prev.x ? 1 : -1);
+    } else if (u > 1 - TR && i < 6) {
+      const next = BEATS[i + 1];
+      const raw = (u - (1 - TR)) / (2 * TR);
+      const t = ease(raw);
+      st = { x: lerp(cur.x, next.x, t), ry: lerp(cur.ry, next.ry, t), rx: lerp(cur.rx, next.rx, t), rz: lerp(cur.rz, next.rz, t), s: lerp(cur.s, next.s, t), face: cur.face };
+      flip = 92 * Math.sin(Math.PI * raw) * (next.x >= cur.x ? 1 : -1);
+    } else {
+      const h = (u - TR) / (1 - 2 * TR);
+      st.ry = cur.ry + (h - 0.5) * 6;
+    }
+
+    let holo = 0.16, sheen = -150, wash = 0;
+    if (i === 1) {
+      const h = Math.min(1, Math.max(0, (u - TR) / (1 - 2 * TR)));
+      st.ry = lerp(-34, 34, ease(h));
+      st.rx = lerp(6, -2, h);
+      holo = 0.16 + ((this.props.holoPeak ?? 0.9) - 0.16) * Math.sin(Math.PI * h);
+      sheen = lerp(-150, 150, h);
+      wash = 0.85 * Math.sin(Math.PI * h);
+    }
+
+    let outY = 0, spread = 0;
+    if (i === 6) {
+      outY = -135 * ease(Math.min(1, u / 0.32));
+      spread = ease(Math.min(1, Math.max(0, (u - 0.05) / 0.40)));
+    }
+
+    const idle = this.reduced ? 0 : Math.sin(performance.now() / 2600) * 1.8;
+    const slab = this.slabRef.current;
+    if (slab) {
+      slab.style.transform = 'translate(-50%,-50%) translate3d(' + st.x.toFixed(1) + 'px,' + outY.toFixed(2) + 'vh,0) rotateX(' + st.rx.toFixed(2) + 'deg) rotateY(' + (st.ry + flip + idle).toFixed(2) + 'deg) rotateZ(' + st.rz.toFixed(2) + 'deg) scale(' + st.s.toFixed(3) + ')';
+    }
+    const well = this.wellRef.current;
+    if (well) { well.style.setProperty('--holo', holo.toFixed(3)); well.style.setProperty('--sheen', sheen.toFixed(1) + '%'); }
+    if (this.washRef.current) this.washRef.current.style.opacity = wash.toFixed(3);
+    const fan = this.fanRef.current;
+    if (fan) {
+      fan.style.setProperty('--sp', spread.toFixed(3));
+      fan.style.transform = 'translate(-50%,-50%) translateY(' + lerp(120, 0, spread).toFixed(2) + 'vh)';
+    }
+    this.setFace(st.face);
+
+    const lo = i / 7, hi = (i + 1) / 7;
+    const phase = u < 0.25 ? 'ENTRANCE' : u < 0.75 ? 'HOLD' : 'EXIT';
+    if (this.hudPctRef.current) this.hudPctRef.current.textContent = pct(p) + '%';
+    if (this.hudBeatRef.current) this.hudBeatRef.current.textContent = String(i + 1).padStart(2, '0') + ' ' + cur.name;
+    if (this.hudRangeRef.current) this.hudRangeRef.current.textContent = pct(lo) + ' to ' + pct(hi) + '%';
+    if (this.hudPhaseRef.current) this.hudPhaseRef.current.textContent = phase;
+    if (this.hudBarRef.current) this.hudBarRef.current.style.width = (u * 100).toFixed(1) + '%';
+    const rail = this.railRef.current;
+    if (rail) {
+      Array.from(rail.children).forEach((a, k) => {
+        const on = k === i;
+        a.style.color = on ? '#121110' : '#6f6a63';
+        a.firstElementChild.style.width = on ? '30px' : '14px';
+        a.firstElementChild.style.background = on ? '#8a6415' : 'currentColor';
+      });
+    }
+  }
+
+  renderVals() {
+    return {
+      rootRef: this.rootRef, stageRef: this.stageRef, slabRef: this.slabRef, wellRef: this.wellRef, washRef: this.washRef,
+      posterRef: this.posterRef, fanRef: this.fanRef, railRef: this.railRef,
+      hudPctRef: this.hudPctRef, hudBeatRef: this.hudBeatRef, hudRangeRef: this.hudRangeRef,
+      hudPhaseRef: this.hudPhaseRef, hudBarRef: this.hudBarRef,
+      labelNameRef: this.labelNameRef, labelSubRef: this.labelSubRef, labelCertRef: this.labelCertRef,
+      faceHeroRef: this.faceHeroRef, faceKomikRef: this.faceKomikRef, faceKalakalRef: this.faceKalakalRef,
+      faceRaidRef: this.faceRaidRef, faceDotaRef: this.faceDotaRef,
+    };
+  }
+}
+</script>
+</body>
+</html>

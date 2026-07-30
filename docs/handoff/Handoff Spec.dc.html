@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 600;font-display:swap;src:url('assets/fonts/jetbrains-mono-latin.woff2') format('woff2');}
+html,body{margin:0;padding:0;background:#f3ecdf;}
+*,*::before,*::after{box-sizing:border-box;}
+a{color:#8a6415;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:#c8b898;}
+a:hover{color:#121110;text-decoration-color:#121110;}
+::selection{background:#d4a857;color:#121110;}
+</style>
+</helmet>
+<div style="--paper:#faf5ee;--paper2:#f3ecdf;--ink:#121110;--dim:#6f6a63;--rule:#e4ddd1;--brass:#d4a857;--brass-ink:#8a6415;background:var(--paper2);color:var(--ink);font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:15px;line-height:1.7;padding:64px 56px 120px;">
+<div style="max-width:1560px;margin:0 auto;display:flex;flex-direction:column;gap:72px;">
+
+  <header style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:end;border-bottom:2px solid var(--ink);padding-bottom:24px;">
+    <div>
+      <div style="font-size:11px;letter-spacing:0.24em;color:var(--dim);margin-bottom:20px;">JMBT GRADING · DESIGN HANDOFF · 2026-07-30</div>
+      <h1 style="font-size:52px;line-height:1.05;font-weight:600;letter-spacing:-0.03em;margin:0 0 12px;">The Graded Collection</h1>
+      <p style="font-size:20px;margin:0;color:var(--dim);max-width:60ch;text-wrap:pretty;">Seven-beat scroll narrative for jmbt.dev, built around one graded trading-card slab. Annotated layouts, tokens, choreography and copy.</p>
+    </div>
+    <div style="font-size:11px;letter-spacing:0.14em;color:var(--dim);text-align:right;line-height:2;">
+      <div>FIDELITY · HIGH</div>
+      <div>PAGE · <a href="Graded Collection Landing.dc.html">Landing</a></div>
+      <div>BASELINE · <a href="Baseline jmbt.dev.dc.html">Current site</a></div>
+    </div>
+  </header>
+
+  <!-- ===================== PALETTE ===================== -->
+  <section>
+    <div style="font-size:11px;letter-spacing:0.24em;color:var(--dim);margin-bottom:8px;">01</div>
+    <h2 style="font-size:32px;font-weight:600;letter-spacing:-0.02em;margin:0 0 8px;">Palette</h2>
+    <p style="margin:0 0 32px;color:var(--dim);max-width:76ch;text-wrap:pretty;">Four of the six declared tokens survive unchanged in role. The scheme inverts to light, because the recommended background is the warm-white paper grain from design-inputs. Warm white was chosen over cool white: the declared accent is warm brass at #d4a857, and cool white puts it out of temperature.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:20px;">
+      <div style="background:var(--paper);border:1px solid var(--rule);">
+        <div style="height:96px;background:#faf5ee;border-bottom:1px solid var(--rule);"></div>
+        <div style="padding:14px 16px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:6px;">NEW · FROM ASSET</div>
+          <div style="font-weight:600;">--paper #faf5ee</div>
+          <div style="font-size:13px;color:var(--dim);">page ground, panel ground. Sampled from paper-grain-warm-white.png</div>
+        </div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);">
+        <div style="height:96px;background:#121110;border-bottom:1px solid var(--rule);"></div>
+        <div style="padding:14px 16px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:6px;">DERIVED FROM --bg</div>
+          <div style="font-weight:600;">--ink #121110</div>
+          <div style="font-size:13px;color:var(--dim);">primary text. 17.4:1 on paper. #0a0a0a warmed to sit on warm ground</div>
+        </div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);">
+        <div style="height:96px;background:#6f6a63;border-bottom:1px solid var(--rule);"></div>
+        <div style="padding:14px 16px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:6px;">RE-DERIVED --dim</div>
+          <div style="font-weight:600;">--dim #6f6a63</div>
+          <div style="font-size:13px;color:var(--dim);">secondary text, labels. 4.83:1 on paper, passes AA at every size</div>
+        </div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);">
+        <div style="height:96px;background:#e4ddd1;border-bottom:1px solid var(--rule);"></div>
+        <div style="padding:14px 16px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:6px;">RE-DERIVED --border</div>
+          <div style="font-weight:600;">--rule #e4ddd1</div>
+          <div style="font-size:13px;color:var(--dim);">hairlines only, same decorative role as #1c1c1c had</div>
+        </div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);">
+        <div style="height:96px;background:#d4a857;border-bottom:1px solid var(--rule);"></div>
+        <div style="padding:14px 16px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:6px;">DECLARED · UNCHANGED</div>
+          <div style="font-weight:600;">--brass #d4a857</div>
+          <div style="font-size:13px;color:var(--dim);">non-text only on light. 1.9:1. Progress fill, raking-light wash</div>
+        </div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);">
+        <div style="height:96px;background:#8a6415;border-bottom:1px solid var(--rule);"></div>
+        <div style="padding:14px 16px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:6px;">NEW · BRASS FOR TEXT</div>
+          <div style="font-weight:600;">--brass-ink #8a6415</div>
+          <div style="font-size:13px;color:var(--dim);">links, prompt glyphs, active phase. 4.95:1 on paper</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:24px;border-top:1px solid var(--rule);padding-top:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;">
+      <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);grid-column:1 / -1;">CARD ONLY · FULLY SATURATED TCG, NEVER APPLIED TO PAGE CHROME</div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;background:#f42624;display:block;"></span><span style="font-size:13px;">#f42624 spine red</span></div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;background:#35b9d8;display:block;"></span><span style="font-size:13px;">#35b9d8 spine cyan</span></div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;background:#f5c33b;display:block;"></span><span style="font-size:13px;">#f5c33b name bar</span></div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;background:#faf5eb;display:block;border:1px solid var(--rule);"></span><span style="font-size:13px;">#faf5eb frame cream</span></div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:28px;height:28px;background:#e0201c;display:block;"></span><span style="font-size:13px;">#e0201c label rule</span></div>
+    </div>
+  </section>
+
+  <!-- ===================== TYPE ===================== -->
+  <section>
+    <div style="font-size:11px;letter-spacing:0.24em;color:var(--dim);margin-bottom:8px;">02</div>
+    <h2 style="font-size:32px;font-weight:600;letter-spacing:-0.02em;margin:0 0 8px;">Type scale</h2>
+    <p style="margin:0 0 32px;color:var(--dim);max-width:76ch;text-wrap:pretty;">One family, JetBrains Mono, weights 400 and 600, exactly as declared. The baseline scale was flat by its own admission: four sizes with h2 the same size as body. This scale keeps 16 and 13 and 11, drops the two off-grid outliers at 14 and 28, and adds display sizes so hierarchy comes from size again instead of from a hash marker.</p>
+    <div style="background:var(--paper);border:1px solid var(--rule);">
+      <div style="display:grid;grid-template-columns:110px 92px 92px 110px 1fr;gap:0;font-size:11px;letter-spacing:0.16em;color:var(--dim);border-bottom:1px solid var(--rule);">
+        <div style="padding:12px 16px;">TOKEN</div><div style="padding:12px 16px;">1440</div><div style="padding:12px 16px;">390</div><div style="padding:12px 16px;">WEIGHT</div><div style="padding:12px 16px;">SPECIMEN</div>
+      </div>
+      <div style="display:grid;grid-template-columns:110px 92px 92px 110px 1fr;align-items:center;border-bottom:1px solid var(--rule);">
+        <div style="padding:14px 16px;font-weight:600;">t-hero</div><div style="padding:14px 16px;color:var(--dim);">64px</div><div style="padding:14px 16px;color:var(--dim);">40px</div><div style="padding:14px 16px;color:var(--dim);">600</div>
+        <div style="padding:10px 16px;font-size:64px;line-height:1.05;letter-spacing:-0.03em;font-weight:600;">joshua</div>
+      </div>
+      <div style="display:grid;grid-template-columns:110px 92px 92px 110px 1fr;align-items:center;border-bottom:1px solid var(--rule);">
+        <div style="padding:14px 16px;font-weight:600;">t-display</div><div style="padding:14px 16px;color:var(--dim);">48px</div><div style="padding:14px 16px;color:var(--dim);">30px</div><div style="padding:14px 16px;color:var(--dim);">600</div>
+        <div style="padding:10px 16px;font-size:48px;line-height:1.1;letter-spacing:-0.03em;font-weight:600;">Five cards, one set.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:110px 92px 92px 110px 1fr;align-items:center;border-bottom:1px solid var(--rule);">
+        <div style="padding:14px 16px;font-weight:600;">t-h2</div><div style="padding:14px 16px;color:var(--dim);">40px</div><div style="padding:14px 16px;color:var(--dim);">28px</div><div style="padding:14px 16px;color:var(--dim);">600</div>
+        <div style="padding:10px 16px;font-size:40px;line-height:1.15;letter-spacing:-0.02em;font-weight:600;">komikfind</div>
+      </div>
+      <div style="display:grid;grid-template-columns:110px 92px 92px 110px 1fr;align-items:center;border-bottom:1px solid var(--rule);">
+        <div style="padding:14px 16px;font-weight:600;">t-role</div><div style="padding:14px 16px;color:var(--dim);">25px</div><div style="padding:14px 16px;color:var(--dim);">20px</div><div style="padding:14px 16px;color:var(--dim);">400</div>
+        <div style="padding:10px 16px;font-size:25px;line-height:1.4;">Data Scientist / AI Systems Engineer</div>
+      </div>
+      <div style="display:grid;grid-template-columns:110px 92px 92px 110px 1fr;align-items:center;border-bottom:1px solid var(--rule);">
+        <div style="padding:14px 16px;font-weight:600;">t-metric</div><div style="padding:14px 16px;color:var(--dim);">25px</div><div style="padding:14px 16px;color:var(--dim);">20px</div><div style="padding:14px 16px;color:var(--dim);">600</div>
+        <div style="padding:10px 16px;font-size:25px;font-weight:600;letter-spacing:-0.02em;">3.9s → 472ms</div>
+      </div>
+      <div style="display:grid;grid-template-columns:110px 92px 92px 110px 1fr;align-items:center;border-bottom:1px solid var(--rule);">
+        <div style="padding:14px 16px;font-weight:600;">t-body</div><div style="padding:14px 16px;color:var(--dim);">20px</div><div style="padding:14px 16px;color:var(--dim);">17px</div><div style="padding:14px 16px;color:var(--dim);">400</div>
+        <div style="padding:10px 16px;font-size:20px;line-height:1.7;">Semantic manga search that reads panels instead of filenames.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:110px 92px 92px 110px 1fr;align-items:center;border-bottom:1px solid var(--rule);">
+        <div style="padding:14px 16px;font-weight:600;">t-base</div><div style="padding:14px 16px;color:var(--dim);">16px</div><div style="padding:14px 16px;color:var(--dim);">16px</div><div style="padding:14px 16px;color:var(--dim);">400</div>
+        <div style="padding:10px 16px;font-size:16px;line-height:1.7;">Declared baseline size and line-height, kept exactly. github.com/jmbt25</div>
+      </div>
+      <div style="display:grid;grid-template-columns:110px 92px 92px 110px 1fr;align-items:center;border-bottom:1px solid var(--rule);">
+        <div style="padding:14px 16px;font-weight:600;">t-sm</div><div style="padding:14px 16px;color:var(--dim);">13px</div><div style="padding:14px 16px;color:var(--dim);">13px</div><div style="padding:14px 16px;color:var(--dim);">400</div>
+        <div style="padding:10px 16px;font-size:13px;letter-spacing:0.06em;">header meta, footer. graded by hand · deployed on cloudflare</div>
+      </div>
+      <div style="display:grid;grid-template-columns:110px 92px 92px 110px 1fr;align-items:center;">
+        <div style="padding:14px 16px;font-weight:600;">t-micro</div><div style="padding:14px 16px;color:var(--dim);">11px</div><div style="padding:14px 16px;color:var(--dim);">11px</div><div style="padding:14px 16px;color:var(--dim);">400</div>
+        <div style="padding:10px 16px;font-size:11px;letter-spacing:0.20em;">03 / 07 · PROJECT &nbsp;&nbsp; MEDIAN SEARCH STAGE</div>
+      </div>
+    </div>
+    <p style="margin:20px 0 0;color:var(--dim);font-size:13px;">Tracking: -0.03em at t-hero and t-display, -0.02em at t-h2 and t-metric, 0 at body sizes, 0.16em at t-micro labels, 0.20em at beat eyebrows, 0.24em at section eyebrows. Root font-size stays 16px at every width. The 14px narrow root from the baseline is dropped; narrow sizes are explicit tokens instead.</p>
+  </section>
+
+  <!-- ===================== GRID + SPACING ===================== -->
+  <section>
+    <div style="font-size:11px;letter-spacing:0.24em;color:var(--dim);margin-bottom:8px;">03</div>
+    <h2 style="font-size:32px;font-weight:600;letter-spacing:-0.02em;margin:0 0 8px;">Grid and spacing</h2>
+    <p style="margin:0 0 32px;color:var(--dim);max-width:76ch;text-wrap:pretty;">4px base grid. The 0.875rem and 1.75rem outliers tallied in the baseline are dropped. The declared 720px reading measure survives as the prose cap: every body paragraph is set to 34ch to 44ch, which lands between 610 and 720px at 20px mono.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:24px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:20px;">SPACING SCALE · PX</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:16px;"><span style="width:44px;font-size:13px;color:var(--dim);">4</span><span style="height:10px;width:4px;background:var(--ink);display:block;"></span></div>
+          <div style="display:flex;align-items:center;gap:16px;"><span style="width:44px;font-size:13px;color:var(--dim);">8</span><span style="height:10px;width:8px;background:var(--ink);display:block;"></span></div>
+          <div style="display:flex;align-items:center;gap:16px;"><span style="width:44px;font-size:13px;color:var(--dim);">12</span><span style="height:10px;width:12px;background:var(--ink);display:block;"></span></div>
+          <div style="display:flex;align-items:center;gap:16px;"><span style="width:44px;font-size:13px;color:var(--dim);">16</span><span style="height:10px;width:16px;background:var(--ink);display:block;"></span></div>
+          <div style="display:flex;align-items:center;gap:16px;"><span style="width:44px;font-size:13px;color:var(--dim);">20</span><span style="height:10px;width:20px;background:var(--ink);display:block;"></span></div>
+          <div style="display:flex;align-items:center;gap:16px;"><span style="width:44px;font-size:13px;color:var(--dim);">24</span><span style="height:10px;width:24px;background:var(--brass);display:block;"></span></div>
+          <div style="display:flex;align-items:center;gap:16px;"><span style="width:44px;font-size:13px;color:var(--dim);">32</span><span style="height:10px;width:32px;background:var(--brass);display:block;"></span></div>
+          <div style="display:flex;align-items:center;gap:16px;"><span style="width:44px;font-size:13px;color:var(--dim);">40</span><span style="height:10px;width:40px;background:var(--ink);display:block;"></span></div>
+          <div style="display:flex;align-items:center;gap:16px;"><span style="width:44px;font-size:13px;color:var(--dim);">48</span><span style="height:10px;width:48px;background:var(--brass);display:block;"></span></div>
+          <div style="display:flex;align-items:center;gap:16px;"><span style="width:44px;font-size:13px;color:var(--dim);">72</span><span style="height:10px;width:72px;background:var(--ink);display:block;"></span></div>
+          <div style="display:flex;align-items:center;gap:16px;"><span style="width:44px;font-size:13px;color:var(--dim);">96</span><span style="height:10px;width:96px;background:var(--brass);display:block;"></span></div>
+        </div>
+        <p style="margin:20px 0 0;font-size:13px;color:var(--dim);">Brass bars carry most of the weight: 24 gutter, 32 block gap, 48 hero break, 96 page margin. Same three-value habit as the baseline, cleaned onto the grid.</p>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:24px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:20px;">GRID PER WIDTH</div>
+        <div style="display:grid;grid-template-columns:auto 1fr;column-gap:20px;row-gap:12px;font-size:13px;">
+          <span style="color:var(--dim);">1440</span><span>12 col · 96px margin · 24px gutter · 1248 content · 82px column</span>
+          <span style="color:var(--dim);"></span><span style="color:var(--dim);">panel spans 5 cols = 506px. Slab block spans 6 cols = 612px, one column of air between them.</span>
+          <span style="color:var(--dim);">768</span><span>1 col · 48px margin · 672 content · metrics stay 2 up</span>
+          <span style="color:var(--dim);">390</span><span>1 col · 24px margin · 342 content · metrics stack 1 up</span>
+        </div>
+        <div style="height:1px;background:var(--rule);margin:24px 0;"></div>
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:16px;">1440 BEAT GRID</div>
+        <div style="position:relative;height:120px;border:1px dashed #c9c0b0;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:6.667%;background:repeating-linear-gradient(45deg,#efe7d9,#efe7d9 4px,transparent 4px,transparent 8px);"></div>
+          <div style="position:absolute;right:0;top:0;bottom:0;width:6.667%;background:repeating-linear-gradient(45deg,#efe7d9,#efe7d9 4px,transparent 4px,transparent 8px);"></div>
+          <div style="position:absolute;left:6.667%;top:12px;bottom:12px;width:35.14%;background:#121110;color:#faf5ee;font-size:11px;letter-spacing:0.14em;display:flex;align-items:center;justify-content:center;">PANEL · 5 COL · 506</div>
+          <div style="position:absolute;left:50.83%;top:12px;bottom:12px;width:42.5%;border:1px solid var(--brass);background:rgba(212,168,87,0.14);font-size:11px;letter-spacing:0.14em;display:flex;align-items:center;justify-content:center;color:#8a6415;">SLAB BLOCK · 6 COL · 612</div>
+        </div>
+        <p style="margin:16px 0 0;font-size:13px;color:var(--dim);">Slab centre sits 318px from viewport centre, mirrored per beat. Body copy and the 3D never share a column, at any width.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CARD GEOMETRY ===================== -->
+  <section>
+    <div style="font-size:11px;letter-spacing:0.24em;color:var(--dim);margin-bottom:8px;">04</div>
+    <h2 style="font-size:32px;font-weight:600;letter-spacing:-0.02em;margin:0 0 8px;">Card geometry</h2>
+    <p style="margin:0 0 32px;color:var(--dim);max-width:76ch;text-wrap:pretty;">Every figure below is the measured value from PICKS.md and DECISIONS.md, expressed as a percentage of the card face so it holds at any render size. The face is exactly 63:88. Nothing here was estimated.</p>
+    <div style="display:grid;grid-template-columns:400px 1fr;gap:48px;align-items:start;">
+      <div style="position:relative;width:360px;aspect-ratio:63 / 88;">
+        <img src="assets/cards/hero-face.png" alt="Card face with measured overlays" style="position:absolute;inset:0;width:100%;height:100%;display:block;" />
+        <div style="position:absolute;left:7.619%;top:5.057%;width:86.984%;height:56.477%;border:1.5px dashed #e0201c;"></div>
+        <div style="position:absolute;left:7.619%;top:5.057%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:#e0201c;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:600;">1</div>
+        <div style="position:absolute;left:10.079%;top:63.579%;width:85.079%;height:21.875%;border:1.5px dashed #0e7ea8;"></div>
+        <div style="position:absolute;left:10.079%;top:63.579%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:#0e7ea8;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:600;">2</div>
+        <div style="position:absolute;left:6.111%;top:88.011%;width:87.778%;height:8.239%;border:1.5px dashed #8a6415;"></div>
+        <div style="position:absolute;left:6.111%;top:88.011%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:#8a6415;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:600;">3</div>
+        <div style="position:absolute;left:0.47%;top:0.44%;width:15.1%;height:10.81%;border:1.5px dashed #121110;border-radius:50%;"></div>
+        <div style="position:absolute;left:76.65%;top:0.44%;width:15.1%;height:10.81%;border:1.5px dashed #121110;border-radius:50%;"></div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);">
+        <div style="display:grid;grid-template-columns:32px 1fr 158px 132px 110px;font-size:11px;letter-spacing:0.14em;color:var(--dim);border-bottom:1px solid var(--rule);">
+          <div style="padding:12px 8px 12px 16px;"></div><div style="padding:12px 8px;">REGION</div><div style="padding:12px 8px;">MASTER 2048</div><div style="padding:12px 8px;">% OF FACE</div><div style="padding:12px 16px 12px 8px;">ASPECT</div>
+        </div>
+        <div style="display:grid;grid-template-columns:32px 1fr 158px 132px 110px;font-size:13px;border-bottom:1px solid var(--rule);align-items:baseline;">
+          <div style="padding:14px 8px 14px 16px;color:#e0201c;font-weight:600;">1</div>
+          <div style="padding:14px 8px;">Art window<div style="color:var(--dim);">bbox is 92.4% filled, angular notches at three corners overlay the art rather than cutting it</div></div>
+          <div style="padding:14px 8px;color:var(--dim);">1096 × 994<br />at 490, 233</div>
+          <div style="padding:14px 8px;color:var(--dim);">x 7.619<br />y 5.057<br />w 86.984<br />h 56.477</div>
+          <div style="padding:14px 16px 14px 8px;color:var(--dim);">1.1026</div>
+        </div>
+        <div style="display:grid;grid-template-columns:32px 1fr 158px 132px 110px;font-size:13px;border-bottom:1px solid var(--rule);align-items:baseline;">
+          <div style="padding:14px 8px 14px 16px;color:#0e7ea8;font-weight:600;">2</div>
+          <div style="padding:14px 8px;">Ability text box<div style="color:var(--dim);">type line, ability name, ability body. Vertically centred, never justified</div></div>
+          <div style="padding:14px 8px;color:var(--dim);">1072 × 385<br />at 521, 1263</div>
+          <div style="padding:14px 8px;color:var(--dim);">x 10.079<br />y 63.579<br />w 85.079<br />h 21.875</div>
+          <div style="padding:14px 16px 14px 8px;color:var(--dim);">2.7844</div>
+        </div>
+        <div style="display:grid;grid-template-columns:32px 1fr 158px 132px 110px;font-size:13px;border-bottom:1px solid var(--rule);align-items:baseline;">
+          <div style="padding:14px 8px 14px 16px;color:#8a6415;font-weight:600;">3</div>
+          <div style="padding:14px 8px;">Yellow name bar<div style="color:var(--dim);">card name, uppercase, 600, 0.10em tracking, optically centred</div></div>
+          <div style="padding:14px 8px;color:var(--dim);">1106 × 145<br />at 471, 1693</div>
+          <div style="padding:14px 8px;color:var(--dim);">x 6.111<br />y 88.011<br />w 87.778<br />h 8.239</div>
+          <div style="padding:14px 16px 14px 8px;color:var(--dim);">7.6276</div>
+        </div>
+        <div style="display:grid;grid-template-columns:32px 1fr 158px 132px 110px;font-size:13px;align-items:baseline;">
+          <div style="padding:14px 8px 14px 16px;color:var(--ink);font-weight:600;">4</div>
+          <div style="padding:14px 8px;">Corner roundels<div style="color:var(--dim);">left carries the collector number, right carries the holo glyph</div></div>
+          <div style="padding:14px 8px;color:var(--dim);">ø 190<br />centres 101 and 1061, y 103</div>
+          <div style="padding:14px 8px;color:var(--dim);">ø 15.1 of width<br />cy 5.85</div>
+          <div style="padding:14px 16px 14px 8px;color:var(--dim);">1.0</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:32px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:20px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">FACE ASPECT</div>
+        <div style="font-size:25px;font-weight:600;letter-spacing:-0.02em;">63 : 88 = 0.715909</div>
+        <p style="margin:8px 0 0;font-size:13px;color:var(--dim);">Silhouette 1260 × 1760 at master scale, which is 63 × 20 and 88 × 20. Deviation 0.0000 percent.</p>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:20px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">TEXTURE SIZE</div>
+        <div style="font-size:25px;font-weight:600;letter-spacing:-0.02em;">1008 × 1408</div>
+        <p style="margin:8px 0 0;font-size:13px;color:var(--dim);">Exactly 0.8000 on both axes from master. Both dimensions divide by 4 for block compression. Per D3.</p>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:20px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">COMPOSITE ORDER</div>
+        <div style="font-size:25px;font-weight:600;letter-spacing:-0.02em;">frame, art, text</div>
+        <p style="margin:8px 0 0;font-size:13px;color:var(--dim);">Frame first, then art clipped to the measured cream window so the notches survive, then one Lanczos reduction.</p>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:20px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">CARD TEXT SIZING</div>
+        <div style="font-size:25px;font-weight:600;letter-spacing:-0.02em;">em of card width</div>
+        <p style="margin:8px 0 0;font-size:13px;color:var(--dim);">name 0.056, ability name 0.034, ability body 0.029, type line 0.024, roundel 0.054. All of it is baked into the texture at master scale per D3, so the same face carries its copy in the 3D slab, the static narrow layouts and the collection grid alike. No DOM overlay sits on top.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SLAB + LABEL ===================== -->
+  <section>
+    <div style="font-size:11px;letter-spacing:0.24em;color:var(--dim);margin-bottom:8px;">05</div>
+    <h2 style="font-size:32px;font-weight:600;letter-spacing:-0.02em;margin:0 0 8px;">Slab and label anatomy</h2>
+    <p style="margin:0 0 32px;color:var(--dim);max-width:76ch;text-wrap:pretty;">The case is the only element on the page allowed a radius or a shadow. Both are deliberate departures from the baseline, where every edge was square and nothing cast a shadow: the acrylic needs depth to read as a physical object, and the flat page around it needs to stay flat so the contrast lands.</p>
+    <div style="display:grid;grid-template-columns:420px 1fr;gap:48px;align-items:start;">
+      <div style="position:relative;">
+        <img src="assets/hero-poster-v2.png" alt="Graded slab poster, front" style="width:100%;height:auto;display:block;" />
+        <div style="position:absolute;left:-10px;top:2%;width:20px;height:14%;border-left:1.5px solid #e0201c;border-top:1.5px solid #e0201c;border-bottom:1.5px solid #e0201c;"></div>
+        <div style="position:absolute;left:-124px;top:6%;font-size:11px;letter-spacing:0.14em;color:#e0201c;text-align:right;width:106px;">CERT LABEL<br />0.23 × CARD W</div>
+        <div style="position:absolute;right:-10px;top:18%;width:20px;height:78%;border-right:1.5px solid #0e7ea8;border-top:1.5px solid #0e7ea8;border-bottom:1.5px solid #0e7ea8;"></div>
+        <div style="position:absolute;right:-116px;top:52%;font-size:11px;letter-spacing:0.14em;color:#0e7ea8;width:100px;">CARD WELL<br />63:88 · INSET 20</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <div style="background:var(--paper);border:1px solid var(--rule);padding:20px 24px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:14px;">CASE</div>
+          <div style="display:grid;grid-template-columns:auto 1fr;column-gap:24px;row-gap:8px;font-size:13px;">
+            <span style="color:var(--dim);">width</span><span>card width + 40px. Padding 14 top, 20 sides, 20 bottom</span>
+            <span style="color:var(--dim);">radius</span><span>16px case, 9px card well</span>
+            <span style="color:var(--dim);">fill</span><span>linear-gradient 148deg, white 0.94 to #d8e2ea 0.72 at 38% to #f4f8fa 0.88 at 62% to #ced9e2 0.70</span>
+            <span style="color:var(--dim);">border</span><span>1px rgba(122,138,152,0.30)</span>
+            <span style="color:var(--dim);">inner</span><span>1px white 0.98 top inset, 2px rgba(96,112,126,0.30) bottom inset, 2px white 0.70 left, 2px rgba(120,136,150,0.18) right</span>
+            <span style="color:var(--dim);">drop</span><span>0 34px 64px -26px rgba(30,28,24,0.44) and 0 2px 8px rgba(30,28,24,0.12)</span>
+          </div>
+        </div>
+        <div style="background:var(--paper);border:1px solid var(--rule);padding:20px 24px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:14px;">LABEL · THREE ZONES, PER label-ref.png</div>
+          <div style="display:grid;grid-template-columns:auto 1fr;column-gap:24px;row-gap:8px;font-size:13px;">
+            <span style="color:var(--dim);">zone 1</span><span>line 1 is JMBT GRADING at 0.026em / 0.20em tracking, card name 0.044em 600, subject line 0.023em, 2px #e0201c rule, cert line 0.020em ending in FIRST EDITION on all five cards</span>
+            <span style="color:var(--dim);">zone 2</span><span>GEM MT 0.021em 600, grade numeral 0.098em 600 at -0.04em tracking</span>
+            <span style="color:var(--dim);">zone 3</span><span>seven-bar verification block, set line 0.018em</span>
+            <span style="color:var(--dim);">divisions</span><span>1px #121110 verticals between zones, 1px #121110 outer keyline, white ground</span>
+            <span style="color:var(--dim);">ships as</span><span>SVG, not raster. label-ref.png is proportion reference only</span>
+          </div>
+        </div>
+        <div style="background:var(--paper);border:1px solid var(--rule);padding:20px 24px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:14px;">PER-CARD LABEL COPY</div>
+          <div style="display:grid;grid-template-columns:auto 1fr;column-gap:24px;row-gap:6px;font-size:13px;">
+            <span style="color:var(--dim);">01</span><span>JOSHUA · DATA SCIENTIST / AI SYSTEMS ENGINEER · CERT 2026 0001 · FIRST EDITION</span>
+            <span style="color:var(--dim);">02</span><span>KOMIKFIND · SEMANTIC MANGA SEARCH · CERT 2026 0002 · FIRST EDITION</span>
+            <span style="color:var(--dim);">03</span><span>KALAKAL · AUTONOMOUS SOLANA TRADING AGENT · CERT 2026 0003 · FIRST EDITION</span>
+            <span style="color:var(--dim);">04</span><span>RAIDYARD · ASYNC BASE RAID INSIDE REDDIT · CERT 2026 0004 · FIRST EDITION</span>
+            <span style="color:var(--dim);">05</span><span>DOTAWEAKNESS · DOTA 2 SELF ANALYSIS · CERT 2026 0005 · FIRST EDITION</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LAYOUT FRAMES ===================== -->
+  <section>
+    <div style="font-size:11px;letter-spacing:0.24em;color:var(--dim);margin-bottom:8px;">06</div>
+    <h2 style="font-size:32px;font-weight:600;letter-spacing:-0.02em;margin:0 0 8px;">Card-side layouts</h2>
+    <p style="margin:0 0 32px;color:var(--dim);max-width:76ch;text-wrap:pretty;">Live frames of the page at each width, parked on beat 3, komikfind. At 1440 the card is 3D and sits opposite the panel. At 768 and below there is no 3D at all: the card becomes a static face image stacked above the panel, in the same reading order.</p>
+    <div style="display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap;">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;width:720px;margin-bottom:12px;font-size:11px;letter-spacing:0.16em;color:var(--dim);">
+          <span style="color:var(--ink);font-weight:600;">1440 · SLAB OPPOSITE PANEL</span><span>SHOWN AT 0.5</span>
+        </div>
+        <div style="width:720px;height:450px;overflow:hidden;border:1px solid var(--ink);background:var(--paper);position:relative;">
+          <iframe ref="{{ f1440 }}" src="Graded Collection Landing.dc.html" title="1440 layout" style="width:1440px;height:900px;border:0;transform:scale(0.5);transform-origin:0 0;"></iframe>
+        </div>
+        <div style="width:720px;margin-top:12px;display:grid;grid-template-columns:auto 1fr;column-gap:20px;row-gap:6px;font-size:13px;">
+          <span style="color:var(--dim);">panel</span><span>cols 1 to 5, 506px, vertically centred in a 100vh beat</span>
+          <span style="color:var(--dim);">card</span><span>slab centre +318px or -318px from viewport centre, card width clamp(240px, 24vw, 372px)</span>
+          <span style="color:var(--dim);">chrome</span><span>beat rail fixed at left 20px, choreography readout fixed at right 20px bottom 20px</span>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;width:461px;margin-bottom:12px;font-size:11px;letter-spacing:0.16em;color:var(--dim);">
+          <span style="color:var(--ink);font-weight:600;">768 · STACKED, STATIC CARD</span><span>SHOWN AT 0.6</span>
+        </div>
+        <div style="width:461px;height:600px;overflow:hidden;border:1px solid var(--ink);background:var(--paper);">
+          <iframe ref="{{ f768 }}" src="Graded Collection Landing.dc.html" title="768 layout" style="width:768px;height:1000px;border:0;transform:scale(0.6);transform-origin:0 0;"></iframe>
+        </div>
+        <div style="width:461px;margin-top:12px;display:grid;grid-template-columns:auto 1fr;column-gap:20px;row-gap:6px;font-size:13px;">
+          <span style="color:var(--dim);">panel</span><span>full 672px, 48px margins</span>
+          <span style="color:var(--dim);">card</span><span>static face image, 300px wide, 32px above the eyebrow</span>
+          <span style="color:var(--dim);">beats</span><span>height auto, 72px vertical padding, metrics stay two up</span>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;width:390px;margin-bottom:12px;font-size:11px;letter-spacing:0.16em;color:var(--dim);">
+          <span style="color:var(--ink);font-weight:600;">390 · MOBILE FALLBACK</span><span>SHOWN AT 1.0</span>
+        </div>
+        <div style="width:390px;height:700px;overflow:hidden;border:1px solid var(--ink);background:var(--paper);">
+          <iframe ref="{{ f390 }}" src="Graded Collection Landing.dc.html" title="390 layout" style="width:390px;height:700px;border:0;"></iframe>
+        </div>
+        <div style="width:390px;margin-top:12px;display:grid;grid-template-columns:auto 1fr;column-gap:20px;row-gap:6px;font-size:13px;">
+          <span style="color:var(--dim);">card</span><span>static face image, 208px wide</span>
+          <span style="color:var(--dim);">beat 1</span><span>uses hero-poster.png, the same asset the desktop poster-first hydration shows</span>
+          <span style="color:var(--dim);">dropped</span><span>3D stage, beat rail, choreography readout. Metrics stack one up</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MOBILE FALLBACK ===================== -->
+  <section>
+    <div style="font-size:11px;letter-spacing:0.24em;color:var(--dim);margin-bottom:8px;">07</div>
+    <h2 style="font-size:32px;font-weight:600;letter-spacing:-0.02em;margin:0 0 8px;">Mobile fallback, as its own layout</h2>
+    <p style="margin:0 0 32px;color:var(--dim);max-width:76ch;text-wrap:pretty;">The fallback is not a degraded desktop. It is the same seven beats in the same order, told with still images. Per D2 this path renders on every load at every width, so it cannot rot: the desktop poster is this layout's hero image.</p>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:16px;">
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:16px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:10px;">01 HERO</div>
+        <div style="height:1px;background:var(--rule);margin-bottom:12px;"></div>
+        <div style="font-size:13px;color:var(--dim);line-height:1.6;">hero-poster.png 208px<br />eyebrow<br />name 40px<br />role 20px<br />2 paragraphs 17px<br />scroll cue</div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:16px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:10px;">02 REVEAL</div>
+        <div style="height:1px;background:var(--rule);margin-bottom:12px;"></div>
+        <div style="font-size:13px;color:var(--dim);line-height:1.6;">hero face 208px<br />eyebrow<br />tagline 28px<br />hairline<br />caption 16px</div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:16px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:10px;">03 KOMIKFIND</div>
+        <div style="height:1px;background:var(--rule);margin-bottom:12px;"></div>
+        <div style="font-size:13px;color:var(--dim);line-height:1.6;">card face 208px<br />eyebrow<br />title 28px<br />body 17px<br />2 metrics stacked<br />link</div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:16px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:10px;">04 KALAKAL</div>
+        <div style="height:1px;background:var(--rule);margin-bottom:12px;"></div>
+        <div style="font-size:13px;color:var(--dim);line-height:1.6;">same as 03</div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:16px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:10px;">05 RAIDYARD</div>
+        <div style="height:1px;background:var(--rule);margin-bottom:12px;"></div>
+        <div style="font-size:13px;color:var(--dim);line-height:1.6;">same as 03, link row gains a hackathon note</div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:16px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:10px;">06 DOTAWEAKNESS</div>
+        <div style="height:1px;background:var(--rule);margin-bottom:12px;"></div>
+        <div style="font-size:13px;color:var(--dim);line-height:1.6;">same as 03</div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:16px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--brass-ink);margin-bottom:10px;">07 COLLECTION</div>
+        <div style="height:1px;background:var(--rule);margin-bottom:12px;"></div>
+        <div style="font-size:13px;color:var(--dim);line-height:1.6;">5 faces in an auto-fill grid, min 140px<br />eyebrow<br />display 30px<br />body<br />CTA<br />3 links</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CHOREOGRAPHY ===================== -->
+  <section>
+    <div style="font-size:11px;letter-spacing:0.24em;color:var(--dim);margin-bottom:8px;">08</div>
+    <h2 style="font-size:32px;font-weight:600;letter-spacing:-0.02em;margin:0 0 8px;">Scroll choreography</h2>
+    <p style="margin:0 0 24px;color:var(--dim);max-width:76ch;text-wrap:pretty;">Progress is measured against the seven beat sections, never raw document height, so header and footer chrome cannot shift a beat away from its panel. The viewport centre selects the active beat, u is the centre's normalised position through that section, and p is (beatIndex + u) divided by 7. Beat k therefore occupies the k-th seventh of p at every width, in the 100vh desktop beats and the auto-height stacked beats alike. Phases split at u 0.25 and 0.75.</p>
+    <div style="background:var(--paper);border:1px solid var(--rule);overflow-x:auto;">
+      <div style="display:grid;grid-template-columns:180px 130px 118px 118px 118px 1fr;font-size:11px;letter-spacing:0.14em;color:var(--dim);border-bottom:1px solid var(--rule);min-width:1100px;">
+        <div style="padding:12px 16px;">BEAT</div><div style="padding:12px 12px;">RANGE OF p</div><div style="padding:12px 12px;">ENTRANCE</div><div style="padding:12px 12px;">HOLD</div><div style="padding:12px 12px;">EXIT</div><div style="padding:12px 16px 12px 12px;">SLAB STATE DURING HOLD</div>
+      </div>
+      <div style="display:grid;grid-template-columns:180px 130px 118px 118px 118px 1fr;font-size:13px;border-bottom:1px solid var(--rule);min-width:1100px;align-items:baseline;">
+        <div style="padding:14px 16px;font-weight:600;">01 Hero</div><div style="padding:14px 12px;">0.00 to 14.29%</div><div style="padding:14px 12px;color:var(--dim);">0.00 to 3.57</div><div style="padding:14px 12px;color:var(--dim);">3.57 to 10.71</div><div style="padding:14px 12px;color:var(--dim);">10.71 to 14.29</div>
+        <div style="padding:14px 16px 14px 12px;color:var(--dim);">x +318. rotateY -16, rotateX 6, rotateZ -2, scale 1.00. Idle float 7px over 7.5s plus ±1.8deg yaw. Poster crossfades out after two rendered frames plus 420ms.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:180px 130px 118px 118px 118px 1fr;font-size:13px;border-bottom:1px solid var(--rule);min-width:1100px;align-items:baseline;">
+        <div style="padding:14px 16px;font-weight:600;">02 Reveal</div><div style="padding:14px 12px;">14.29 to 28.57%</div><div style="padding:14px 12px;color:var(--dim);">14.29 to 17.86</div><div style="padding:14px 12px;color:var(--dim);">17.86 to 25.00</div><div style="padding:14px 12px;color:var(--dim);">25.00 to 28.57</div>
+        <div style="padding:14px 16px 14px 12px;color:var(--dim);">x -318, scale 1.06. rotateY sweeps -34 to +34 across the hold, rotateX 6 to -2. Holo opacity 0.16 to 0.90 to 0.16 on a sine. Sheen bar translates -150% to +150%. Brass wash peaks at 0.85.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:180px 130px 118px 118px 118px 1fr;font-size:13px;border-bottom:1px solid var(--rule);min-width:1100px;align-items:baseline;">
+        <div style="padding:14px 16px;font-weight:600;">03 komikfind</div><div style="padding:14px 12px;">28.57 to 42.86%</div><div style="padding:14px 12px;color:var(--dim);">28.57 to 32.14</div><div style="padding:14px 12px;color:var(--dim);">32.14 to 39.29</div><div style="padding:14px 12px;color:var(--dim);">39.29 to 42.86</div>
+        <div style="padding:14px 16px 14px 12px;color:var(--dim);">x +318. rotateY -15, rotateX 5, rotateZ -3. Holo 0.16. Face 02, halftone holo.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:180px 130px 118px 118px 118px 1fr;font-size:13px;border-bottom:1px solid var(--rule);min-width:1100px;align-items:baseline;">
+        <div style="padding:14px 16px;font-weight:600;">04 kalakal</div><div style="padding:14px 12px;">42.86 to 57.14%</div><div style="padding:14px 12px;color:var(--dim);">42.86 to 46.43</div><div style="padding:14px 12px;color:var(--dim);">46.43 to 53.57</div><div style="padding:14px 12px;color:var(--dim);">53.57 to 57.14</div>
+        <div style="padding:14px 16px 14px 12px;color:var(--dim);">x -318. rotateY +15, rotateX 5, rotateZ +3. Face 03, hex circuit holo.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:180px 130px 118px 118px 118px 1fr;font-size:13px;border-bottom:1px solid var(--rule);min-width:1100px;align-items:baseline;">
+        <div style="padding:14px 16px;font-weight:600;">05 Raidyard</div><div style="padding:14px 12px;">57.14 to 71.43%</div><div style="padding:14px 12px;color:var(--dim);">57.14 to 60.71</div><div style="padding:14px 12px;color:var(--dim);">60.71 to 67.86</div><div style="padding:14px 12px;color:var(--dim);">67.86 to 71.43</div>
+        <div style="padding:14px 16px 14px 12px;color:var(--dim);">x +318. rotateY -15, rotateX 5, rotateZ -3. Face 04, prismatic holo.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:180px 130px 118px 118px 118px 1fr;font-size:13px;border-bottom:1px solid var(--rule);min-width:1100px;align-items:baseline;">
+        <div style="padding:14px 16px;font-weight:600;">06 dotaweakness</div><div style="padding:14px 12px;">71.43 to 85.71%</div><div style="padding:14px 12px;color:var(--dim);">71.43 to 75.00</div><div style="padding:14px 12px;color:var(--dim);">75.00 to 82.14</div><div style="padding:14px 12px;color:var(--dim);">82.14 to 85.71</div>
+        <div style="padding:14px 16px 14px 12px;color:var(--dim);">x -318. rotateY +15, rotateX 5, rotateZ +3. Face 05, prismatic holo.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:180px 130px 118px 118px 118px 1fr;font-size:13px;min-width:1100px;align-items:baseline;">
+        <div style="padding:14px 16px;font-weight:600;">07 Collection</div><div style="padding:14px 12px;">85.71 to 100.00%</div><div style="padding:14px 12px;color:var(--dim);">85.71 to 89.29</div><div style="padding:14px 12px;color:var(--dim);">89.29 to 96.43</div><div style="padding:14px 12px;color:var(--dim);">96.43 to 100.00</div>
+        <div style="padding:14px 16px 14px 12px;color:var(--dim);">Slab exits on translateY to -135vh over u 0 to 0.32. Fan spread runs 0 to 1 over u 0.05 to 0.45, rotations ±15 and ±7.5deg, offsets ±238 and ±119px, origin 50% 130%, fan cards at 0.62 of card width.</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:20px 24px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:14px;">BEAT TRANSITIONS</div>
+        <div style="display:grid;grid-template-columns:auto 1fr;column-gap:20px;row-gap:8px;font-size:13px;">
+          <span style="color:var(--dim);">window</span><span>u ±0.16 around every boundary, which is ±2.29% of total scroll</span>
+          <span style="color:var(--dim);">easing</span><span>cubic in-out on position, rotation and scale together</span>
+          <span style="color:var(--dim);">edge pass</span><span>rotateY adds ±92deg on a half sine, so the slab is near edge-on at the midpoint</span>
+          <span style="color:var(--dim);">face swap</span><span>at the midpoint of that pass, by visibility. Never by opacity, and never crossfaded</span>
+          <span style="color:var(--dim);">label</span><span>name, subject and cert line swap in the same tick as the face</span>
+        </div>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--rule);padding:20px 24px;">
+        <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:14px;">MOTION CONSTRAINTS · C1 FROM DECISIONS.md</div>
+        <div style="display:grid;grid-template-columns:auto 1fr;column-gap:20px;row-gap:8px;font-size:13px;">
+          <span style="color:var(--dim);">entrance</span><span>transform only. translateY 16px on the hero panel, 24px on every later panel, settling on cubic-bezier(0.16, 1, 0.30, 1) over 640ms</span>
+          <span style="color:var(--dim);">opacity</span><span>stays at 1 at all times on every subtree containing text. Not on the container, not on the text</span>
+          <span style="color:var(--dim);">allowed</span><span>the hero poster image, the raking-light wash and the holo layer. None contain text</span>
+          <span style="color:var(--dim);">reduced</span><span>no entrance at all, content renders settled. Idle float and yaw drop to zero, slab parks at its beat pose, poster hides immediately</span>
+          <span style="color:var(--dim);">trigger</span><span>IntersectionObserver, threshold 0.01, rootMargin bottom -18%, unobserved after firing once</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COPY DECK ===================== -->
+  <section>
+    <div style="font-size:11px;letter-spacing:0.24em;color:var(--dim);margin-bottom:8px;">09</div>
+    <h2 style="font-size:32px;font-weight:600;letter-spacing:-0.02em;margin:0 0 8px;">Copy deck</h2>
+    <p style="margin:0 0 32px;color:var(--dim);max-width:76ch;text-wrap:pretty;">Plain and specific, one wink per beat, no em dashes anywhere. Every figure is one of the supplied numbers. Ability text on the card mirrors the panel in TCG phrasing.</p>
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+      <div style="background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:180px 1fr 1fr;">
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-weight:600;">01 Hero</div>
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-top:6px;">WINK · LINE 4</div>
+        </div>
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">PANEL</div>
+          <div style="font-size:13px;line-height:1.8;">01 / 07 · CERT 2026 0001<br /><strong style="font-weight:600;">joshua</strong><br />Data Scientist / AI Systems Engineer<br />Six years of data and ML systems out of Manila. Pipelines that hold, agents that stay on their rails, small tools with opinions.<br /><em style="color:var(--brass-ink);font-style:normal;">Graded once, by me, generously.</em><br />SCROLL · THE SLAB TURNS</div>
+        </div>
+        <div style="padding:20px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">CARD</div>
+          <div style="font-size:13px;line-height:1.8;">SUPPORT / ENGINEER · 6 YRS<br /><strong style="font-weight:600;">IDLE ANIMATION</strong><br />Sits cross-legged with a laptop. Ships anyway.<br />Name bar: JOSHUA</div>
+        </div>
+      </div>
+
+      <div style="background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:180px 1fr 1fr;">
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-weight:600;">02 Reveal</div>
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-top:6px;">WINK · CAPTION</div>
+        </div>
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">PANEL</div>
+          <div style="font-size:13px;line-height:1.8;">02 / 07 · THE REVEAL<br /><strong style="font-weight:600;">Build the boring rails first, then the clever part is safe to ship.</strong><br /><em style="color:var(--brass-ink);font-style:normal;">Raking light crosses the case, foil flares through the art window. The seams show on purpose.</em></div>
+        </div>
+        <div style="padding:20px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">CARD</div>
+          <div style="font-size:13px;line-height:1.8;color:var(--dim);">Face 01 held. No copy change. The beat is carried entirely by light.</div>
+        </div>
+      </div>
+
+      <div style="background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:180px 1fr 1fr;">
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-weight:600;">03 komikfind</div>
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-top:6px;">WINK · HALF-REMEMBERED</div>
+        </div>
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">PANEL</div>
+          <div style="font-size:13px;line-height:1.8;">03 / 07 · PROJECT<br /><strong style="font-weight:600;">komikfind</strong><br />Semantic manga search that reads panels instead of filenames. Describe a half-remembered scene and it hands back the chapter.<br />MEDIAN SEARCH STAGE · 3.9s → 472ms<br />INT8 QUANTIZATION · 8.2x</div>
+        </div>
+        <div style="padding:20px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">CARD</div>
+          <div style="font-size:13px;line-height:1.8;">SEARCH / STAGE 1<br /><strong style="font-weight:600;">PANEL RECALL</strong><br />Search the whole shelf at once. Median search stage 3.9s to 472ms.<br />Name bar: KOMIKFIND</div>
+        </div>
+      </div>
+
+      <div style="background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:180px 1fr 1fr;">
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-weight:600;">04 kalakal</div>
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-top:6px;">WINK · NOTHING MOVES</div>
+        </div>
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">PANEL</div>
+          <div style="font-size:13px;line-height:1.8;">04 / 07 · PROJECT<br /><strong style="font-weight:600;">kalakal</strong><br />An autonomous Solana trading agent running on deterministic rails. The agent proposes, the executor enforces, and nothing moves unless policy allows it.<br />HARD DEFAULT · DRY_RUN<br />AUTHORITY · executor<br />github.com/jmbt25</div>
+        </div>
+        <div style="padding:20px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">CARD</div>
+          <div style="font-size:13px;line-height:1.8;">AGENT / SOLANA<br /><strong style="font-weight:600;">POLICY GATE</strong><br />The agent proposes. The executor enforces. DRY_RUN is the hard default.<br />Name bar: KALAKAL</div>
+        </div>
+      </div>
+
+      <div style="background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:180px 1fr 1fr;">
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-weight:600;">05 Raidyard</div>
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-top:6px;">WINK · EVERYONE IN THE THREAD</div>
+        </div>
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">PANEL</div>
+          <div style="font-size:13px;line-height:1.8;">05 / 07 · PROJECT<br /><strong style="font-weight:600;">Raidyard</strong><br />An async base-raid game that lives inside Reddit posts. The sim is deterministic, so a raid resolves the same way for everyone who opens the thread.<br />PLATFORM · Devvit Web<br />SIM · deterministic<br />github.com/jmbt25 · hackathon entry</div>
+        </div>
+        <div style="padding:20px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">CARD</div>
+          <div style="font-size:13px;line-height:1.8;">GAME / DEVVIT WEB<br /><strong style="font-weight:600;">ASYNC RAID</strong><br />Resolves inside the post. Deterministic sim, same result for every player.<br />Name bar: RAIDYARD</div>
+        </div>
+      </div>
+
+      <div style="background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:180px 1fr 1fr;">
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-weight:600;">06 dotaweakness</div>
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-top:6px;">WINK · CANNOT SOFTEN</div>
+        </div>
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">PANEL</div>
+          <div style="font-size:13px;line-height:1.8;">06 / 07 · PROJECT<br /><strong style="font-weight:600;">dotaweakness</strong><br />Dota 2 self-analysis that names what you are actually bad at. Honest Mode runs a banned-token validator, so the report cannot soften the verdict.<br />ANALYSIS CARDS · nine<br />HONEST MODE · validated<br />dotaweakness.com</div>
+        </div>
+        <div style="padding:20px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">CARD</div>
+          <div style="font-size:13px;line-height:1.8;">ANALYSIS / DOTA 2<br /><strong style="font-weight:600;">HONEST MODE</strong><br />Reveal nine analysis cards. A banned-token validator blocks the comforting words.<br />Name bar: DOTAWEAKNESS</div>
+        </div>
+      </div>
+
+      <div style="background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:180px 1fr 1fr;">
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-weight:600;">07 Collection</div>
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-top:6px;">WINK · MAY AS WELL BE YOU</div>
+        </div>
+        <div style="padding:20px;border-right:1px solid var(--rule);">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">PANEL</div>
+          <div style="font-size:13px;line-height:1.8;">07 / 07 · THE COLLECTION<br /><strong style="font-weight:600;">Five cards, one set.</strong><br />That is the whole collection so far. The sixth card gets built with somebody, so it may as well be you.<br />Start a conversation →<br />CODE · github.com/jmbt25<br />CONTACT · x.com/jmbt_dev</div>
+        </div>
+        <div style="padding:20px;">
+          <div style="font-size:11px;letter-spacing:0.16em;color:var(--dim);margin-bottom:10px;">CARD</div>
+          <div style="font-size:13px;line-height:1.8;">All five faces at 0.62 of card width. The copy is baked into the texture, so the ability block scales with the card rather than being suppressed. At fan size it reads as texture, not as legible type, which is the intent.</div>
+        </div>
+      </div>
+    </div>
+    <p style="margin:24px 0 0;font-size:13px;color:var(--brass-ink);">The komikfind beat carries no outbound link. The contact beat carries exactly two, GitHub and X, matching the current jmbt.dev footer.</p>
+  </section>
+
+  <!-- ===================== ASSETS ===================== -->
+  <section>
+    <div style="font-size:11px;letter-spacing:0.24em;color:var(--dim);margin-bottom:8px;">10</div>
+    <h2 style="font-size:32px;font-weight:600;letter-spacing:-0.02em;margin:0 0 8px;">Asset placement</h2>
+    <div style="background:var(--paper);border:1px solid var(--rule);overflow-x:auto;">
+      <div style="display:grid;grid-template-columns:300px 128px 1fr 210px;font-size:11px;letter-spacing:0.14em;color:var(--dim);border-bottom:1px solid var(--rule);min-width:1000px;">
+        <div style="padding:12px 16px;">ASSET</div><div style="padding:12px 12px;">SIZE</div><div style="padding:12px 12px;">PLACEMENT</div><div style="padding:12px 16px 12px 12px;">SOURCE</div>
+      </div>
+      <div style="display:grid;grid-template-columns:300px 128px 1fr 210px;font-size:13px;border-bottom:1px solid var(--rule);min-width:1000px;align-items:baseline;">
+        <div style="padding:14px 16px;">cards/&lt;slug&gt;-face.png × 5</div><div style="padding:14px 12px;color:var(--dim);">1008 × 1408</div><div style="padding:14px 12px;">Card well, full bleed. Also the static card in the narrow layouts and the five fan cards</div><div style="padding:14px 16px 14px 12px;color:var(--dim);">composited from frame-src.png plus art/*-art-src.png</div>
+      </div>
+      <div style="display:grid;grid-template-columns:300px 128px 1fr 210px;font-size:13px;border-bottom:1px solid var(--rule);min-width:1000px;align-items:baseline;">
+        <div style="padding:14px 16px;">hero-poster.png</div><div style="padding:14px 12px;color:var(--dim);">824 × 1330</div><div style="padding:14px 12px;">Poster-first layer over the 3D stage at the hero pose, and the hero image in the fallback layout. Ship as WebP, rendered from the 3D at the beat 1 pose</div><div style="padding:14px 16px 14px 12px;color:var(--dim);">render of the slab</div>
+      </div>
+      <div style="display:grid;grid-template-columns:300px 128px 1fr 210px;font-size:13px;border-bottom:1px solid var(--rule);min-width:1000px;align-items:baseline;">
+        <div style="padding:14px 16px;">paper-grain-warm-white.png</div><div style="padding:14px 12px;color:var(--dim);">1024 × 1024</div><div style="padding:14px 12px;">Fixed full-viewport layer, background-size 512px, opacity 0.55, mix-blend-mode multiply, z-index 0. Needs the 2×2 offset tile test before build</div><div style="padding:14px 16px 14px 12px;color:var(--dim);">design-inputs, recommended primary</div>
+      </div>
+      <div style="display:grid;grid-template-columns:300px 128px 1fr 210px;font-size:13px;border-bottom:1px solid var(--rule);min-width:1000px;align-items:baseline;">
+        <div style="padding:14px 16px;">holo/*.png × 4 in use</div><div style="padding:14px 12px;color:var(--dim);">974 × 974</div><div style="padding:14px 12px;">Inside the art window only, inset -25%, background-size 56%, mix-blend-mode color-dodge, opacity driven by the beat. starburst on 01, halftone on 02, hex on 03, prismatic on 04 and 05</div><div style="padding:14px 16px 14px 12px;color:var(--dim);">assets-src/holo, all five need the Phase 3 seamless pass</div>
+      </div>
+      <div style="display:grid;grid-template-columns:300px 128px 1fr 210px;font-size:13px;border-bottom:1px solid var(--rule);min-width:1000px;align-items:baseline;">
+        <div style="padding:14px 16px;">label-ref.png</div><div style="padding:14px 12px;color:var(--dim);">1825 × 463</div><div style="padding:14px 12px;">Not shipped. Proportion reference for the SVG label only</div><div style="padding:14px 16px 14px 12px;color:var(--dim);">certification-label-strict-grid</div>
+      </div>
+      <div style="display:grid;grid-template-columns:300px 128px 1fr 210px;font-size:13px;min-width:1000px;align-items:baseline;">
+        <div style="padding:14px 16px;">jetbrains-mono-latin.woff2</div><div style="padding:14px 12px;color:var(--dim);">31,432 B</div><div style="padding:14px 12px;">Preloaded, the only family on the page. The latin-ext subset stays dropped per C2, and no copy on this page needs it</div><div style="padding:14px 16px 14px 12px;color:var(--dim);">public/fonts, unchanged</div>
+      </div>
+    </div>
+    <p style="margin:20px 0 0;font-size:13px;color:var(--dim);max-width:88ch;text-wrap:pretty;">The five card faces in this mockup were composited by keying the cream art window out of frame-src.png with a flood fill inside the measured bounding box, drawing the art beneath that mask so the three notches survive, then reducing 1260 × 1760 to 1008 × 1408 in one step. Measured window fill came out at 92.27 percent against the 92.4 percent in PICKS.md, which is rounding on the antialiased keyline and not a geometry difference.</p>
+  </section>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.f1440 = React.createRef();
+    this.f768 = React.createRef();
+    this.f390 = React.createRef();
+  }
+  componentDidMount() {
+    // park each frame on a beat so the annotations describe what is visible
+    const park = (ref, mode) => {
+      const f = ref.current;
+      if (!f) return;
+      const go = () => {
+        try {
+          const w = f.contentWindow;
+          const doc = w.document;
+          const max = doc.documentElement.scrollHeight - w.innerHeight;
+          if (mode === 'wide') w.scrollTo(0, max * 0.35);
+          else if (mode === 'stack') {
+            const el = doc.getElementById('beat-3');
+            w.scrollTo(0, el ? el.offsetTop - 20 : 0);
+          } else w.scrollTo(0, 0);
+        } catch (e) { /* same-origin only */ }
+      };
+      f.addEventListener('load', () => { setTimeout(go, 600); setTimeout(go, 1600); });
+      setTimeout(go, 1800);
+    };
+    park(this.f1440, 'wide');
+    park(this.f768, 'stack');
+    park(this.f390, 'top');
+  }
+  renderVals() {
+    return { f1440: this.f1440, f768: this.f768, f390: this.f390 };
+  }
+}
+</script>
+</body>
+</html>

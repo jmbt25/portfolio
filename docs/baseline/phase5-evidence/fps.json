@@ -1,0 +1,10 @@
+{
+  "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 Ti (0x00002C05) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "canvas": "ready",
+  "devicePixelRatio": "1",
+  "frames": 745,
+  "p5": 58.4,
+  "p50": 60,
+  "p95": 61.7,
+  "worstFrameMs": 29
+}

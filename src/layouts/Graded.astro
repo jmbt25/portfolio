@@ -1,0 +1,55 @@
+---
+import '../styles/graded.css';
+import poster from '../data/poster.json';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const SITE = 'https://jmbt.dev';
+const { title, description } = Astro.props;
+
+const handle = 'jmbt25';
+const canonical = new URL(Astro.url.pathname, SITE).href;
+const ogImageUrl = new URL('/og.jpg', SITE).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#faf5ee" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A graded trading card slab, JMBT GRADING, GEM MT 10, certifying JOSHUA, Data Scientist and AI Systems Engineer" />
+    <meta property="og:site_name" content={handle} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content="A graded trading card slab, JMBT GRADING, GEM MT 10, certifying JOSHUA, Data Scientist and AI Systems Engineer" />
+    <meta name="twitter:site" content="@jmbt_dev" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={poster.src} imagesrcset={poster.srcset} imagesizes={poster.sizes} as="image" type="image/webp" fetchpriority="high" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">skip to content</a>
+    <slot />
+  </body>
+</html>
