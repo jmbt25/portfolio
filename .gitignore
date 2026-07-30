@@ -44,4 +44,12 @@ docs/*
 # of concept stills and motion tests. They live on disk permanently and are
 # untracked on every branch, so ignore them here too or they show up as noise.
 public/generated/
-creative-lab/
+
+# Mirrors the creative-lab rule on experiment/cinematic-scroll so the two
+# branches agree. The heavy output stays ignored, markdown stays trackable.
+# Checking out this branch removes the review docs from disk anyway, since they
+# are tracked over there and absent here, so this mainly keeps the rules
+# consistent and stops any stray markdown from being silently ignored.
+creative-lab/**
+!creative-lab/**/
+!creative-lab/**/*.md
