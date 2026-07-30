@@ -323,6 +323,28 @@ introduces characters in that range, this rule is void and the subset stays.
 
 ---
 
+## D5. Design MCP cannot deliver binaries, download those by hand
+
+**Recorded from the Phase 2 import, so the next one does not rediscover it.**
+
+The design MCP `get_file` method truncates any single response at 256 KiB and
+exposes no range, offset or chunking parameter, so a file larger than that
+cannot be retrieved through it at all, in one call or in several. Text files
+under the cap come back complete and byte exact, which is how the three handoff
+documents were imported. Every one of the six reference PNGs exceeded it and
+returned with `truncated: true` at exactly 262144 base64 characters, leaving
+roughly 8 percent of each card face and 23 percent of the poster decodable. The
+truncation is silent in the sense that the payload still looks like a valid
+response, so check the `truncated` flag rather than assuming a successful call
+returned a whole file. **Any binary asset above 256 KiB must be downloaded
+through the Claude Design web UI and committed by hand.** Useful salvage note if
+this comes up again: a truncated PNG still carries its IHDR in the first 33
+bytes, so dimensions and colour type stay readable even when the image data does
+not survive, and the recoverable leading rows can be re-encoded into a valid
+PNG for a partial look.
+
+---
+
 ## Known cosmetic, no action
 
 **`.gitkeep` files copy into `dist/`.** `public/assets/cards/.gitkeep` and
