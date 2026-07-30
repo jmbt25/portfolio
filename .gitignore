@@ -39,3 +39,9 @@ docs/*
 !docs/baseline/
 !docs/design-inputs/
 !docs/handoff/
+
+# regenerable experiment output from experiment/cinematic-scroll, roughly 15 MB
+# of concept stills and motion tests. They live on disk permanently and are
+# untracked on every branch, so ignore them here too or they show up as noise.
+public/generated/
+creative-lab/
