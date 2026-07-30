@@ -31,4 +31,11 @@ SPEC.md
 STACK.md
 DEPLOY.md
 CONTENT.md
-docs/
+
+# docs stays private by default. Git cannot re-include a path inside a fully
+# ignored directory, so exclude the children rather than the directory itself,
+# then negate the revamp pipeline dirs that are meant to be tracked.
+docs/*
+!docs/baseline/
+!docs/design-inputs/
+!docs/handoff/
