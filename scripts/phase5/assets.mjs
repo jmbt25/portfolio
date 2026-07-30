@@ -180,10 +180,37 @@ async function poster() {
     .webp({ quality: 84, effort: 6 }).toFile(out);
   stamp('hero-poster.webp', out);
 
+  /*
+   * Narrower cuts of the same image, for srcset.
+   *
+   * The poster is one asset on every path by D2, and at 1041 px it is sized for
+   * the desktop stage. The narrow layouts draw it at 208 or 300 CSS px, so a
+   * phone was fetching about six times the pixels it could show and mobile LCP
+   * moved 0.3 s when the poster grew to carry the contact shadow. Both img
+   * elements carry the same srcset and the same sizes, so each viewport still
+   * resolves to exactly one file and D2's shared-asset property holds.
+   */
+  const widths = [416, 620];
+  const sources = [];
+  for (const w of widths) {
+    if (w >= targetW) continue;
+    const name = `hero-poster-${w}.webp`;
+    const p = path.join(OUT, name);
+    await sharp(src).extract(crop)
+      .resize(w, Math.round(w * (crop.height / crop.width)), { kernel: 'lanczos3' })
+      .webp({ quality: 84, effort: 6 }).toFile(p);
+    stamp(name, p);
+    sources.push({ src: `/assets/${name}`, width: w });
+  }
+  sources.push({ src: '/assets/hero-poster.webp', width: targetW });
+
   const meta = {
     src: '/assets/hero-poster.webp',
     width: targetW,
     height: targetH,
+    srcset: sources.map((v) => `${v.src} ${v.width}w`).join(', '),
+    // The widths the poster is actually drawn at, per the graded.css breakpoints.
+    sizes: '(max-width: 767.98px) 208px, (max-width: 1023.98px) 300px, 528px',
     // CSS: width = calc(var(--cw) * widthRatioOfCw)
     widthRatioOfCw: Number(widthRatioOfCw.toFixed(5)),
     // CSS: translate3d(calc(318px + var(--cw) * offsetXRatioOfCw), ...)

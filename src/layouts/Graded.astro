@@ -45,7 +45,7 @@ const ogImageUrl = new URL('/og.jpg', SITE).href;
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={poster.src} as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href={poster.src} imagesrcset={poster.srcset} imagesizes={poster.sizes} as="image" type="image/webp" fetchpriority="high" />
     <slot name="head" />
   </head>
   <body>

@@ -2,6 +2,8 @@
   "src": "/assets/hero-poster.webp",
   "width": 1058,
   "height": 1433,
+  "srcset": "/assets/hero-poster-416.webp 416w, /assets/hero-poster-620.webp 620w, /assets/hero-poster.webp 1058w",
+  "sizes": "(max-width: 767.98px) 208px, (max-width: 1023.98px) 300px, 528px",
   "widthRatioOfCw": 1.42074,
   "offsetXRatioOfCw": 0.02696,
   "offsetYRatioOfCw": 0.01399,
