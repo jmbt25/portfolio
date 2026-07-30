@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phase 4 verification render</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #faf5ee; overflow: hidden; }
+  canvas { display: block; }
+</style>
+</head>
+<body>
+<script type="importmap">
+{
+  "imports": {
+    "three": "/node_modules/three/build/three.module.js",
+    "three/addons/": "/node_modules/three/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const params = new URLSearchParams(location.search);
+const W = parseInt(params.get('w') || '1440', 10);
+const H = parseInt(params.get('h') || '900', 10);
+
+const log = [];
+function note(k, v) { log.push([k, v]); }
+
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  alpha: false,
+  preserveDrawingBuffer: true,
+});
+renderer.setPixelRatio(1);
+renderer.setSize(W, H, false);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#faf5ee');
+
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+// Key light rakes across the case, which is the beat 2 gesture and also the
+// lighting most likely to reveal a z-fighting seam if one exists.
+const key = new THREE.DirectionalLight(0xfff4e2, 2.6);
+key.position.set(-0.28, 0.36, 0.42);
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xdfe9f2, 0.9);
+fill.position.set(0.34, -0.12, 0.30);
+scene.add(fill);
+scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+
+const camera = new THREE.PerspectiveCamera(26, W / H, 0.01, 10);
+
+const ktx2 = new KTX2Loader()
+  .setTranscoderPath('/node_modules/three/examples/jsm/libs/basis/')
+  .detectSupport(renderer);
+const draco = new DRACOLoader().setDecoderPath('/node_modules/three/examples/jsm/libs/draco/');
+const loader = new GLTFLoader().setKTX2Loader(ktx2).setDRACOLoader(draco);
+
+function finish(status) {
+  window.__renderStatus = status;
+  window.__renderLog = log;
+  const el = document.createElement('div');
+  el.id = 'render-done';
+  el.dataset.status = status;
+  el.style.cssText = 'position:fixed;left:-9999px;top:0;';
+  el.textContent = status;
+  document.body.appendChild(el);
+}
+
+try {
+  const gltf = await loader.loadAsync('/assets/models/slab.glb');
+  const root = gltf.scene;
+
+  const byName = {};
+  root.traverse((o) => { if (o.isMesh) byName[o.name] = o; });
+  note('meshes', Object.keys(byName).sort().join(', '));
+
+  for (const [name, mesh] of Object.entries(byName)) {
+    const m = mesh.material;
+    const maps = ['map', 'normalMap', 'metalnessMap', 'roughnessMap']
+      .filter((k) => m[k]).join('+') || 'none';
+    note(`material:${name}`, `${m.type} maps=${maps}`);
+  }
+
+  // The slab ships with a placeholder physical glass material. Give it the
+  // transmission it needs to read as acrylic; Phase 5 authors the real one.
+  const slab = byName['Slab'];
+  if (slab) {
+    const m = slab.material;
+    m.transparent = false;
+    m.transmission = 1.0;
+    m.thickness = 0.007;
+    m.ior = 1.49;
+    m.roughness = 0.045;
+    m.metalness = 0.0;
+    m.envMapIntensity = 1.0;
+    m.attenuationDistance = 0.5;
+    m.attenuationColor = new THREE.Color(0xf2f7fa);
+    m.clearcoat = 0.5;
+    m.clearcoatRoughness = 0.06;
+    m.side = THREE.FrontSide;
+    m.needsUpdate = true;
+  }
+  // Card and label are opaque and must not be culled by the transmission pass.
+  for (const n of ['Card', 'Label']) {
+    if (byName[n]) {
+      byName[n].material.side = THREE.FrontSide;
+      byName[n].material.envMapIntensity = 0.55;
+      byName[n].material.needsUpdate = true;
+    }
+  }
+
+  // Beat 1 hero pose from the handoff choreography: rotateY -16, rotateX 6,
+  // rotateZ -2. Read as a real 3D pose rather than a CSS transform.
+  root.rotation.set(
+    THREE.MathUtils.degToRad(6),
+    THREE.MathUtils.degToRad(-16),
+    THREE.MathUtils.degToRad(-2),
+  );
+
+  const box = new THREE.Box3().setFromObject(root);
+  const size = box.getSize(new THREE.Vector3());
+  const centre = box.getCenter(new THREE.Vector3());
+  note('bbox_m', `${size.x.toFixed(4)} x ${size.y.toFixed(4)} x ${size.z.toFixed(4)}`);
+
+  // Frame the slab to fill the height with a margin.
+  const fitH = size.y * 1.16;
+  const fitW = size.x * 1.16;
+  const fov = THREE.MathUtils.degToRad(camera.fov);
+  const distH = (fitH / 2) / Math.tan(fov / 2);
+  const distW = (fitW / 2) / Math.tan(fov / 2) / camera.aspect;
+  const dist = Math.max(distH, distW);
+  camera.position.set(centre.x, centre.y, centre.z + dist);
+  camera.lookAt(centre);
+  camera.updateProjectionMatrix();
+  note('camera_z_m', camera.position.z.toFixed(4));
+
+  scene.add(root);
+  renderer.render(scene, camera);
+
+  // Read back a few probes so seating can be asserted numerically, not only
+  // judged from the screenshot.
+  const px = new Uint8Array(4);
+  function probe(nx, ny) {
+    renderer.readRenderTargetPixels;
+    const gl = renderer.getContext();
+    gl.readPixels(Math.round(nx * W), Math.round(ny * H), 1, 1,
+      gl.RGBA, gl.UNSIGNED_BYTE, px);
+    return [px[0], px[1], px[2]];
+  }
+  note('probe_centre', probe(0.5, 0.5).join(','));
+  note('probe_label', probe(0.5, 0.76).join(','));
+  note('probe_corner', probe(0.03, 0.03).join(','));
+
+  note('drawCalls', String(renderer.info.render.calls));
+  note('triangles', String(renderer.info.render.triangles));
+  note('programs', String(renderer.info.programs.length));
+  note('geometries', String(renderer.info.memory.geometries));
+  note('textures', String(renderer.info.memory.textures));
+
+  finish('ok');
+} catch (err) {
+  note('error', String(err && err.message ? err.message : err));
+  finish('error');
+}
+</script>
+</body>
+</html>

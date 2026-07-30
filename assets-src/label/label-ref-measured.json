@@ -1,0 +1,59 @@
+{
+  "source": "assets-src/label-ref.png",
+  "source_size": [
+    2048,
+    512
+  ],
+  "content_bbox": [
+    111,
+    21,
+    1935,
+    483
+  ],
+  "content_size": [
+    1825,
+    463
+  ],
+  "content_aspect": 3.941685,
+  "zone_x_fractions": {
+    "zone1_w": 0.618082,
+    "zone2_w": 0.237808,
+    "zone3_w": 0.14411
+  },
+  "zone_divider_x_px": [
+    1128,
+    1562
+  ],
+  "bottom_band": {
+    "divider_y_px": 380,
+    "height_fraction": 0.179266
+  },
+  "red_rule": {
+    "y_fraction": 0.742981,
+    "x_start_fraction": 0.002192,
+    "x_end_fraction": 0.616986
+  },
+  "text_bars": [
+    {
+      "y_centre_fraction": 0.168467,
+      "height_fraction": 0.105832,
+      "x_start_fraction": 0.023562,
+      "x_end_fraction": 0.514521,
+      "length_fraction_of_zone1": 0.806655
+    },
+    {
+      "y_centre_fraction": 0.354212,
+      "height_fraction": 0.105832,
+      "x_start_fraction": 0.023562,
+      "x_end_fraction": 0.402192,
+      "length_fraction_of_zone1": 0.622302
+    },
+    {
+      "y_centre_fraction": 0.539957,
+      "height_fraction": 0.105832,
+      "x_start_fraction": 0.023562,
+      "x_end_fraction": 0.311781,
+      "length_fraction_of_zone1": 0.473921
+    }
+  ]
+}

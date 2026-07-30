@@ -64,6 +64,23 @@ output/
 # and the recorded verdicts in docs/design-inputs/PICKS.md are what matter.
 assets-src/holo/tile-test/
 
+# Phase 3 texture pipeline local state. The venv is a machine-local
+# interpreter, and build/ holds the decompressed font plus the raw ComfyUI
+# generations, all of which are reproducible: the font from the tracked woff2,
+# the generations from the tracked workflow JSON, prompt and seed recorded in
+# the sidecar metadata. The finished textures in assets-src are what ship.
+.venv-textures/
+scripts/textures/build/
+scripts/textures/__pycache__/
+
+# Phase 4 intermediates. build/blender/ holds scene.blend and the three GLB
+# stages between Blender and the shipped file, all reproducible with
+# `node scripts/phase4.mjs`. The shipped slab.glb, its KTX2 textures, the baked
+# maps and the poster render are tracked; these are the scaffolding.
+build/
+scripts/blender/__pycache__/
+scripts/label/__pycache__/
+
 # Local identity denylist, read by scripts/check-identity.sh. Untracked on
 # purpose: committing the denied terms would put them in history permanently,
 # which is exactly what the guard exists to prevent. See D4 in

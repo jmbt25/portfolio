@@ -180,6 +180,12 @@ on a 600 pixel window centred on where the edges meet.
 seamless pass in Phase 3 ComfyUI, not rejection. The patterns themselves are
 good, they simply were not generated with wrap continuity.
 
+> **Resolved in Phase 3.** All five were rebuilt as `*-height.png` at
+> 1024 x 1024, periodic by construction rather than retouched, and all five
+> pass the 2x2 offset composite by eye. The five `*-base.png` files stay as the
+> character reference the rebuilds were matched against. `starburst-rays` is
+> the one flagged for a call on character fidelity. See [PHASE3.md](../baseline/PHASE3.md) section D.
+
 The numeric metric disagreed with the eye on four of five, and the eye wins
 here because the brief's criterion is a visible seam. The metric fails on these
 inputs because all five are high-frequency textures where ordinary interior
@@ -222,10 +228,45 @@ in place until then.
 
 ---
 
-## Generation IDs
+## Phase 3 generation provenance
 
-**UNAVAILABLE.** No generation IDs were captured for this run and none are
-recoverable. The 26 source PNGs carry no `tEXt`, `iTXt`, `zTXt` or `eXIf` chunks
+**The Phase 1 gap is closed for everything generated in Phase 3.** Every local
+generation now writes a sidecar JSON next to its PNG in
+`scripts/textures/comfyui-workflows/generations/`, carrying prompt, seed,
+dimensions, steps, sampler, ComfyUI prompt id, output sha256 and the model file
+hashes below. Both the raw generation and its sidecar are tracked, so a
+regeneration can be checked against the original rather than merely resembling
+it.
+
+| Role | File | sha256 | Bytes |
+| --- | --- | --- | --- |
+| Diffusion | `flux-2-klein-4b.safetensors` | `ec3d4e733a771f61c052fb4856c48b336c55eaf2c65487c2a1faeb9bbda7a343` | 7751105712 |
+| Text encoder | `qwen_3_4b.safetensors` | `6c671498573ac2f7a5501502ccce8d2b08ea6ca2f661c458e708f36b36edfc5a` | 8044982048 |
+| VAE | `flux2-vae.safetensors` | `d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5` | 336213556 |
+
+Hashes computed 2026-07-30 by full-file read. ComfyUI at commit `c9602625`,
+version 0.28.0, torch 2.13.0+cu130, on an RTX 5070 Ti. Sampler euler, scheduler
+Flux2Scheduler, cfg 1.0 with the negative branch zeroed.
+
+| Generation | Workflow | Seed | Size | Steps |
+| --- | --- | --- | --- | --- |
+| Card back art, section B | `flux2-klein-card-back.api.json` | 30500 | 1264 x 1760 | 8 |
+| Hex seamless trial, section D | `flux2-klein-seamless-tile.api.json` | 30001 | 1024 x 1024 | 6 |
+
+The hex trial is kept although it was **not** adopted. It is the evidence for
+why the three non-radial patterns were rebuilt procedurally rather than
+generated: see [PHASE3.md](../baseline/PHASE3.md) section D.
+
+Sections A, C, E and F involve no generation at all and are fully
+deterministic. All 29 tracked outputs were confirmed byte-identical across two
+consecutive clean runs.
+
+---
+
+## Generation IDs, Phase 1
+
+**UNAVAILABLE.** No generation IDs were captured for the Phase 1 run and none
+are recoverable. The 26 source PNGs carry no `tEXt`, `iTXt`, `zTXt` or `eXIf` chunks
 containing prompt or generation metadata. The only embedded text is an
 ImageMagick `date:create` and `date:modify` pair on the four frame candidates.
 Nothing has been invented to fill the gap.
