@@ -1,0 +1,86 @@
+---
+/**
+ * The 3D stage. One island, one canvas, one WebGLRenderer.
+ *
+ * D2, poster-first. The still below is in the initial HTML with no JavaScript
+ * involved, so the largest paint on this page is a static image and the WebGL
+ * bundle cannot regress it. The canvas crossfades in only once the scene has
+ * actually rendered a frame, not when the module finishes importing.
+ *
+ * This subtree contains no text, which is what allows the crossfade to animate
+ * opacity at all under C1.
+ */
+import poster from '../data/poster.json';
+---
+<!--
+  The poster ratio is set inline rather than through define:vars. Astro scopes
+  a define:vars custom property to the component's own elements, so a :root
+  rule referring to it never resolves, calc() on it is invalid, and the img
+  silently falls back to its 824px width attribute. That is only visible on a
+  path where the canvas never covers the poster, which is exactly the reduced
+  motion path, so it hides from every screenshot taken with the 3D running.
+-->
+<div class="stage" data-stage aria-hidden="true" style={`--poster-ratio:${poster.widthRatioOfCw}`}>
+  <canvas class="stage-canvas" data-stage-canvas aria-hidden="true"></canvas>
+  <img
+    class="stage-poster"
+    data-stage-poster
+    src={poster.src}
+    width={poster.width}
+    height={poster.height}
+    alt=""
+    fetchpriority="high"
+    decoding="async"
+  />
+</div>
+
+<script>
+  /**
+   * Island bootstrap.
+   *
+   * Astro's client:idle directive is only available on framework components,
+   * and D1 rules out pulling React in to get one. This is the vanilla
+   * equivalent and it has the same shape: nothing heavy is imported during
+   * parse, the import is deferred to idle, and the scene module is only
+   * reached at all once the guards below pass.
+   */
+  const stage = document.querySelector<HTMLElement>('[data-stage]');
+
+  function hasWebGL2(): boolean {
+    try {
+      const c = document.createElement('canvas');
+      return !!c.getContext('webgl2');
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * The static poster path, taken whenever the 3D is not going to run.
+   *
+   * Under 1024 there is no 3D at any point, per handoff spec section 06. Under
+   * reduced motion the content renders settled and the slab never moves, so a
+   * renderer would only be drawing a still that the poster already is. Without
+   * WebGL2 there is nothing to draw with.
+   */
+  const narrow = !window.matchMedia('(min-width: 1024px)').matches;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (stage && !narrow && !reduced && hasWebGL2()) {
+    const start = () => {
+      import('../islands/graded/main')
+        .then((m) => m.start(stage))
+        .catch((err) => {
+          // Any failure leaves the poster showing, which is the fallback path
+          // every visitor already renders.
+          console.warn('graded stage did not start', err);
+          stage.dataset.canvas = 'failed';
+        });
+    };
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(start, { timeout: 2500 });
+    } else {
+      setTimeout(start, 1);
+    }
+  }
+</script>

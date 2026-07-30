@@ -345,12 +345,137 @@ PNG for a partial look.
 
 ---
 
+## D6. Local ComfyUI transport is the approved-workflow driver, not MCP
+
+**Decided at the Phase 3 gate, 2026-07-30.** The artokun comfyui-mcp plugin is
+not installed on this machine, so there is no MCP bridge to verify or drive:
+`~/.claude.json` carries no `mcpServers`, `enabledPlugins` is empty and there
+is no `~/.claude/plugins` directory. The sanctioned transport to the local GPU
+is therefore `scripts/textures/comfyui-workflows/run_texture_workflow.py`,
+which talks to `127.0.0.1:8188` over `/prompt` and `/history` under the same
+allow-list safety model as the Phase 1 driver it derives from. The gate step
+"verify the MCP bridge responds" is replaced by "run the driver test suite,
+then one trivial 512x512 generation end to end".
+
+---
+
+## D8. Blender is driven by scripted bpy, not by BlenderMCP
+
+**Decided at the Phase 4 gate, 2026-07-30. Same rationale as [D6](#d6-local-comfyui-transport-is-the-approved-workflow-driver-not-mcp).**
+
+All Blender work in this repository runs headless through
+`blender --background --factory-startup --python <script>`, with the scripts
+tracked in `scripts/blender/`. BlenderMCP is not used.
+
+The reasoning is D6's, applied to a different tool:
+
+- **Scripted transport.** The pipeline is a sequence of `bpy` scripts driven by
+  `scripts/phase4.mjs`, with no bridge process to install, start, or verify.
+- **Versionable provenance.** Every dimension lives in `scripts/blender/spec.py`
+  and every operation is source in the repo, so a rebuild can be diffed against
+  the run that produced the shipped file rather than merely resembling it. A
+  clean run reproduces all twelve steps in 54.1 s.
+- **No bridge dependency.** As with the ComfyUI plugin at the Phase 3 gate,
+  there is no MCP server configured on this machine, so a bridge would have to
+  be installed before it could be evaluated. The scripted route needs nothing
+  that is not already required to run Blender at all.
+
+The same consequence D6 carries applies here. The gate step is not "verify the
+MCP bridge responds" but "run the scripts and check the output", which is what
+[PHASE4.md](./PHASE4.md) records.
+
+One thing this decision bought outright, worth recording as evidence rather than
+as argument: the first AO bake came back solid black because a face winding was
+reasoned about by hand instead of computed. Because the build is a script, the
+fix was a signed-volume assertion that now runs on every build and fails loudly.
+An interactive session would have produced the same bad bake with nothing to
+diff and nothing to re-run.
+
+**Blender 5.2.0 LTS is the version in use**, not the 4.x the Phase 4 brief
+named. The requirement's purpose, a working current glTF exporter, was verified
+by execution: `io_scene_gltf2` loads, `export_scene.gltf` emits a GLB, and the
+Draco encoder runs at position 14, normal 10, texcoord 12.
+
+---
+
 ## Known cosmetic, no action
 
-**`.gitkeep` files copy into `dist/`.** `public/assets/cards/.gitkeep` and
-`public/assets/models/.gitkeep` are copied verbatim into `dist/assets/` by
-Astro, since everything under `public/` ships as-is, and they would deploy as
-two empty files. Reviewed and accepted as harmless. It self-resolves in Phase 1
-once real card assets land in those directories and the `.gitkeep` placeholders
-are no longer needed. Recorded here so it is not rediscovered and investigated a
-second time.
+**`.gitkeep` files copy into `dist/`. RESOLVED in Phase 4.**
+`public/assets/cards/.gitkeep` and `public/assets/models/.gitkeep` were copied
+verbatim into `dist/assets/` by Astro, since everything under `public/` ships
+as-is, and they would deploy as two empty files. Reviewed and accepted as
+harmless at the time, on the expectation that it would self-resolve once real
+card assets landed in those directories.
+
+That happened in Phase 4. `public/assets/models/` now holds `slab.glb` and
+`public/assets/cards/` holds the four hero KTX2 textures, so both placeholders
+were removed. Neither directory is empty and neither needs keeping.
+
+---
+
+## D9. Draco is decoded at build time for the runtime GLB
+
+**Decided at Phase 5. Does not revise Phase 4's output.**
+
+`public/assets/models/slab-runtime.glb` is `slab.glb` with
+`KHR_draco_mesh_compression` decoded and the four KTX2 textures still external.
+It is what the page loads. `slab.glb` is untouched, so the artifact
+[PHASE4.md](./PHASE4.md) records still stands and still diffs against a rebuild.
+
+The Phase 4 brief asked for Draco at position 14, normal 10, texcoord 12, and
+Phase 4 delivered exactly that. At runtime the trade inverts and the numbers are
+not close. The mesh is 590 triangles and 6888 B. `DRACOLoader`'s glTF decoder is
+a 192 KB wasm plus a 58 KB wrapper that has to be fetched, instantiated and run
+before the first frame can be drawn. Decoding at build time costs 23 KB on the
+GLB and takes a quarter megabyte off the critical path.
+
+The general rule this is an instance of: **mesh compression pays on meshes, not
+on files.** Below roughly a hundred kilobytes of geometry the decoder is the
+larger number and shipping it is a loss.
+
+---
+
+## D10. The canvas does not tone map
+
+**Decided at Phase 5.**
+
+`renderer.toneMapping = NoToneMapping`, where the Phase 4 verification render
+used ACES Filmic.
+
+The two are doing different jobs. Phase 4 framed a lit object on its own, where
+a filmic curve is the right default. Phase 5 composites a canvas over paper
+white, directly beside a static poster of the same slab that the canvas
+crossfades in over. ACES desaturated the card art enough that the crossfade read
+as a colour shift rather than as a swap, which is the one thing the crossfade
+must not do. The shaders are balanced to stay in range instead.
+
+The rule worth carrying: **a compositing layer should match the surface it
+composites over, not the curve a standalone render would want.**
+
+---
+
+## D11. Falsifier evidence is judged by eye, with the metric as corroboration
+
+**Recorded at Phase 5, because it is the second time.**
+
+Phase 5's falsifier A, "the starburst foil reads as material, not as a
+mechanical grid", came out **false**, and the autocorrelation metric written to
+test it returned 1.79 against a 2.5 limit, comfortably inside. The pattern was
+sixteen identical ray clusters on a perfect 4 x 4 lattice. The isolated holo
+term showed regular banding across the whole card at a glance.
+
+[PICKS.md](../design-inputs/PICKS.md) already records the same lesson from the
+seam checks, where a mean-absolute-difference ratio called four of five
+non-tileable patterns seamless. Twice is a pattern, so it is recorded as a rule
+rather than as an anecdote:
+
+- **A statistic over a dense pattern is not a detector for structure in it.**
+  Ordinary interior variation is already large, which flatters every ratio.
+- Every falsifier writes its evidence crop out **whether it passes or fails**,
+  and the crop is looked at.
+- A numeric threshold is corroboration. It never stands alone, and a pass close
+  to the limit is reported as close rather than as a pass.
+
+The fix the falsifier named, seeded per-cell jitter in
+`scripts/textures/d_holo.py`, was applied and the claim now holds by both
+readings. See [PHASE5.md](./PHASE5.md) section 2.

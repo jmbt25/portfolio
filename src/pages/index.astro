@@ -1,59 +1,333 @@
 ---
-import Base from '../layouts/Base.astro';
-import AsciiHero from '../components/AsciiHero.astro';
-import ProjectEntry from '../components/ProjectEntry.astro';
-import { projects } from '../data/projects';
+import Graded from '../layouts/Graded.astro';
+import Stage from '../components/Stage.astro';
+import { BEATS, FACES } from '../data/beats';
+import poster from '../data/poster.json';
 
 const handle = 'jmbt25';
-const displayName = 'joshua';
 
-const title = `${handle} — Data Scientist & AI Systems Engineer`;
-const description = 'Six years building data and ML systems in Manila. Currently at MBM IT Consulting, shipping MCP servers, NLP pipelines and Claude-powered tools.';
+const title = 'jmbt25 · The Graded Collection';
+const description =
+  'Joshua, Data Scientist and AI Systems Engineer out of Manila. Five projects, graded and slabbed: komikfind, kalakal, Raidyard, dotaweakness.';
 
 const personLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Joshua',
-  alternateName: 'jmbt25',
+  alternateName: handle,
   url: 'https://jmbt.dev',
-  image: 'https://jmbt.dev/og.png',
-  jobTitle: 'Data Scientist & AI Systems Engineer',
-  worksFor: { '@type': 'Organization', name: 'MBM IT Consulting' },
-  alumniOf: { '@type': 'EducationalOrganization', name: 'Asian Institute of Management' },
+  image: 'https://jmbt.dev/og.jpg',
+  jobTitle: 'Data Scientist / AI Systems Engineer',
   address: { '@type': 'PostalAddress', addressLocality: 'Manila', addressCountry: 'PH' },
   sameAs: ['https://github.com/jmbt25', 'https://x.com/jmbt_dev'],
-  knowsAbout: ['Python', 'Claude API', 'Model Context Protocol', 'Data Pipelines', 'Large Language Models'],
+  knowsAbout: ['Python', 'Data Pipelines', 'Large Language Models', 'Agent Systems'],
 };
+
+const face = (slug: string) => `/assets/cards/${slug}-face.webp`;
 ---
-<Base title={title} description={description} current="home">
+<Graded title={title} description={description}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(personLd)} />
-  <section class="hero">
-    <AsciiHero />
-    <div class="hero-text">
-      <h1 class="hero-name">{displayName}<span class="cursor" aria-hidden="true"></span></h1>
-      <p class="role">data scientist · ai systems engineer</p>
-    </div>
-  </section>
 
-  <section>
-    <p>Six years building data and ML systems. Currently at MBM IT Consulting. MS in Data Science from the Asian Institute of Management.</p>
-    <p>I spend most of my day in Claude Code, shipping AI-powered tools — MCP servers, NLP pipelines, LLM integrations — and the kind of small, opinionated software I want to exist.</p>
-  </section>
+  <div class="grain" aria-hidden="true"></div>
 
-  <section>
-    <h2>selected work</h2>
-    {projects.map((p) => <ProjectEntry project={p} />)}
-  </section>
+  <Stage />
 
-  <section>
-    <h2>elsewhere</h2>
-    <p>
-      <a href={`https://github.com/${handle}`} target="_blank" rel="noopener">github.com/{handle}</a>
-      <span class="dim"> · code, in progress and otherwise</span>
-    </p>
-    <p>
-      <a href="https://x.com/jmbt_dev" target="_blank" rel="noopener">x.com/jmbt_dev</a>
-      <span class="dim"> · open for contact</span>
-    </p>
-  </section>
-</Base>
+  <nav class="rail" aria-label="beats">
+    {BEATS.map((b) => (
+      <a href={`#beat-${b.n}`} data-rail={b.n} aria-current={b.n === 1 ? 'true' : 'false'}>
+        <i aria-hidden="true"></i>{String(b.n).padStart(2, '0')}
+        <span class="sr-only">{b.screen}</span>
+      </a>
+    ))}
+  </nav>
+
+  <div class="hud" aria-hidden="true">
+    <div class="hud-top"><span>SCROLL CHOREOGRAPHY</span><span data-hud="pct">0.00%</span></div>
+    <hr />
+    <dl>
+      <dt>BEAT</dt><dd data-hud="beat">01 HERO</dd>
+      <dt>RANGE</dt><dd data-hud="range">0.00 to 14.29%</dd>
+      <dt>PHASE</dt><dd class="phase" data-hud="phase">ENTRANCE</dd>
+    </dl>
+    <div class="hud-track"><div class="hud-bar" data-hud="bar"></div></div>
+  </div>
+
+  <div class="wrap">
+    <header class="site-head">
+      <a href="#beat-1"><span class="tilde" aria-hidden="true">~</span>{handle}</a>
+      <span class="meta">JMBT GRADING · POP 1 · 2026</span>
+    </header>
+
+    <main id="main">
+    <!-- 01 Hero -->
+    <section class="beat" id="beat-1" aria-labelledby="beat-1-title">
+      <div class="panel panel-a" data-reveal="16">
+        <img
+          class="poster-still"
+          src={poster.src}
+          width={poster.width}
+          height={poster.height}
+          alt="Graded slab, JMBT GRADING, GEM MT 10, certifying JOSHUA"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <div class="eyebrow">01 / 07 · CERT 2026 0001</div>
+        <h1 id="beat-1-title">joshua</h1>
+        <p class="role">Data Scientist / AI Systems Engineer</p>
+        <p class="lede">
+          Six years of data and ML systems out of Manila. Pipelines that hold, agents that stay on
+          their rails, small tools with opinions.
+        </p>
+        <p class="wink">Graded once, by me, generously.</p>
+        <div class="cue"><span aria-hidden="true"></span><span>SCROLL · THE SLAB TURNS</span></div>
+      </div>
+    </section>
+
+    <!-- 02 Reveal -->
+    <section class="beat" id="beat-2" aria-labelledby="beat-2-title">
+      <div class="panel panel-b" data-reveal="24">
+        <img class="card-still" src={face('hero')} width="620" height="866"
+          alt="Card face, JOSHUA" loading="lazy" decoding="async" />
+        <div class="eyebrow">02 / 07 · THE REVEAL</div>
+        <p class="statement" id="beat-2-title">
+          Build the boring rails first, then the clever part is safe to ship.
+        </p>
+        <hr class="hairline" />
+        <p class="caption">
+          Raking light crosses the case, foil flares through the art window. The seams show on
+          purpose.
+        </p>
+      </div>
+    </section>
+
+    <!-- 03 komikfind -->
+    <section class="beat" id="beat-3" aria-labelledby="beat-3-title">
+      <div class="panel panel-a" data-reveal="24">
+        <img class="card-still" src={face('komikfind')} width="620" height="866"
+          alt="Card face, KOMIKFIND" loading="lazy" decoding="async" />
+        <div class="eyebrow">03 / 07 · PROJECT</div>
+        <h2 id="beat-3-title">komikfind</h2>
+        <p class="body">
+          Semantic manga search that reads panels instead of filenames. Describe a half-remembered
+          scene and it hands back the chapter.
+        </p>
+        <dl class="metrics closed">
+          <div><dt>MEDIAN SEARCH STAGE</dt><dd>3.9s → 472ms</dd></div>
+          <div><dt>INT8 QUANTIZATION</dt><dd>8.2x</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 04 kalakal -->
+    <section class="beat" id="beat-4" aria-labelledby="beat-4-title">
+      <div class="panel panel-b" data-reveal="24">
+        <img class="card-still" src={face('kalakal')} width="620" height="866"
+          alt="Card face, KALAKAL" loading="lazy" decoding="async" />
+        <div class="eyebrow">04 / 07 · PROJECT</div>
+        <h2 id="beat-4-title">kalakal</h2>
+        <p class="body">
+          An autonomous Solana trading agent running on deterministic rails. The agent proposes, the
+          executor enforces, and nothing moves unless policy allows it.
+        </p>
+        <dl class="metrics">
+          <div><dt>HARD DEFAULT</dt><dd>DRY_RUN</dd></div>
+          <div><dt>AUTHORITY</dt><dd>executor</dd></div>
+        </dl>
+        <div class="links">
+          <a href="https://github.com/jmbt25" target="_blank" rel="noopener">github.com/jmbt25</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 Raidyard -->
+    <section class="beat" id="beat-5" aria-labelledby="beat-5-title">
+      <div class="panel panel-a" data-reveal="24">
+        <img class="card-still" src={face('raidyard')} width="620" height="866"
+          alt="Card face, RAIDYARD" loading="lazy" decoding="async" />
+        <div class="eyebrow">05 / 07 · PROJECT</div>
+        <h2 id="beat-5-title">Raidyard</h2>
+        <p class="body">
+          An async base-raid game that lives inside Reddit posts. The sim is deterministic, so a raid
+          resolves the same way for everyone who opens the thread.
+        </p>
+        <dl class="metrics">
+          <div><dt>PLATFORM</dt><dd>Devvit Web</dd></div>
+          <div><dt>SIM</dt><dd>deterministic</dd></div>
+        </dl>
+        <div class="links">
+          <a href="https://github.com/jmbt25" target="_blank" rel="noopener">github.com/jmbt25</a>
+          <span class="note">hackathon entry</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 dotaweakness -->
+    <section class="beat" id="beat-6" aria-labelledby="beat-6-title">
+      <div class="panel panel-b" data-reveal="24">
+        <img class="card-still" src={face('dotaweakness')} width="620" height="866"
+          alt="Card face, DOTAWEAKNESS" loading="lazy" decoding="async" />
+        <div class="eyebrow">06 / 07 · PROJECT</div>
+        <h2 id="beat-6-title">dotaweakness</h2>
+        <p class="body">
+          Dota 2 self-analysis that names what you are actually bad at. Honest Mode runs a
+          banned-token validator, so the report cannot soften the verdict.
+        </p>
+        <dl class="metrics">
+          <div><dt>ANALYSIS CARDS</dt><dd>nine</dd></div>
+          <div><dt>HONEST MODE</dt><dd>validated</dd></div>
+        </dl>
+        <div class="links">
+          <a href="https://dotaweakness.com" target="_blank" rel="noopener">dotaweakness.com</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 Collection -->
+    <section class="beat" id="beat-7" aria-labelledby="beat-7-title">
+      <div class="panel panel-full" data-reveal="24">
+        <div class="collection-grid">
+          {FACES.map((f) => (
+            <img src={face(f.slug)} width="620" height="866" alt={f.alt}
+              loading="lazy" decoding="async" />
+          ))}
+        </div>
+        <div class="eyebrow">07 / 07 · THE COLLECTION</div>
+        <div class="contact-grid">
+          <div>
+            <h2 id="beat-7-title">Five cards, one set.</h2>
+            <p class="body collection-body">
+              That is the whole collection so far. The sixth card gets built with somebody, so it may
+              as well be you.
+            </p>
+          </div>
+          <div>
+            <a class="cta" href="https://x.com/jmbt_dev" target="_blank" rel="noopener">
+              Start a conversation <span aria-hidden="true">→</span>
+            </a>
+            <dl class="elsewhere">
+              <dt>CODE</dt>
+              <dd><a href="https://github.com/jmbt25" target="_blank" rel="noopener">github.com/jmbt25</a></dd>
+              <dt>CONTACT</dt>
+              <dd><a href="https://x.com/jmbt_dev" target="_blank" rel="noopener">x.com/jmbt_dev</a></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    </main>
+
+    <footer class="site-foot">
+      <span>graded by hand · deployed on cloudflare</span>
+      <span>JMBT GRADING · CERT 2026 0001 THROUGH 0005</span>
+    </footer>
+  </div>
+</Graded>
+
+<script>
+  /**
+   * Entrance reveals and the beat rail, on every path.
+   *
+   * This runs at every width, with or without WebGL, which is what keeps the
+   * narrow layouts from being a degraded copy of the desktop one. It is a few
+   * hundred bytes and imports nothing.
+   *
+   * C1 in docs/baseline/DECISIONS.md: transform only. The offset is applied
+   * here rather than in the stylesheet so a page without JavaScript renders
+   * settled instead of permanently displaced, and opacity is never touched, so
+   * no text is ever composited at an alpha its contrast was not measured at.
+   */
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+
+  if (!reduced) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        (e.target as HTMLElement).style.transform = 'none';
+        io.unobserve(e.target);
+      }
+    }, { threshold: 0.01, rootMargin: '0px 0px -18% 0px' });
+
+    for (const el of panels) {
+      // Anything already on screen is left settled. Displacing it now would be
+      // an entrance the visitor watches run backwards.
+      if (el.getBoundingClientRect().top <= window.innerHeight * 0.85) continue;
+      el.style.transform = `translateY(${el.dataset.reveal ?? '24'}px)`;
+      io.observe(el);
+    }
+  }
+
+  /**
+   * The beat rail and the choreography readout, on every path.
+   *
+   * Progress is measured the way handoff spec section 08 defines it: against
+   * the seven beat sections rather than raw document height, with the viewport
+   * centre selecting the active beat and u its normalised position through
+   * that section. The island computes the same numbers from its own
+   * ScrollTrigger and writes the same values, so the two agree rather than
+   * fight. Without this, a desktop with no WebGL2 or with reduced motion shows
+   * a readout frozen at 01 HERO 0.00 percent, which is worse than no readout.
+   */
+  const rails = Array.from(document.querySelectorAll<HTMLElement>('[data-rail]'));
+  const NAMES = ['HERO', 'REVEAL', 'KOMIKFIND', 'KALAKAL', 'RAIDYARD', 'DOTAWEAKNESS', 'COLLECTION'];
+  const hud = (k: string) => document.querySelector<HTMLElement>(`[data-hud="${k}"]`);
+  const hudPct = hud('pct');
+  const hudBeat = hud('beat');
+  const hudRange = hud('range');
+  const hudPhase = hud('phase');
+  const hudBar = hud('bar');
+
+  if (rails.length) {
+    const sections = rails.map((r) => document.getElementById(`beat-${r.dataset.rail}`));
+    const pct = (n: number) => (n * 100).toFixed(2);
+    let queued = false;
+
+    const mark = () => {
+      queued = false;
+      const centre = window.scrollY + window.innerHeight / 2;
+      let i = 0;
+      let u = 0;
+      for (let k = sections.length - 1; k >= 0; k--) {
+        const s = sections[k];
+        if (s && centre >= s.offsetTop) {
+          i = k;
+          u = Math.min(0.9999, Math.max(0, (centre - s.offsetTop) / s.offsetHeight));
+          break;
+        }
+      }
+      for (let k = 0; k < rails.length; k++) {
+        rails[k].setAttribute('aria-current', k === i ? 'true' : 'false');
+      }
+      if (hudPct) hudPct.textContent = `${pct((i + u) / 7)}%`;
+      if (hudBeat) hudBeat.textContent = `${String(i + 1).padStart(2, '0')} ${NAMES[i]}`;
+      if (hudRange) hudRange.textContent = `${pct(i / 7)} to ${pct((i + 1) / 7)}%`;
+      if (hudPhase) hudPhase.textContent = u < 0.25 ? 'ENTRANCE' : u < 0.75 ? 'HOLD' : 'EXIT';
+      if (hudBar) hudBar.style.width = `${(u * 100).toFixed(1)}%`;
+    };
+
+    addEventListener('scroll', () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(mark);
+    }, { passive: true });
+    addEventListener('resize', mark, { passive: true });
+    mark();
+  }
+</script>
+
+<style is:global>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .collection-body { margin-bottom: 0; }
+</style>

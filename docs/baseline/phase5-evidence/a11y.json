@@ -1,0 +1,77 @@
+{
+  "axe-1440x900": [],
+  "axe-390x844": [],
+  "wide": {
+    "canvasState": "ready",
+    "webglContexts": 1,
+    "canvasAriaHidden": "true",
+    "stageAriaHidden": "true",
+    "posterVisible": true,
+    "textOpacities": [],
+    "revealTransforms": [
+      "none",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)"
+    ]
+  },
+  "reduced": {
+    "canvasState": "never started",
+    "webglContexts": 0,
+    "canvasAriaHidden": "true",
+    "stageAriaHidden": "true",
+    "posterVisible": true,
+    "textOpacities": [],
+    "revealTransforms": [
+      "none",
+      "none",
+      "none",
+      "none",
+      "none",
+      "none",
+      "none"
+    ]
+  },
+  "mobile": {
+    "canvasState": "never started",
+    "webglContexts": 0,
+    "canvasAriaHidden": "true",
+    "stageAriaHidden": "true",
+    "posterVisible": true,
+    "textOpacities": [],
+    "revealTransforms": [
+      "none",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)"
+    ]
+  },
+  "noWebgl2": {
+    "canvasState": "never started",
+    "webglContexts": 0,
+    "canvasAriaHidden": "true",
+    "stageAriaHidden": "true",
+    "posterVisible": true,
+    "textOpacities": [],
+    "revealTransforms": [
+      "none",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)",
+      "matrix(1, 0, 0, 1, 0, 24)"
+    ]
+  },
+  "contextLoss": {
+    "before": "ready",
+    "after": "lost",
+    "posterOpacity": 1
+  }
+}

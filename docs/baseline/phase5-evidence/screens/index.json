@@ -1,0 +1,107 @@
+[
+  {
+    "viewport": "390x844",
+    "scroll": 0,
+    "file": "reduced-390x844-000.webp"
+  },
+  {
+    "viewport": "390x844",
+    "scroll": 15,
+    "file": "reduced-390x844-015.webp"
+  },
+  {
+    "viewport": "390x844",
+    "scroll": 30,
+    "file": "reduced-390x844-030.webp"
+  },
+  {
+    "viewport": "390x844",
+    "scroll": 45,
+    "file": "reduced-390x844-045.webp"
+  },
+  {
+    "viewport": "390x844",
+    "scroll": 60,
+    "file": "reduced-390x844-060.webp"
+  },
+  {
+    "viewport": "390x844",
+    "scroll": 75,
+    "file": "reduced-390x844-075.webp"
+  },
+  {
+    "viewport": "390x844",
+    "scroll": 100,
+    "file": "reduced-390x844-100.webp"
+  },
+  {
+    "viewport": "768x1024",
+    "scroll": 0,
+    "file": "reduced-768x1024-000.webp"
+  },
+  {
+    "viewport": "768x1024",
+    "scroll": 15,
+    "file": "reduced-768x1024-015.webp"
+  },
+  {
+    "viewport": "768x1024",
+    "scroll": 30,
+    "file": "reduced-768x1024-030.webp"
+  },
+  {
+    "viewport": "768x1024",
+    "scroll": 45,
+    "file": "reduced-768x1024-045.webp"
+  },
+  {
+    "viewport": "768x1024",
+    "scroll": 60,
+    "file": "reduced-768x1024-060.webp"
+  },
+  {
+    "viewport": "768x1024",
+    "scroll": 75,
+    "file": "reduced-768x1024-075.webp"
+  },
+  {
+    "viewport": "768x1024",
+    "scroll": 100,
+    "file": "reduced-768x1024-100.webp"
+  },
+  {
+    "viewport": "1440x900",
+    "scroll": 0,
+    "file": "reduced-1440x900-000.webp"
+  },
+  {
+    "viewport": "1440x900",
+    "scroll": 15,
+    "file": "reduced-1440x900-015.webp"
+  },
+  {
+    "viewport": "1440x900",
+    "scroll": 30,
+    "file": "reduced-1440x900-030.webp"
+  },
+  {
+    "viewport": "1440x900",
+    "scroll": 45,
+    "file": "reduced-1440x900-045.webp"
+  },
+  {
+    "viewport": "1440x900",
+    "scroll": 60,
+    "file": "reduced-1440x900-060.webp"
+  },
+  {
+    "viewport": "1440x900",
+    "scroll": 75,
+    "file": "reduced-1440x900-075.webp"
+  },
+  {
+    "viewport": "1440x900",
+    "scroll": 100,
+    "file": "reduced-1440x900-100.webp"
+  }
+]
