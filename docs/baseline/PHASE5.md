@@ -436,13 +436,61 @@ rather than reached for on a CDN.
 
 ## 8. Lighthouse
 
-See the PR body for the run against the Cloudflare Pages preview and the
-comparison with `docs/baseline/lighthouse-*.report.json`.
+Run against the Cloudflare Pages preview,
+`https://revamp-graded-collection.portfolio-2eg.pages.dev/`, compared with
+`docs/baseline/lighthouse-*.report.json`. Reports in
+[phase5-evidence/](./phase5-evidence/).
 
-Per the brief, **LCP movement to the poster is reported, not failed.** The
-baseline's LCP was text and a small ASCII block; this page's largest paint is a
-57 KB WebP in the initial HTML. That is the D2 trade taken on purpose, and the
-number moving is the expected consequence rather than a regression to fix.
+| | Perf | A11y | Best practices | SEO | FCP | LCP | TBT | CLS | Speed index |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| baseline desktop | 100 | 95 | 100 | 100 | 0.5 s | 0.5 s | 0 ms | 0 | 1.1 s |
+| **phase 5 desktop** | **100** | **100** | **100** | 66 | 0.5 s | 0.6 s | 0 ms | 0.001 | 0.8 s |
+| baseline mobile | 100 | 95 | 100 | 100 | 0.9 s | 1.1 s | 0 ms | 0 | 0.9 s |
+| **phase 5 mobile** | **100** | **100** | **100** | 69 | 0.8 s | 1.4 s | 0 ms | 0 | 0.8 s |
+
+**Accessibility 95 to 100.** That is the C1 defect closed. DECISIONS.md
+identified the cause as `@keyframes rise` starting at `opacity: 0.2`, which
+rendered every below-fold section's text at 20 percent alpha and produced the
+axe `color-contrast` finding that held the baseline at 95. The transform-only
+reveal removes the bug class rather than tuning around it, and the score moved
+the whole way.
+
+**SEO 100 to 66, and it is the preview environment, not the page.** The only
+failing audit is `is-crawlable`. Cloudflare Pages serves preview deployments
+with `x-robots-tag: noindex`, verified by reading the response headers:
+
+```
+preview      x-robots-tag: noindex
+production   (no x-robots-tag)
+```
+
+Nothing in the built output blocks indexing. `dist/index.html` contains no
+robots meta, `public/_headers` sets no `X-Robots-Tag`, and `robots.txt` is
+unchanged at `Allow: /`. On production terms SEO is unmoved. **This is worth
+knowing before reading any future preview Lighthouse run**, since it will show
+the same 66 no matter what the page does.
+
+### LCP moved to the poster, as designed
+
+**Reported, not failed**, per the brief. Desktop 0.5 s to 0.6 s, mobile 1.1 s
+to 1.4 s.
+
+Lighthouse names the element, and on both form factors it is the poster:
+
+```
+desktop   <img class="stage-poster"  src="/assets/hero-poster.webp" ...
+mobile    <img class="poster-still"  src="/assets/hero-poster.webp" ...
+```
+
+That is exactly the D2 outcome. The largest paint is a 57 KB WebP in the initial
+HTML rather than the WebGL scene, so the bundle cannot regress it however long
+hydration takes. The baseline's largest paint was text over an ASCII block,
+which is cheaper in absolute terms; trading 0.1 s desktop and 0.3 s mobile for a
+hero image that is also the entire fallback path is the trade D2 describes, and
+performance stayed at 100 on both.
+
+CLS at 0.001 desktop. The poster carries explicit `width` and `height`, so the
+canvas crossfading in over it reserves no new space.
 
 ---
 
