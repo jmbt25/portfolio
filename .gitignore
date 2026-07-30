@@ -37,6 +37,7 @@ CONTENT.md
 # then negate the revamp pipeline dirs that are meant to be tracked.
 docs/*
 !docs/baseline/
+!docs/baseline-v1/
 !docs/design-inputs/
 !docs/handoff/
 
@@ -84,5 +85,5 @@ scripts/label/__pycache__/
 # Local identity denylist, read by scripts/check-identity.sh. Untracked on
 # purpose: committing the denied terms would put them in history permanently,
 # which is exactly what the guard exists to prevent. See D4 in
-# docs/baseline/DECISIONS.md for how to recreate it.
+# docs/baseline-v1/DECISIONS.md for how to recreate it.
 scripts/.identity-denylist

@@ -27,7 +27,7 @@ import sharp from 'sharp';
 const args = process.argv.slice(2);
 const arg = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const PAGE_URL = arg('--url', 'http://localhost:4321/');
-const OUT = arg('--out', 'docs/baseline/phase5-evidence/falsifiers');
+const OUT = arg('--out', 'docs/baseline-v1/phase5-evidence/falsifiers');
 
 /** A grid gives a sharp autocorrelation spike; a material gives a broad decay. */
 const GRID_PEAK_LIMIT = 2.5;

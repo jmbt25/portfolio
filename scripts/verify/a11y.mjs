@@ -24,7 +24,7 @@ const AXE = require.resolve('axe-core/axe.min.js');
 const args = process.argv.slice(2);
 const arg = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const PAGE_URL = arg('--url', 'http://localhost:4321/');
-const OUT = arg('--out', 'docs/baseline/phase5-evidence');
+const OUT = arg('--out', 'docs/baseline-v1/phase5-evidence');
 
 let failed = false;
 const report = {};

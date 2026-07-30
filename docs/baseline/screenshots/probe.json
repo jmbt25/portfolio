@@ -1,0 +1,178 @@
+[
+  {
+    "route": "/projects/",
+    "viewport": "1440x900",
+    "tokenCount": 9,
+    "sample": {
+      "--paper": "#faf5ee",
+      "--paper2": "#f3ecdf",
+      "--ink": "#121110",
+      "--dim": "#6f6a63",
+      "--rule": "#e4ddd1",
+      "--brass": "#d4a857",
+      "--brass-ink": "#8a6415",
+      "--max-width": "720px"
+    },
+    "bg": "rgba(0, 0, 0, 0)",
+    "fg": "rgb(18, 17, 16)",
+    "font": "\"JetBrains Mono\"",
+    "scrollH": 1875,
+    "h1": "projects",
+    "overflowX": false,
+    "problems": []
+  },
+  {
+    "route": "/about/",
+    "viewport": "1440x900",
+    "tokenCount": 9,
+    "sample": {
+      "--paper": "#faf5ee",
+      "--paper2": "#f3ecdf",
+      "--ink": "#121110",
+      "--dim": "#6f6a63",
+      "--rule": "#e4ddd1",
+      "--brass": "#d4a857",
+      "--brass-ink": "#8a6415",
+      "--max-width": "720px"
+    },
+    "bg": "rgba(0, 0, 0, 0)",
+    "fg": "rgb(18, 17, 16)",
+    "font": "\"JetBrains Mono\"",
+    "scrollH": 1396,
+    "h1": "about",
+    "overflowX": false,
+    "problems": []
+  },
+  {
+    "route": "/404.html",
+    "viewport": "1440x900",
+    "tokenCount": 9,
+    "sample": {
+      "--paper": "#faf5ee",
+      "--paper2": "#f3ecdf",
+      "--ink": "#121110",
+      "--dim": "#6f6a63",
+      "--rule": "#e4ddd1",
+      "--brass": "#d4a857",
+      "--brass-ink": "#8a6415",
+      "--max-width": "720px"
+    },
+    "bg": "rgba(0, 0, 0, 0)",
+    "fg": "rgb(18, 17, 16)",
+    "font": "\"JetBrains Mono\"",
+    "scrollH": 900,
+    "h1": "404",
+    "overflowX": false,
+    "problems": []
+  },
+  {
+    "route": "/",
+    "viewport": "1440x900",
+    "tokenCount": 34,
+    "sample": {
+      "--paper": "#faf5ee",
+      "--paper2": "#f3ecdf",
+      "--ink": "#121110",
+      "--dim": "#6f6a63",
+      "--rule": "#e4ddd1",
+      "--brass": "#d4a857",
+      "--brass-ink": "#8a6415",
+      "--cw": "clamp(240px, 24vw, 372px)"
+    },
+    "bg": "rgba(0, 0, 0, 0)",
+    "fg": "rgb(18, 17, 16)",
+    "font": "\"JetBrains Mono\"",
+    "scrollH": 6437,
+    "h1": "joshua",
+    "overflowX": false,
+    "problems": []
+  },
+  {
+    "route": "/projects/",
+    "viewport": "390x844",
+    "tokenCount": 9,
+    "sample": {
+      "--paper": "#faf5ee",
+      "--paper2": "#f3ecdf",
+      "--ink": "#121110",
+      "--dim": "#6f6a63",
+      "--rule": "#e4ddd1",
+      "--brass": "#d4a857",
+      "--brass-ink": "#8a6415",
+      "--max-width": "720px"
+    },
+    "bg": "rgba(0, 0, 0, 0)",
+    "fg": "rgb(18, 17, 16)",
+    "font": "\"JetBrains Mono\"",
+    "scrollH": 2234,
+    "h1": "projects",
+    "overflowX": false,
+    "problems": []
+  },
+  {
+    "route": "/about/",
+    "viewport": "390x844",
+    "tokenCount": 9,
+    "sample": {
+      "--paper": "#faf5ee",
+      "--paper2": "#f3ecdf",
+      "--ink": "#121110",
+      "--dim": "#6f6a63",
+      "--rule": "#e4ddd1",
+      "--brass": "#d4a857",
+      "--brass-ink": "#8a6415",
+      "--max-width": "720px"
+    },
+    "bg": "rgba(0, 0, 0, 0)",
+    "fg": "rgb(18, 17, 16)",
+    "font": "\"JetBrains Mono\"",
+    "scrollH": 1730,
+    "h1": "about",
+    "overflowX": false,
+    "problems": []
+  },
+  {
+    "route": "/404.html",
+    "viewport": "390x844",
+    "tokenCount": 9,
+    "sample": {
+      "--paper": "#faf5ee",
+      "--paper2": "#f3ecdf",
+      "--ink": "#121110",
+      "--dim": "#6f6a63",
+      "--rule": "#e4ddd1",
+      "--brass": "#d4a857",
+      "--brass-ink": "#8a6415",
+      "--max-width": "720px"
+    },
+    "bg": "rgba(0, 0, 0, 0)",
+    "fg": "rgb(18, 17, 16)",
+    "font": "\"JetBrains Mono\"",
+    "scrollH": 844,
+    "h1": "404",
+    "overflowX": false,
+    "problems": []
+  },
+  {
+    "route": "/",
+    "viewport": "390x844",
+    "tokenCount": 34,
+    "sample": {
+      "--paper": "#faf5ee",
+      "--paper2": "#f3ecdf",
+      "--ink": "#121110",
+      "--dim": "#6f6a63",
+      "--rule": "#e4ddd1",
+      "--brass": "#d4a857",
+      "--brass-ink": "#8a6415",
+      "--cw": "clamp(240px, 24vw, 372px)"
+    },
+    "bg": "rgba(0, 0, 0, 0)",
+    "fg": "rgb(18, 17, 16)",
+    "font": "\"JetBrains Mono\"",
+    "scrollH": 7063,
+    "h1": "joshua",
+    "overflowX": false,
+    "problems": []
+  }
+]

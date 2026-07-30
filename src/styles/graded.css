@@ -6,7 +6,7 @@
  * media queries so the correct layout is in the first paint rather than applied
  * after hydration.
  *
- * Motion here obeys C1 in docs/baseline/DECISIONS.md. Entrance reveals animate
+ * Motion here obeys C1 in docs/baseline-v1/DECISIONS.md. Entrance reveals animate
  * transform only and opacity is never animated on a subtree that contains text.
  * The single opacity animation on the page is the canvas crossfade, which is
  * sanctioned by D2 and lives in a subtree with no text in it.

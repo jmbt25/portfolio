@@ -30,7 +30,7 @@
 # On failure this prints the offending file paths but never the term itself,
 # so a denied string cannot leak into CI logs.
 #
-# See D4 in docs/baseline/DECISIONS.md.
+# See D4 in docs/baseline-v1/DECISIONS.md.
 
 set -uo pipefail
 

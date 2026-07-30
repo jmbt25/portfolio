@@ -1,7 +1,7 @@
 """
 Shared geometry, palette and helpers for the Phase 3 texture pipeline.
 
-Every number here traces to docs/baseline/DECISIONS.md (D3) or
+Every number here traces to docs/baseline-v1/DECISIONS.md (D3) or
 docs/design-inputs/PICKS.md. Nothing is estimated.
 
 Master canvas is 2048 x 2048. The card silhouette is 1260 x 1760 sitting at

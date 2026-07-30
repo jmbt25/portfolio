@@ -45,7 +45,7 @@ MEASURED = REPO / "assets-src" / "label" / "label-ref-measured.json"
 OUT_DIR = REPO / "assets-src" / "label"
 
 # ---------------------------------------------------------------------------
-# Plate geometry. See docs/baseline/PHASE4.md for the derivation.
+# Plate geometry. See docs/baseline-v1/PHASE4.md for the derivation.
 # ---------------------------------------------------------------------------
 
 CARD_W_MM = 63.0            # card width, the em base for every type size

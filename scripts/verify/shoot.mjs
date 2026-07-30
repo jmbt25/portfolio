@@ -26,7 +26,7 @@ const arg = (k, d) => {
 };
 
 const PAGE_URL = arg('--url', 'http://localhost:4321/');
-const OUT = arg('--out', 'docs/baseline/phase5-evidence/screens');
+const OUT = arg('--out', 'docs/baseline-v1/phase5-evidence/screens');
 const TAG = arg('--tag', '');
 const REDUCED = args.includes('--reduced');
 
