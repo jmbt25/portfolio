@@ -8,7 +8,12 @@
 # guard exists to prevent.
 #
 # Usage:
-#   bash scripts/check-identity.sh [dist-dir]
+#   bash scripts/check-identity.sh [path ...]
+#
+# Each path may be a file or a directory. With no arguments it scans dist/, the
+# build output, which stays the pre-push default. Passing paths explicitly lets
+# the same guard run over material that is not a build product, for example the
+# imported design handoff under docs/handoff/.
 #
 # Terms are read from, in order of precedence:
 #   1. IDENTITY_DENYLIST, a newline separated list in the environment
@@ -18,9 +23,9 @@
 # and literal, not regex, so terms containing dots behave as written.
 #
 # Exits nonzero when a denied term is found, when no denylist is available, or
-# when the build output is missing. It fails closed on purpose: a guard that
-# passes when it could not actually run is worse than no guard, because it
-# reports green.
+# when a scan target is missing. It fails closed on purpose: a guard that passes
+# when it could not actually run is worse than no guard, because it reports
+# green.
 #
 # On failure this prints the offending file paths but never the term itself,
 # so a denied string cannot leak into CI logs.
@@ -29,7 +34,11 @@
 
 set -uo pipefail
 
-DIST="${1:-dist}"
+if [ "$#" -gt 0 ]; then
+  TARGETS=("$@")
+else
+  TARGETS=("dist")
+fi
 DENYLIST_FILE="${IDENTITY_DENYLIST_FILE:-scripts/.identity-denylist}"
 
 fail() {
@@ -37,7 +46,9 @@ fail() {
   exit 1
 }
 
-[ -d "$DIST" ] || fail "build output not found at '$DIST'. Run the build first."
+for target in "${TARGETS[@]}"; do
+  [ -e "$target" ] || fail "scan target not found at '$target'. If this is the default dist/, run the build first."
+done
 
 if [ -n "${IDENTITY_DENYLIST:-}" ]; then
   raw="$IDENTITY_DENYLIST"
@@ -53,12 +64,12 @@ terms="$(printf '%s\n' "$raw" | sed 's/#.*//' | sed 's/[[:space:]]*$//' | grep -
 [ -n "$terms" ] || fail "denylist from $source_desc contains no usable terms."
 
 count="$(printf '%s\n' "$terms" | wc -l | tr -d '[:space:]')"
-printf 'check-identity: scanning %s against %s term(s) from %s\n' "$DIST" "$count" "$source_desc"
+printf 'check-identity: scanning %s against %s term(s) from %s\n' "${TARGETS[*]}" "$count" "$source_desc"
 
 hits=0
 while IFS= read -r term; do
   [ -n "$term" ] || continue
-  matches="$(grep -ril -F -- "$term" "$DIST" 2>/dev/null)"
+  matches="$(grep -ril -F -- "$term" "${TARGETS[@]}" 2>/dev/null)"
   if [ -n "$matches" ]; then
     printf 'check-identity: denied term present in:\n' >&2
     printf '%s\n' "$matches" | sed 's/^/  /' >&2
@@ -68,6 +79,6 @@ done <<TERMS
 $terms
 TERMS
 
-[ "$hits" -eq 0 ] || fail "$hits denied term(s) present in build output."
+[ "$hits" -eq 0 ] || fail "$hits denied term(s) present in scanned paths."
 
-printf 'check-identity: PASS, no denied terms in %s\n' "$DIST"
+printf 'check-identity: PASS, no denied terms in %s\n' "${TARGETS[*]}"
